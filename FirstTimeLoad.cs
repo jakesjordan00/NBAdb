@@ -19,6 +19,7 @@ using System.Numerics;
 using static NBAdb.FirstTimeLoad;
 using System.Media;
 using System.Data.SqlTypes;
+using static NBAdb.PlayByPlay;
 
 namespace NBAdb
 {
@@ -58,7 +59,7 @@ namespace NBAdb
                 TimeSpan timeElapsed = stopwatch.Elapsed;
                                                  //For example:  2022 season: 00:04:12.123. 2023 season: 00:03:54.636. 
                 lblTimeElapsed.Text += seasons[i].Split('-')[2] + " season: " + timeElapsed.Hours + ":" + timeElapsed.Minutes + ":" + 
-                                                 timeElapsed.Seconds + "." + timeElapsed.Milliseconds + ". ";
+                timeElapsed.Seconds + "." + timeElapsed.Milliseconds + ". ";
             }
         }
 
@@ -89,36 +90,7 @@ namespace NBAdb
                     SqlDateTime gameDate = JSON.game.gameEt.Date;
                     GameCheck(JSON, i, JSON.game.homeTeam.score, JSON.game.awayTeam.score, id);
                     BoxScore.Init(JSON, "FirstTimeLoad", id);
-                    //Home Players
-                    for (int j = 0; j < JSON.game.homeTeam.players.Count(); j++)
-                    {
-                        int player_id = JSON.game.homeTeam.players[j].personId;            //Set player_id equal to the player_id of the j home team's player 
-                        HomePlayerCheck(JSON, player_id, j, id);                           //send off to PlayerCheck
-                        int team_id = JSON.game.homeTeam.teamId;    //Set team_id equal to the teamId of the Home team from JSON
-                        if (i == start)
-                        {
-                            RosterPost(team_id, player_id, id);
-                        }
-                        else
-                        {
-                            RosterCheck(team_id, player_id, id);
-                        }
-                    }
-                    //Away Players
-                    for (int j = 0; j < JSON.game.awayTeam.players.Count(); j++)
-                    {
-                        int player_id = JSON.game.awayTeam.players[j].personId;            //Set player_id equal to the player_id of the j away team's player 
-                        AwayPlayerCheck(JSON, player_id, j, id);                        //send off to PlayerCheck again
-                        int team_id = JSON.game.awayTeam.teamId;    //Set team_id equal to the teamId of the Home team from JSON
-                        if (i == start)
-                        {
-                            RosterPost(team_id, player_id, id);
-                        }
-                        else
-                        {
-                            RosterCheck(team_id, player_id, id);
-                        }
-                    }
+                    int game_id = JSON.game.gameId;
                     //Send Variables to respecting Check methods
                     if (arenas < 29 || JSON.game.arena.arenaId == 465)
                     {
@@ -138,7 +110,33 @@ namespace NBAdb
                         OfficialCheck(JSON, official_id, id, j);                  //send off to OfficialCheck
                     }
                     //Send gameID, method or 'sender', and seasonID
-                    PlayByPlay.Init(i, "FirstTimeLoad", id);
+                    
+                    //PlayByPlay.Init(i, "FirstTimeLoad", id);
+                    
+                    //Home Players
+                    for (int j = 0; j < JSON.game.homeTeam.players.Count(); j++)
+                    {
+                        int player_id = JSON.game.homeTeam.players[j].personId;            //Set player_id equal to the player_id of the j home team's player 
+                        HomePlayerCheck(JSON, player_id, j, id);                           //send off to PlayerCheck
+                        int team_id = JSON.game.homeTeam.teamId;    //Set team_id equal to the teamId of the Home team from JSON
+                        //PlayerTeamCheck(game_id, player_id, team_id, gameDate, id);
+                        if (i == start)
+                        {
+                            PlayerTeamPost(game_id, player_id, team_id, gameDate, id);
+                        }
+                    }
+                    //Away Players
+                    for (int j = 0; j < JSON.game.awayTeam.players.Count(); j++)
+                    {
+                        int player_id = JSON.game.awayTeam.players[j].personId;            //Set player_id equal to the player_id of the j away team's player 
+                        AwayPlayerCheck(JSON, player_id, j, id);                        //send off to PlayerCheck again
+                        int team_id = JSON.game.awayTeam.teamId;    //Set team_id equal to the teamId of the Home team from JSON
+                        //PlayerTeamCheck(game_id, player_id, team_id, gameDate, id);
+                        if (i == start)
+                        {
+                            PlayerTeamPost(game_id, player_id, team_id, gameDate, id);
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -147,13 +145,48 @@ namespace NBAdb
             }
         }
 
-        public static void RosterCheck(int team, int player, SqlDateTime date, int id)
+        public static void PlayerTeamCheck(int game, int player, int team, SqlDateTime start, int id)
         {
-
+            using (SqlCommand PlayerSearch = new SqlCommand("PlayerTeamCheck"))
+            {
+                PlayerSearch.CommandType = CommandType.StoredProcedure;
+                PlayerSearch.Parameters.AddWithValue("@player", player);
+                PlayerSearch.Parameters.AddWithValue("@team", team);
+                PlayerSearch.Parameters.AddWithValue("@id", id);
+                using (SqlDataAdapter sPlayerSearch = new SqlDataAdapter())
+                {
+                    PlayerSearch.Connection = busDriver.SQLdb;
+                    sPlayerSearch.SelectCommand = PlayerSearch;
+                    busDriver.SQLdb.Open();
+                    SqlDataReader reader = PlayerSearch.ExecuteReader();
+                    reader.Read();
+                    if (!reader.HasRows())
+                    {
+                        busDriver.SQLdb.Close();
+                        PlayerTeamPost(game, player, team, start, id);
+                    }
+                }
+            }
         }
-        public static void RosterPost(int team, int player, SqlDateTime date, int id)
+                
+        public static void PlayerTeamPost(int game, int player, int team, SqlDateTime start, int id)
         {
-
+            using (SqlCommand InsertData = new SqlCommand("PlayerTeamPost"))
+            {
+                InsertData.CommandType = CommandType.StoredProcedure;
+                InsertData.Parameters.AddWithValue("@player", player);
+                InsertData.Parameters.AddWithValue("@team", team);
+                InsertData.Parameters.AddWithValue("@id", id);
+                InsertData.Parameters.AddWithValue("@FirstGame", start);
+                using (SqlDataAdapter sInsertData = new SqlDataAdapter())
+                {
+                    InsertData.Connection = busDriver.SQLdb;
+                    sInsertData.SelectCommand = InsertData;
+                    busDriver.SQLdb.Open();
+                    InsertData.ExecuteScalar();
+                    busDriver.SQLdb.Close();
+                }
+            }
         }
 
         public static void HomePlayerCheck(Root JSON, int player_id, int j, int id)
