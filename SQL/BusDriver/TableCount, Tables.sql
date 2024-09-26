@@ -14,3 +14,11 @@ SELECT t.Name, p.rows Rows
 from sys.tables t inner join
 		sys.partitions p on t.object_id = p.object_id
 WHERE type_desc = 'USER_TABLE'
+order by Rows desc
+
+
+SELECT sum(p.rows) Rows
+from sys.tables t inner join
+		sys.partitions p on t.object_id = p.object_id
+WHERE type_desc = 'USER_TABLE'
+order by Rows desc

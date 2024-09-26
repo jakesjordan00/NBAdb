@@ -60,6 +60,7 @@ namespace NBAdb
                                                  //For example:  2022 season: 00:04:12.123. 2023 season: 00:03:54.636. 
                 lblTimeElapsed.Text += seasons[i].Split('-')[2] + " season: " + timeElapsed.Hours + ":" + timeElapsed.Minutes + ":" + 
                 timeElapsed.Seconds + "." + timeElapsed.Milliseconds + ". ";
+                PlayerTeams(Int32.Parse(seasons[i].Split('-')[2]));
             }
         }
 
@@ -70,7 +71,10 @@ namespace NBAdb
             int id = Int32.Parse(season.Split('-')[2]);
             FirstLoad(start, end, id);
         }
+        public static void PlayerTeams(int id)
+        {
 
+        }
 
         public static void FirstLoad(int start, int end, int id)
         {
@@ -90,7 +94,7 @@ namespace NBAdb
                     SqlDateTime gameDate = JSON.game.gameEt.Date;
                     GameCheck(JSON, i, JSON.game.homeTeam.score, JSON.game.awayTeam.score, id);
                     BoxScore.Init(JSON, "FirstTimeLoad", id);
-                    int game_id = JSON.game.gameId;
+                    int game_id = Int32.Parse(JSON.game.gameId);
                     //Send Variables to respecting Check methods
                     if (arenas < 29 || JSON.game.arena.arenaId == 465)
                     {
@@ -111,7 +115,7 @@ namespace NBAdb
                     }
                     //Send gameID, method or 'sender', and seasonID
                     
-                    //PlayByPlay.Init(i, "FirstTimeLoad", id); 
+                    PlayByPlay.Init(i, "FirstTimeLoad", id); 
                     
                     //Home Players
                     for (int j = 0; j < JSON.game.homeTeam.players.Count(); j++)
@@ -119,11 +123,7 @@ namespace NBAdb
                         int player_id = JSON.game.homeTeam.players[j].personId;            //Set player_id equal to the player_id of the j home team's player 
                         HomePlayerCheck(JSON, player_id, j, id);                           //send off to PlayerCheck
                         int team_id = JSON.game.homeTeam.teamId;    //Set team_id equal to the teamId of the Home team from JSON
-                        //PlayerTeamCheck(game_id, player_id, team_id, gameDate, id);
-                        if (i == start)
-                        {
-                            PlayerTeamPost(game_id, player_id, team_id, gameDate, id);
-                        }
+                        PlayerTeamCheck(game_id, player_id, team_id, gameDate, id);
                     }
                     //Away Players
                     for (int j = 0; j < JSON.game.awayTeam.players.Count(); j++)
@@ -131,11 +131,7 @@ namespace NBAdb
                         int player_id = JSON.game.awayTeam.players[j].personId;            //Set player_id equal to the player_id of the j away team's player 
                         AwayPlayerCheck(JSON, player_id, j, id);                        //send off to PlayerCheck again
                         int team_id = JSON.game.awayTeam.teamId;    //Set team_id equal to the teamId of the Home team from JSON
-                        //PlayerTeamCheck(game_id, player_id, team_id, gameDate, id);
-                        if (i == start)
-                        {
-                            PlayerTeamPost(game_id, player_id, team_id, gameDate, id);
-                        }
+                        PlayerTeamCheck(game_id, player_id, team_id, gameDate, id);
                     }
                 }
                 catch (Exception ex)
@@ -160,7 +156,43 @@ namespace NBAdb
                     busDriver.SQLdb.Open();
                     SqlDataReader reader = PlayerSearch.ExecuteReader();
                     reader.Read();
-                    if (!reader.HasRows())
+                    if (!reader.HasRows)
+                    {
+                        busDriver.SQLdb.Close();
+                        PlayerTeamCheckOtherTeams(game, player, team, start, id);
+                    }
+                    else
+                    {
+                        busDriver.SQLdb.Close();
+                    }
+                }
+            }
+        }
+
+
+        public static void PlayerTeamCheckOtherTeams(int game, int player, int team, SqlDateTime start, int id)
+        {
+            using (SqlCommand PlayerSearch = new SqlCommand("PlayerTeamCheckOtherTeams"))
+            {
+                PlayerSearch.CommandType = CommandType.StoredProcedure;
+                PlayerSearch.Parameters.AddWithValue("@player", player);
+                PlayerSearch.Parameters.AddWithValue("@team", team);
+                PlayerSearch.Parameters.AddWithValue("@id", id);
+                using (SqlDataAdapter sPlayerSearch = new SqlDataAdapter())
+                {
+                    PlayerSearch.Connection = busDriver.SQLdb;
+                    sPlayerSearch.SelectCommand = PlayerSearch;
+                    busDriver.SQLdb.Open();
+                    SqlDataReader reader = PlayerSearch.ExecuteReader();
+                    reader.Read();
+                    if (reader.HasRows)
+                    {
+                        int oldTeam = Int32.Parse(reader[2].ToString());
+                        busDriver.SQLdb.Close();
+                        PlayerTeamUpdate(player, oldTeam, id);
+                        PlayerTeamPost(game, player, team, start, id);
+                    }
+                    else
                     {
                         busDriver.SQLdb.Close();
                         PlayerTeamPost(game, player, team, start, id);
@@ -168,7 +200,47 @@ namespace NBAdb
                 }
             }
         }
-                
+
+        public static void PlayerTeamUpdate(int player, int team, int id)
+        {
+            SqlDateTime lastGame = SqlDateTime.MaxValue;
+            using (SqlCommand PlayerSearch = new SqlCommand("PlayerTeamGetLastGame"))
+            {
+                PlayerSearch.CommandType = CommandType.StoredProcedure;
+                PlayerSearch.Parameters.AddWithValue("@player", player);
+                PlayerSearch.Parameters.AddWithValue("@team", team);
+                PlayerSearch.Parameters.AddWithValue("@id", id);
+                using (SqlDataAdapter sPlayerSearch = new SqlDataAdapter())
+                {
+                    PlayerSearch.Connection = busDriver.SQLdb;
+                    sPlayerSearch.SelectCommand = PlayerSearch;
+                    busDriver.SQLdb.Open();
+                    SqlDataReader reader = PlayerSearch.ExecuteReader();
+                    reader.Read();
+                    lastGame = SqlDateTime.Parse(reader[0].ToString());
+                    busDriver.SQLdb.Close();                    
+                }
+            }
+            using (SqlCommand InsertData = new SqlCommand("PlayerTeamUpdateLastGame"))
+            {
+                InsertData.CommandType = CommandType.StoredProcedure;
+                InsertData.Parameters.AddWithValue("@player", player);
+                InsertData.Parameters.AddWithValue("@team", team);
+                InsertData.Parameters.AddWithValue("@id", id);
+                InsertData.Parameters.AddWithValue("@LastGame", lastGame);
+                using (SqlDataAdapter sInsertData = new SqlDataAdapter())
+                {
+                    InsertData.Connection = busDriver.SQLdb;
+                    sInsertData.SelectCommand = InsertData;
+                    busDriver.SQLdb.Open();
+                    InsertData.ExecuteScalar();
+                    busDriver.SQLdb.Close();
+                }
+            }
+
+
+        }
+
         public static void PlayerTeamPost(int game, int player, int team, SqlDateTime start, int id)
         {
             using (SqlCommand InsertData = new SqlCommand("PlayerTeamPost"))
