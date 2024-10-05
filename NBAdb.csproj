@@ -249,6 +249,8 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="ParlayAverages.cs" />
+    <Compile Include="ParlayBuilder.cs" />
     <Compile Include="ParlayAssistant.aspx.cs">
       <DependentUpon>ParlayAssistant.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

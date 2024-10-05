@@ -1,10 +1,12 @@
-create view playerBoxAverage
+create view WLplayerBoxAverage
 as
 SELECT pb.season_id, 
 	   t.team_id,
 	   CONCAT(t.city, ' ', t.name) AS Team, 
 	   p.player_id,
 	   p.name, 
+	   CASE WHEN tb.points > tb.pointsAgainst 
+	   THEN 1 ELSE 0 END AS Win, 
 	   COUNT(pb.game_id) AS Games, 
 	   ROUND(AVG(CAST(pb.points AS float)), 2) AS Points, 
 	   ROUND(AVG(CAST(pb.assists AS float)), 2) AS Assists, 
@@ -23,12 +25,9 @@ FROM playerBox AS pb INNER JOIN
 		team AS t ON pb.team_id = t.team_id AND pb.season_id = t.season_id INNER JOIN
 		teamBox AS tb ON pb.team_id = tb.team_id AND pb.game_id = tb.game_id AND pb.season_id = tb.season_id
 where pb.status = 'ACTIVE' and pb.minutesCalculated != 'PT00M'
-GROUP BY pb.season_id, CONCAT(t.city, ' ', t.name), p.name,
-t.team_id, p.player_id
-
-
-
-
---select cast(SUBSTRING(minutesCalculated, 3, 2) as int), *
-
---from playerBox
+GROUP BY pb.season_id, 
+t.team_id,
+CONCAT(t.city, ' ', t.name), 
+p.player_id,
+p.name, 
+CASE WHEN tb.points > tb.pointsAgainst THEN 1 ELSE 0 END

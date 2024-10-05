@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Reflection.Emit;
 
 namespace NBAdb
 {
@@ -63,9 +64,11 @@ namespace NBAdb
             ddlRoster3.Items.Clear();
             ddlInjured.ClearSelection();
             ddlInjured.Items.Clear();
-            PopulateRoster();
+            a1StatsSection.Visible = false;
+            a2StatsSection.Visible = false;
+            a3StatsSection.Visible = false;
+            PopulateRoster();            
         }
-
         protected void PopulateRoster()
         {
             string team = ddTeams.SelectedValue;
@@ -161,8 +164,10 @@ namespace NBAdb
         protected void ddlRoster_SelectedIndexChanged(object sender, EventArgs e)
         {
             Player1Picks.Add(ddlRoster.SelectedValue);
-
-            if(p1Changes != 0 && Player1Picks[p1Changes - 1].ToString() != "")
+            a1StatsSection.Visible = true;
+            ParlayAverages parlayAverages = new ParlayAverages();
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a1Name, a1Team, a1Points, a1Assists, a1Rebounds, a1Threes, a1Blocks, a1Steals, a1Minutes, a1pd, a1ad, a1rd, a13d, a1bd, a1sd);
+            if (p1Changes != 0 && Player1Picks[p1Changes - 1].ToString() != "")
             {
                 ListItem item = new ListItem();
                 item.Text = Player1Picks[p1Changes - 1].ToString();
@@ -290,6 +295,9 @@ namespace NBAdb
                 txt2P.Visible = false; txt2A.Visible = false; txt2R.Visible = false; txt23.Visible = false; txt2B.Visible = false; txt2S.Visible = false;
             }
             Player2Picks.Add(ddlRoster2.SelectedValue);
+            a2StatsSection.Visible = true;
+            ParlayAverages parlayAverages = new ParlayAverages();
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster2.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a2Name, a2Team, a2Points, a2Assists, a2Rebounds, a2Threes, a2Blocks, a2Steals, a2Minutes, a2pd, a2ad, a2rd, a23d, a2bd, a2sd);
             if (p2Changes != 0 && Player2Picks[p2Changes - 1].ToString() != "")
             {
                 ListItem item = new ListItem();
@@ -368,7 +376,10 @@ namespace NBAdb
             {
                 txt3P.Visible = false; txt3A.Visible = false; txt3R.Visible = false; txt33.Visible = false; txt3B.Visible = false; txt3S.Visible = false;
             }
-            Player3Picks.Add(ddlRoster2.SelectedValue);
+            Player3Picks.Add(ddlRoster3.SelectedValue);
+            a3StatsSection.Visible = true;
+            ParlayAverages parlayAverages = new ParlayAverages();
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster3.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a3Name, a3Team, a3Points, a3Assists, a3Rebounds, a3Threes, a3Blocks, a3Steals, a3Minutes, a3pd, a3ad, a3rd, a33d, a3bd, a3sd);
             if (p3Changes != 0 && Player3Picks[p3Changes - 1].ToString() != "")
             {
                 ListItem item = new ListItem();
@@ -386,25 +397,25 @@ namespace NBAdb
                     ddlRoster2.Items.Add(item);
                 }
             }
-            if (ddlRoster2.Items.Contains(ddlRoster2.SelectedItem))
+            if (ddlRoster2.Items.Contains(ddlRoster3.SelectedItem))
             {
-                ddlRoster2.Items.Remove(ddlRoster2.SelectedValue);
+                ddlRoster2.Items.Remove(ddlRoster3.SelectedValue);
             }
             //else
             //{
             //    ddlRoster2.Items.Add(ddlRoster2.SelectedValue);
             //}
-            if (ddlRoster.Items.Contains(ddlRoster2.SelectedItem))
+            if (ddlRoster.Items.Contains(ddlRoster3.SelectedItem))
             {
-                ddlRoster.Items.Remove(ddlRoster2.SelectedValue);
+                ddlRoster.Items.Remove(ddlRoster3.SelectedValue);
             }
             //else
             //{
             //    ddlRoster.Items.Add(ddlRoster2.SelectedValue);
             //}
-            if (ddlInjured.Items.Contains(ddlRoster2.SelectedItem))
+            if (ddlInjured.Items.Contains(ddlRoster3.SelectedItem))
             {
-                ddlInjured.Items.Remove(ddlRoster2.SelectedValue);
+                ddlInjured.Items.Remove(ddlRoster3.SelectedValue);
             }
             //else
             //{
@@ -595,22 +606,51 @@ namespace NBAdb
                 if (controlValue.Contains("DropDownList ID: ddlRoster,"))
                 {
                     PlayerList.Add("1. " + controlValue.Remove(0, 35));
+                    player1 = controlValue.Remove(0, 35);
                 }
                 if (controlValue.Contains("DropDownList ID: ddlInjured,"))
                 {
                     PlayerList.Add("I. " + controlValue.Remove(0, 36));
+                    playerI = controlValue.Remove(0, 36);
                 }
                 if (controlValue.Contains("DropDownList ID: ddlRoster2,"))
                 {
                     PlayerList.Add("2. " + controlValue.Remove(0, 36));
+                    player2 = controlValue.Remove(0, 36);
                 }
                 if (controlValue.Contains("DropDownList ID: ddlRoster3,"))
                 {
                     PlayerList.Add("3. " + controlValue.Remove(0, 36));
+                    player3 = controlValue.Remove(0, 36);
                 }
                 if (controlValue.Contains("CheckBox ID: "))
                 {
-                    PropList.Add(controlValue.Remove(17).Remove(0, 16));
+                    string prop = controlValue.Remove(17).Remove(0, 16);
+                    if(prop == "P")
+                    {
+                        prop = "points";
+                    }
+                    if (prop == "A")
+                    {
+                        prop = "assists";
+                    }
+                    if (prop == "R")
+                    {
+                        prop = "reboundsTotal";
+                    }
+                    if (prop == "3")
+                    {
+                        prop = "threePointersMade";
+                    }
+                    if (prop == "B")
+                    {
+                        prop = "blocks";
+                    }
+                    if (prop == "S")
+                    {
+                        prop = "steals";
+                    }
+                    PropList.Add(prop);
                 }
                 //if (controlValue.Contains("txt1"))
                 //{
@@ -619,12 +659,21 @@ namespace NBAdb
             }
             foreach (string prop in PropList)
             {
+                string propID = "";
+                if(prop == "threePointersMade")
+                {
+                    propID = "3";
+                }
+                else
+                {
+                    propID = prop.Substring(0, 1).ToUpper();
+                }
                 foreach (string player in PlayerList)
                 {
                     if (player.Contains("1. "))
                     {
                         // Dynamically construct the TextBox ID
-                        string controlId = "txt1" + prop; // e.g., txt1P, txt1A, txt1R
+                        string controlId = "txt1" + propID; // e.g., txt1P, txt1A, txt1R
 
                         // Use recursive FindControl to get the TextBox by its ID
                         TextBox dynamicTextBox = FindControlRecursive(this, controlId) as TextBox;
@@ -642,7 +691,7 @@ namespace NBAdb
                     if (player.Contains("2. "))
                     {
                         // Dynamically construct the TextBox ID
-                        string controlId = "txt2" + prop; // e.g., txt1P, txt1A, txt1R
+                        string controlId = "txt2" + propID; // e.g., txt1P, txt1A, txt1R
 
                         // Use recursive FindControl to get the TextBox by its ID
                         TextBox dynamicTextBox = FindControlRecursive(this, controlId) as TextBox;
@@ -660,7 +709,7 @@ namespace NBAdb
                     if (player.Contains("3. "))
                     {
                         // Dynamically construct the TextBox ID
-                        string controlId = "txt3" + prop; // e.g., txt1P, txt1A, txt1R
+                        string controlId = "txt3" + propID; // e.g., txt1P, txt1A, txt1R
 
                         // Use recursive FindControl to get the TextBox by its ID
                         TextBox dynamicTextBox = FindControlRecursive(this, controlId) as TextBox;
@@ -676,6 +725,18 @@ namespace NBAdb
                         }
                     }
                 }
+            }
+            ParlayBuilder parlayBuilder = new ParlayBuilder();
+            parlayBuilder.BuildQuery(Team, PlayerList, player1, player2, player3, playerI, PropList, Player1Props, Player2Props, Player3Props);
+
+        }
+
+        protected void BuildQuery1(string Team, List<string> PlayerList, string Player1, string Player2, string Player3, string PlayerI, List<string> PropList, List<int> Player1Props, List<int> Player2Props, List<int> Player3Props)
+        {
+            string query = "";
+            if (Player1 != "")
+            {
+                query += "";
             }
         }
 
@@ -721,5 +782,47 @@ namespace NBAdb
             }
             return null;
         }
+
+        protected void aWinsChk_CheckedChanged(object sender, EventArgs e)
+        {
+            ParlayAverages parlayAverages = new ParlayAverages();
+            if (aWinsChk.Checked)
+            {
+                aLossChk.Checked = false;
+            }
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a1Name, a1Team, a1Points, a1Assists, a1Rebounds, a1Threes, a1Blocks, a1Steals, a1Minutes, a1pd, a1ad, a1rd, a13d, a1bd, a1sd);
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster2.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a2Name, a2Team, a2Points, a2Assists, a2Rebounds, a2Threes, a2Blocks, a2Steals, a2Minutes, a2pd, a2ad, a2rd, a23d, a2bd, a2sd);
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster3.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a3Name, a3Team, a3Points, a3Assists, a3Rebounds, a3Threes, a3Blocks, a3Steals, a3Minutes, a3pd, a3ad, a3rd, a33d, a3bd, a3sd);
+        }
+
+        protected void aLossChk_CheckedChanged(object sender, EventArgs e)
+        {
+            ParlayAverages parlayAverages = new ParlayAverages();
+            if (aLossChk.Checked)
+            {
+                aWinsChk.Checked = false;
+            }
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a1Name, a1Team, a1Points, a1Assists, a1Rebounds, a1Threes, a1Blocks, a1Steals, a1Minutes, a1pd, a1ad, a1rd, a13d, a1bd, a1sd);
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster2.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a2Name, a2Team, a2Points, a2Assists, a2Rebounds, a2Threes, a2Blocks, a2Steals, a2Minutes, a2pd, a2ad, a2rd, a23d, a2bd, a2sd);
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster3.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a3Name, a3Team, a3Points, a3Assists, a3Rebounds, a3Threes, a3Blocks, a3Steals, a3Minutes, a3pd, a3ad, a3rd, a33d, a3bd, a3sd);           
+        }
+
+
+
+
+        //public void AddPlayerLabel(int season, string team, string name, int games, int minutes, double points, double assists, double rebounds, double blocks, double steals)
+        //{
+        //    alblName.Text = name;
+        //    alblTeam.Text = season + " " + team;
+        //}
     }
 }
+
+//  int    season   
+//  int    games    
+//  int    minutes  
+//  double points, double assists, double rebounds, double blocks, double steals  
+//  double assists  
+//  double rebounds 
+//  double blocks   
+//  double steals   

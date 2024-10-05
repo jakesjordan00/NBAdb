@@ -1,10 +1,11 @@
 
 
-create PROCEDURE ParlayTeams
+create procedure ParlayTeams
 AS 
 select concat('(',t.tricode, ') ',t.city, ' ', t.name) Team 
 from Team t
 where t.season_id = (select max(season_id) from team)
+order by Team 
 go
 
 
@@ -16,6 +17,7 @@ from player p inner join
 		team t on pt.team_id = t.team_id and p.season_id = t.season_id
 WHERE		CONCAT('(', t.tricode, ') ', t.city, ' ', t.name) = @team and p.season_id = (select max(season_id) from team)
 and (LastGameDate is null or LastGameDate < cast(getdate() as date))
+order by Player 
 go
 
 
