@@ -16,6 +16,7 @@ namespace NBAdb
     {
         public  ParlayAssistant parlayAssistant = new ParlayAssistant();
         public static BusDriver busDriver = new BusDriver();
+        public static int win = 3;
 
         public void GetAverages(bool Wins, bool Loss, string player, string team, Label Name, Label Team, Label Points, Label Assists, Label Rebounds, Label Threes, Label Blocks, Label Steals, Label Minutes, HtmlGenericControl pd, HtmlGenericControl ad, HtmlGenericControl rd, HtmlGenericControl fg3md, HtmlGenericControl bd, HtmlGenericControl sd)
         {
@@ -66,6 +67,7 @@ namespace NBAdb
                                 fg3a     = (double)reader[16];
                                 fg3p     = (double)reader[17];
                                 Minutes.Text = games + "GP, " + minutes + "min/game";
+                                win = 3;
                             }
                         }
                         else if (reader["Win/Loss/Total"].ToString() == "Win" && Wins == true && Loss == false)
@@ -85,7 +87,8 @@ namespace NBAdb
                             fg3a = (double)reader[16];
                             fg3p = (double)reader[17];
                             Minutes.Text = games + " Wins, " + minutes + "min/game";
-                            GetDeltas(player, team, 1, pd, ad, rd, fg3md, bd, sd);
+                            win = 1;
+                            //GetDeltas(player, team, 1, pd, ad, rd, fg3md, bd, sd);
                         }
                         else if (reader["Win/Loss/Total"].ToString() == "Loss" && Wins == false && Loss == true)
                         {
@@ -104,14 +107,15 @@ namespace NBAdb
                             fg3a = (double)reader[16];
                             fg3p = (double)reader[17];
                             Minutes.Text = games + " Losses, " + minutes + "min/game";
-                            GetDeltas(player, team, 0, pd, ad, rd, fg3md, bd, sd);
+                            win = 0;
+                            //GetDeltas(player, team, 0, pd, ad, rd, fg3md, bd, sd);
                         }
                         
                     }
                     busDriver.SQLdb.Close();
                 }
             }
-            
+            GetDeltas(player, team, win, pd, ad, rd, fg3md, bd, sd, points, assists, rebounds, fg3m, blocks, steals);
             //parlayAssistant.AddPlayerLabel(season, team, player, games, minutes, points, assists, rebounds, blocks, steals);
             Name.Text = player;
             Team.Text = season + " " + team;
@@ -123,8 +127,14 @@ namespace NBAdb
             Steals.Text = steals.ToString();
         }
 
-        public void GetDeltas(string player, string team, int win, HtmlGenericControl pd, HtmlGenericControl ad, HtmlGenericControl rd, HtmlGenericControl fg3md, HtmlGenericControl bd, HtmlGenericControl sd)
+        public void GetDeltas(string player, string team, int win, HtmlGenericControl pd, HtmlGenericControl ad, HtmlGenericControl rd, HtmlGenericControl fg3md, HtmlGenericControl bd, HtmlGenericControl sd, double p, double a, double r, double three, double b, double s)
         {
+            double pts = 0;
+            double ast = 0;
+            double reb = 0;
+            double fg3 = 0;
+            double blk = 0;
+            double stl = 0;
             using (SqlCommand ParlayAverageFinder = new SqlCommand("ParlayAverageFinder"))
             {
                 ParlayAverageFinder.CommandType = CommandType.StoredProcedure;
@@ -134,20 +144,27 @@ namespace NBAdb
                 {
                     ParlayAverageFinder.Connection = busDriver.SQLdb;
                     sParlayAverageFinder.SelectCommand = ParlayAverageFinder;
+                    busDriver.SQLdb.Open();
                     SqlDataReader reader1 = ParlayAverageFinder.ExecuteReader();
                     while (reader1.Read())
                     {
                         if(win == 1)
                         {
                             //PointsDelta = 19
-                            pd.Attributes["title"] = reader1[19].ToString();
-                            ad.Attributes["title"] = reader1[20].ToString();
-                            rd.Attributes["title"] = reader1[21].ToString();
+                            pd.Attributes["title"] =    reader1[19].ToString();
+                            ad.Attributes["title"] =    reader1[20].ToString();
+                            rd.Attributes["title"] =    reader1[21].ToString();
                             fg3md.Attributes["title"] = reader1[27].ToString();
-                            bd.Attributes["title"] = reader1[22].ToString();
-                            sd.Attributes["title"] = reader1[23].ToString();
+                            bd.Attributes["title"] =    reader1[22].ToString();
+                            sd.Attributes["title"] =    reader1[23].ToString();
+                            pts = Convert.ToDouble(reader1[19]);
+                            ast = Convert.ToDouble(reader1[20]);
+                            reb = Convert.ToDouble(reader1[21]);
+                            fg3 = Convert.ToDouble(reader1[27]);
+                            blk = Convert.ToDouble(reader1[22]);
+                            stl = Convert.ToDouble(reader1[23]);
                         }
-                        else
+                        else if(win == 0)
                         {
                             pd.Attributes["title"] = reader1[19] != DBNull.Value ? (-1 * Convert.ToDouble(reader1[19])).ToString() : "N/A";
                             ad.Attributes["title"] = reader1[20] != DBNull.Value ? (-1 * Convert.ToDouble(reader1[20])).ToString() : "N/A";
@@ -155,10 +172,77 @@ namespace NBAdb
                             fg3md.Attributes["title"] = reader1[27] != DBNull.Value ? (-1 * Convert.ToDouble(reader1[27])).ToString() : "N/A";
                             bd.Attributes["title"] = reader1[22] != DBNull.Value ? (-1 * Convert.ToDouble(reader1[22])).ToString() : "N/A";
                             sd.Attributes["title"] = reader1[23] != DBNull.Value ? (-1 * Convert.ToDouble(reader1[23])).ToString() : "N/A";
+                            pts = Convert.ToDouble(reader1[19]);
+                            ast = Convert.ToDouble(reader1[20]);
+                            reb = Convert.ToDouble(reader1[21]);
+                            fg3 = Convert.ToDouble(reader1[27]);
+                            blk = Convert.ToDouble(reader1[22]);
+                            stl = Convert.ToDouble(reader1[23]);
                         }
+                        else
+                        {
+                            pd.Attributes["title"] = "";
+                            ad.Attributes["title"] = "";
+                            rd.Attributes["title"] = "";
+                            fg3md.Attributes["title"] = "";
+                            bd.Attributes["title"] = "";
+                            sd.Attributes["title"] = "";
+                        }
+                    }
+                    busDriver.SQLdb.Close();
+                }
+            }
+            if(win == 3)
+            {
+                using (SqlCommand PlayerTrendFinder = new SqlCommand("PlayerTrendFinder"))
+                {
+                    PlayerTrendFinder.CommandType = CommandType.StoredProcedure;
+                    PlayerTrendFinder.Parameters.AddWithValue("@Player", player);
+                    using (SqlDataAdapter sPlayerTrendFinder = new SqlDataAdapter())
+                    {
+                        PlayerTrendFinder.Connection = busDriver.SQLdb;
+                        sPlayerTrendFinder.SelectCommand = PlayerTrendFinder;
+                        busDriver.SQLdb.Open();
+                        SqlDataReader reader = PlayerTrendFinder.ExecuteReader();
+                        while (reader.Read())
+                        {
+                            pd.Attributes["title"]    = (Convert.ToDouble(reader[2]) - p).ToString();
+                            ad.Attributes["title"]    = (Convert.ToDouble(reader[3]) - a).ToString();
+                            rd.Attributes["title"]    = (Convert.ToDouble(reader[4]) - r).ToString();
+                            fg3md.Attributes["title"] = (Convert.ToDouble(reader[10]) - three).ToString();
+                            bd.Attributes["title"]    = (Convert.ToDouble(reader[5]) - b).ToString();
+                            sd.Attributes["title"]    = (Convert.ToDouble(reader[6]) - s).ToString();
+                        }
+                        busDriver.SQLdb.Close();
                     }
                 }
             }
+            List<HtmlGenericControl> controls = new List<HtmlGenericControl>
+            {
+             pd, ad, rd, fg3md, bd, sd
+            };
+            foreach (HtmlGenericControl control in controls)
+            {
+                // Check the title attribute value
+                double titleValue;
+                if (double.TryParse(control.Attributes["title"], out titleValue))
+                {
+                    // Conditionally set the style attribute based on the title value
+                    if (titleValue > 0)
+                    {
+                        control.Attributes["style"] = "font-size:Large; text-decoration-color: green; color: green";
+                    }
+                    else if (titleValue < 0)
+                    {
+                        control.Attributes["style"] = "font-size:Large; text-decoration-color:red; color: red";
+                    }
+                    else
+                    {
+                        control.Attributes["style"] = "font-size:Large; text-decoration-color:";
+                    }
+                }
+            }
+
         }
     }
 }

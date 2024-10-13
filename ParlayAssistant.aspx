@@ -168,7 +168,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right; padding-top:5px">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a1pd" runat="server">
-                            <asp:Label ID="a1Points" runat="server" Text="" ></asp:Label>
+                            <asp:Label ID="a1Points" runat="server" Text="" ForeColor="White" ></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -179,7 +179,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right;">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a1ad" runat="server">
-                            <asp:Label ID="a1Assists" runat="server" Text=""></asp:Label>
+                            <asp:Label ID="a1Assists" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -190,7 +190,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right; padding-top:5px">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a1rd" runat="server">
-                            <asp:Label ID="a1Rebounds" runat="server" Text=""></asp:Label>
+                            <asp:Label ID="a1Rebounds" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -201,7 +201,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right;">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a13d" runat="server">
-                            <asp:Label ID="a1Threes" runat="server" Text=""></asp:Label>
+                            <asp:Label ID="a1Threes" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -212,7 +212,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right; padding-top:5px">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a1bd" runat="server">
-                            <asp:Label ID="a1Blocks" runat="server" Text=""></asp:Label>
+                            <asp:Label ID="a1Blocks" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -223,7 +223,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right;">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a1sd" runat="server">
-                            <asp:Label ID="a1Steals" runat="server" Text=""></asp:Label>
+                            <asp:Label ID="a1Steals" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>                
@@ -246,7 +246,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right; padding-top:5px">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a2pd" runat="server">
-                        <asp:Label ID="a2Points" runat="server" Text="" Height="10px"></asp:Label>
+                        <asp:Label ID="a2Points" runat="server" Text="" Height="10px" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -256,7 +256,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right;">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a2ad" runat="server">
-                        <asp:Label ID="a2Assists" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="a2Assists" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -266,7 +266,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right; padding-top:5px">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a2rd" runat="server">
-                        <asp:Label ID="a2Rebounds" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="a2Rebounds" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -276,7 +276,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right;">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a23d" runat="server">
-                        <asp:Label ID="a2Threes" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="a2Threes" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -286,7 +286,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right; padding-top:5px">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a2bd" runat="server">
-                        <asp:Label ID="a2Blocks" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="a2Blocks" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -296,7 +296,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right;">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a2sd" runat="server">
-                        <asp:Label ID="a2Steals" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="a2Steals" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>                
@@ -319,7 +319,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right; padding-top:5px">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a3pd" runat="server">
-                        <asp:Label ID="a3Points" runat="server" Text="" Height="10px"></asp:Label>
+                        <asp:Label ID="a3Points" runat="server" Text="" Height="10px" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -329,7 +329,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right;">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a3ad" runat="server">
-                        <asp:Label ID="a3Assists" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="a3Assists" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -339,7 +339,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right; padding-top:5px">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a3rd" runat="server">
-                        <asp:Label ID="a3Rebounds" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="a3Rebounds" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -348,8 +348,8 @@
                         <asp:Label ID="Label15" runat="server" Text="3PM:"></asp:Label>
                     </div>
                     <div class="col-md-2" style="text-align:right;">
-                        <abbr style="font-size:Large; text-decoration-color:grey" id="a33d" runat="server">
-                        <asp:Label ID="a3Threes" runat="server" Text=""></asp:Label>
+                        <abbr style="font-size:Large; text-decoration-color:grey;" id="a33d" runat="server">
+                        <asp:Label ID="a3Threes" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -359,7 +359,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right; padding-top:5px">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a3bd" runat="server">
-                        <asp:Label ID="a3Blocks" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="a3Blocks" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>
@@ -369,7 +369,7 @@
                     </div>
                     <div class="col-md-2" style="text-align:right;">
                         <abbr style="font-size:Large; text-decoration-color:grey" id="a3sd" runat="server">
-                        <asp:Label ID="a3Steals" runat="server" Text=""></asp:Label>
+                        <asp:Label ID="a3Steals" runat="server" Text="" ForeColor="White"></asp:Label>
                         </abbr>
                     </div>
                 </div>                
@@ -381,23 +381,94 @@
         <div style="height:20px">
             <asp:CheckBox ID="aLossChk" runat="server" OnCheckedChanged="aLossChk_CheckedChanged" AutoPostBack="true" Text="Show only Losses"/>
         </div>
+        <div style="height:20px">
+            <asp:Label ID="Label18" runat="server" Text="The pop-up number displayed with each value is either the player's trend - average, win - loss avg, or loss - win avg" ForeColor="Gray" Font-Size="Small"></asp:Label>
+        </div>
+        
+
+
+        <%-- Dynamic columns --%>
         <hr />
+        <div class="row" style="width: auto" id="dy1StatsSection" runat="server" visible="false">
+            <div class="col-md-3" style="width: auto"> 
+                <div class="tight-spacing" style="width: auto"> 
+                    <asp:Label ID="dyName1" Font-Bold="true" Font-Size="XX-Large" runat="server"></asp:Label>
+                </div>     
+                <div class="tight-spacing" style="padding-top:2px; width: auto"> 
+                    <asp:Label ID="dyTeam1" runat="server" Text="" Font-Bold="true" Font-Size="Small" ForeColor="LightGray" Height="10px" ></asp:Label>
+                </div>  
+                <div class="tight-spacing" style="padding-top:2px; width: auto"> 
+                    <asp:Label ID="dyMinutes1" runat="server" Text="" Font-Bold="true" Font-Size="Small" ForeColor="LightGray" Height="10px" ></asp:Label>
+                </div>
+                 <%--Points--%>
+                <div class="row" style="width: auto">
+                    <div class="col-md-3" style="width: 170px; padding-top:5px">
+                        <asp:Label ID="Label22" runat="server" Text="Points:" ></asp:Label>
+                    </div>
+                    <div class="col-md-2" style="text-align:right; padding-top:5px">
+                        <abbr style="font-size:Large; text-decoration-color:grey" id="Abbr1" runat="server">
+                            <asp:Label ID="dyPts1" runat="server" Text="" ForeColor="White" ></asp:Label>
+                        </abbr>
+                    </div>
+                </div>
 
+                <div class="row">
+                    <div class="col-md-3" style="width: 170px">
+                        <asp:Label ID="Label24" runat="server" Text="Assists:"></asp:Label>
+                    </div>
+                    <div class="col-md-2" style="text-align:right;">
+                        <abbr style="font-size:Large; text-decoration-color:grey" id="Abbr2" runat="server">
+                            <asp:Label ID="dyAst1" runat="server" Text="" ForeColor="White"></asp:Label>
+                        </abbr>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3" style="width: 170px; padding-top:5px">
+                        <asp:Label ID="Label26" runat="server" Text="Rebounds:"></asp:Label>
+                    </div>
+                    <div class="col-md-2" style="text-align:right; padding-top:5px">
+                        <abbr style="font-size:Large; text-decoration-color:grey" id="Abbr3" runat="server">
+                            <asp:Label ID="dyReb1" runat="server" Text="" ForeColor="White"></asp:Label>
+                        </abbr>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3" style="width: 170px">
+                        <asp:Label ID="Label28" runat="server" Text="3PM:"></asp:Label>
+                    </div>
+                    <div class="col-md-2" style="text-align:right;">
+                        <abbr style="font-size:Large; text-decoration-color:grey" id="Abbr4" runat="server">
+                            <asp:Label ID="dy31" runat="server" Text="" ForeColor="White"></asp:Label>
+                        </abbr>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3" style="width: 170px; padding-top:5px">
+                        <asp:Label ID="Label30" runat="server" Text="Blocks:"></asp:Label>
+                    </div>
+                    <div class="col-md-2" style="text-align:right; padding-top:5px">
+                        <abbr style="font-size:Large; text-decoration-color:grey" id="Abbr5" runat="server">
+                            <asp:Label ID="dyBlk1" runat="server" Text="" ForeColor="White"></asp:Label>
+                        </abbr>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-3" style="width: 170px">
+                        <asp:Label ID="Label32" runat="server" Text="Steals:"></asp:Label>
+                    </div>
+                    <div class="col-md-2" style="text-align:right;">
+                        <abbr style="font-size:Large; text-decoration-color:grey" id="Abbr6" runat="server">
+                            <asp:Label ID="dyStl1" runat="server" Text="" ForeColor="White"></asp:Label>
+                        </abbr>
+                    </div>
+                </div>                
+            </div>
+        </div>
     </div>
-    
-<%--            <div class="col-md-2">     
-                <asp:Label ID="lblp1Name" runat="server" Text="Label" Font-Bold="true" Font-Size="Large"></asp:Label>
-            </div>
-            <div class="col-md-2">
-
-            </div>
-            <div class="col-md-2">
-
-            </div>--%>
-
-
-
-
 <style>
         .tight-spacing {
     line-height: .9; /* Adjust this value as needed */

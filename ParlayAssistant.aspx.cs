@@ -20,6 +20,7 @@ namespace NBAdb
         public static List<string> PlayerIPicks = new List<string>();
         public static List<string> Player2Picks = new List<string>();
         public static List<string> Player3Picks = new List<string>();
+        public static string Procedure = "";
 
 
         protected void Page_Load(object sender, EventArgs e)
@@ -213,9 +214,12 @@ namespace NBAdb
             //}
             p1Changes += 1;
         }
-        protected void ddlInjured_SelectedIndexChanged(object sender, EventArgs e)
+        public void ddlInjured_SelectedIndexChanged(object sender, EventArgs e)
         {
             PlayerIPicks.Add(ddlInjured.SelectedValue);
+            dy1StatsSection.Visible = true;
+            ParlayAveragesExtended parlayAveragesExtended = new ParlayAveragesExtended();
+            parlayAveragesExtended.GetProcedure(ddlRoster.SelectedValue, ddlInjured.SelectedValue, ddlRoster2.SelectedValue, ddlRoster3.SelectedValue, Procedure);
             if (pIChanges != 0 && PlayerIPicks[pIChanges - 1].ToString() != "")
             {
                 ListItem item = new ListItem();
@@ -804,7 +808,7 @@ namespace NBAdb
             }
             parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a1Name, a1Team, a1Points, a1Assists, a1Rebounds, a1Threes, a1Blocks, a1Steals, a1Minutes, a1pd, a1ad, a1rd, a13d, a1bd, a1sd);
             parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster2.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a2Name, a2Team, a2Points, a2Assists, a2Rebounds, a2Threes, a2Blocks, a2Steals, a2Minutes, a2pd, a2ad, a2rd, a23d, a2bd, a2sd);
-            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster3.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a3Name, a3Team, a3Points, a3Assists, a3Rebounds, a3Threes, a3Blocks, a3Steals, a3Minutes, a3pd, a3ad, a3rd, a33d, a3bd, a3sd);           
+            parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster3.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a3Name, a3Team, a3Points, a3Assists, a3Rebounds, a3Threes, a3Blocks, a3Steals, a3Minutes, a3pd, a3ad, a3rd, a33d, a3bd, a3sd);
         }
 
 
