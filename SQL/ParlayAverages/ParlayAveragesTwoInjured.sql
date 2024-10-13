@@ -1,4 +1,4 @@
-create procedure ParlayAveragesTwo @Player varchar(255), @Player2 varchar(255), @Player3 varchar(255), @Injured varchar(255), @Team varchar(255), @season int
+create procedure ParlayAveragesTwoInjured @Player varchar(255), @Player2 varchar(255), @Player3 varchar(255), @Injured varchar(255), @Team varchar(255), @season int
 as
 select pb.season_id,
 	   t.team_id,
@@ -39,12 +39,19 @@ FROM playerBox pb INNER JOIN
 		teamBox tb ON pb.team_id = tb.team_id AND pb.game_id = tb.game_id AND pb.season_id = tb.season_id inner join
 		playerBox pb2 on pb.game_id = pb2.game_id and pb.team_id = pb2.team_id and pb.season_id = pb2.season_id inner join
 		player p2 on pb2.player_id = p2.player_id and pb.season_id = p2.season_id INNER JOIN
-		team t2 on pb2.team_id = t2.team_id AND pb.season_id = t2.season_id 
+		team t2 on pb2.team_id = t2.team_id AND pb.season_id = t2.season_id inner join
+		playerBox pb3 on pb.game_id = pb3.game_id and pb.team_id = pb3.team_id and pb.season_id = pb3.season_id inner join
+		player p3 on pb3.player_id = p3.player_id and pb.season_id = p3.season_id INNER JOIN
+		team t3 on pb3.team_id = t3.team_id AND pb.season_id = t3.season_id 
+
+
 where pb.status = 'ACTIVE' and pb.minutesCalculated != 'PT00M'
 and p.name = @Player and CONCAT(t.city, ' ', t.name) = @Team
 and pb.season_id = @season
 and pb2.status = 'ACTIVE' and pb2.minutesCalculated != 'PT00M'
 and p2.name = @Player2 and CONCAT(t2.city, ' ', t2.name) = @Team
+and (pb3.status != 'ACTIVE' or pb3.minutesCalculated = 'PT00M')
+and p3.name = @Injured and CONCAT(t3.city, ' ', t3.name) = @Team
 GROUP BY pb.season_id, 
 t.team_id,
 CONCAT(t.city, ' ', t.name), 

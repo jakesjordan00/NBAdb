@@ -1,4 +1,4 @@
-create procedure WLParlayAveragesTwo @Player varchar(255), @Player2 varchar(255), @Team varchar(255), @season int
+create procedure WLParlayAveragesTwo @Player varchar(255), @Player2 varchar(255), @Player3 varchar(255), @Injured varchar(255), @Team varchar(255), @season int
 as
 select pb.season_id,
 	   t.team_id,
