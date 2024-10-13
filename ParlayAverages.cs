@@ -192,7 +192,7 @@ namespace NBAdb
                     busDriver.SQLdb.Close();
                 }
             }
-            if(win == 3)
+            if(win == 3) //blah blah
             {
                 using (SqlCommand PlayerTrendFinder = new SqlCommand("PlayerTrendFinder"))
                 {
