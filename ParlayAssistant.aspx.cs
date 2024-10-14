@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Reflection.Emit;
+using Microsoft.Ajax.Utilities;
 
 namespace NBAdb
 {
@@ -186,6 +187,50 @@ namespace NBAdb
             }
 
 
+            ParlayAveragesExtended parlayAveragesExtended = new ParlayAveragesExtended();
+            parlayAveragesExtended.GetProcedure(ddlRoster.SelectedValue, ddlRoster2.SelectedValue, ddlRoster3.SelectedValue, ddlInjured.SelectedValue, ddTeams.SelectedValue, 2023, aWinsChk.Checked, aLossChk.Checked);
+
+            if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlInjured.SelectedValue.IsNullOrWhiteSpace() && ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = false;
+                dy3StatsSection.Visible = false;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+            }
+            else if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = true;
+                dy3StatsSection.Visible = false;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+                parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
+            }
+            else if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = true;
+                dy3StatsSection.Visible = true;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+                parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
+                parlayAveragesExtended.PopulateUI(a3Name, a3Team, dyName3, dyTeam3, dyPts3, dyAst3, dyReb3, dy33, dyBlk3, dyStl3, dyMinutes3, 3);
+            }
+            else
+            {
+                dyStatsSection.Visible = false;
+                dy1StatsSection.Visible = false;
+                dy2StatsSection.Visible = false;
+                dy3StatsSection.Visible = false;
+            }
+
+
+
+
+
+
+
             if (ddlInjured.Items.Contains(ddlRoster.SelectedItem))
             {
                 ddlInjured.Items.Remove(ddlRoster.SelectedValue);
@@ -216,11 +261,44 @@ namespace NBAdb
         public void ddlInjured_SelectedIndexChanged(object sender, EventArgs e)
         {
             PlayerIPicks.Add(ddlInjured.SelectedValue);
-            dyStatsSection.Visible = true;
-            dy1StatsSection.Visible = true;
             ParlayAveragesExtended parlayAveragesExtended = new ParlayAveragesExtended();
             parlayAveragesExtended.GetProcedure(ddlRoster.SelectedValue, ddlRoster2.SelectedValue, ddlRoster3.SelectedValue, ddlInjured.SelectedValue, ddTeams.SelectedValue, 2023, aWinsChk.Checked, aLossChk.Checked);
-            parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+
+            if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlInjured.SelectedValue.IsNullOrWhiteSpace() && ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = false;
+                dy3StatsSection.Visible = false;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+            }
+            else if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = true;
+                dy3StatsSection.Visible = false;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+                parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
+            }
+            else if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = true;
+                dy3StatsSection.Visible = true;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+                parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
+                parlayAveragesExtended.PopulateUI(a3Name, a3Team, dyName3, dyTeam3, dyPts3, dyAst3, dyReb3, dy33, dyBlk3, dyStl3, dyMinutes3, 3);
+            }
+            else
+            {
+                dyStatsSection.Visible = false;
+                dy1StatsSection.Visible = false;
+                dy2StatsSection.Visible = false;
+                dy3StatsSection.Visible = false;
+            }
+
             if (pIChanges != 0 && PlayerIPicks[pIChanges - 1].ToString() != "")
             {
                 ListItem item = new ListItem();
@@ -303,14 +381,42 @@ namespace NBAdb
             a2StatsSection.Visible = true;
             ParlayAverages parlayAverages = new ParlayAverages();
             parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster2.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a2Name, a2Team, a2Points, a2Assists, a2Rebounds, a2Threes, a2Blocks, a2Steals, a2Minutes, a2pd, a2ad, a2rd, a23d, a2bd, a2sd);
-
-            dyStatsSection.Visible = true;
-            dy1StatsSection.Visible = true;
-            dy2StatsSection.Visible = true;
             ParlayAveragesExtended parlayAveragesExtended = new ParlayAveragesExtended();
             parlayAveragesExtended.GetProcedure(ddlRoster.SelectedValue, ddlRoster2.SelectedValue, ddlRoster3.SelectedValue, ddlInjured.SelectedValue, ddTeams.SelectedValue, 2023, aWinsChk.Checked, aLossChk.Checked);
-            parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
-            parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
+            if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlInjured.SelectedValue.IsNullOrWhiteSpace() && ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = false;
+                dy3StatsSection.Visible = false;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+            }
+            else if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = true;
+                dy3StatsSection.Visible = false;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+                parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
+            }
+            else if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = true;
+                dy3StatsSection.Visible = true;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+                parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
+                parlayAveragesExtended.PopulateUI(a3Name, a3Team, dyName3, dyTeam3, dyPts3, dyAst3, dyReb3, dy33, dyBlk3, dyStl3, dyMinutes3, 3);
+            }
+            else
+            {
+                dyStatsSection.Visible = false;
+                dy1StatsSection.Visible = false;
+                dy2StatsSection.Visible = false;
+                dy3StatsSection.Visible = false;
+            }
 
             if (p2Changes != 0 && Player2Picks[p2Changes - 1].ToString() != "")
             {
@@ -394,16 +500,42 @@ namespace NBAdb
             a3StatsSection.Visible = true;
             ParlayAverages parlayAverages = new ParlayAverages();
             parlayAverages.GetAverages(aWinsChk.Checked, aLossChk.Checked, ddlRoster3.SelectedValue, ddTeams.SelectedValue.Remove(0, 6), a3Name, a3Team, a3Points, a3Assists, a3Rebounds, a3Threes, a3Blocks, a3Steals, a3Minutes, a3pd, a3ad, a3rd, a33d, a3bd, a3sd);
-
-            dyStatsSection.Visible = true;
-            dy1StatsSection.Visible = true;
-            dy2StatsSection.Visible = true;
-            dy3StatsSection.Visible = true;
             ParlayAveragesExtended parlayAveragesExtended = new ParlayAveragesExtended();
             parlayAveragesExtended.GetProcedure(ddlRoster.SelectedValue, ddlRoster2.SelectedValue, ddlRoster3.SelectedValue, ddlInjured.SelectedValue, ddTeams.SelectedValue, 2023, aWinsChk.Checked, aLossChk.Checked);
-            parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
-            parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
-            parlayAveragesExtended.PopulateUI(a3Name, a3Team, dyName3, dyTeam3, dyPts3, dyAst3, dyReb3, dy33, dyBlk3, dyStl3, dyMinutes3, 3);
+            if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlInjured.SelectedValue.IsNullOrWhiteSpace() && ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = false;
+                dy3StatsSection.Visible = false;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+            }
+            else if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = true;
+                dy3StatsSection.Visible = false;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+                parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
+            }
+            else if (!ddlRoster.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster2.SelectedValue.IsNullOrWhiteSpace() && !ddlRoster3.SelectedValue.IsNullOrWhiteSpace())
+            {
+                dyStatsSection.Visible = true;
+                dy1StatsSection.Visible = true;
+                dy2StatsSection.Visible = true;
+                dy3StatsSection.Visible = true;
+                parlayAveragesExtended.PopulateUI(a1Name, a1Team, dyName1, dyTeam1, dyPts1, dyAst1, dyReb1, dy31, dyBlk1, dyStl1, dyMinutes1, 1);
+                parlayAveragesExtended.PopulateUI(a2Name, a2Team, dyName2, dyTeam2, dyPts2, dyAst2, dyReb2, dy32, dyBlk2, dyStl2, dyMinutes2, 2);
+                parlayAveragesExtended.PopulateUI(a3Name, a3Team, dyName3, dyTeam3, dyPts3, dyAst3, dyReb3, dy33, dyBlk3, dyStl3, dyMinutes3, 3);
+            }
+            else
+            {
+                dyStatsSection.Visible = false;
+                dy1StatsSection.Visible = false;
+                dy2StatsSection.Visible = false;
+                dy3StatsSection.Visible = false;
+            }
             if (p3Changes != 0 && Player3Picks[p3Changes - 1].ToString() != "")
             {
                 ListItem item = new ListItem();
