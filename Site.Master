@@ -70,6 +70,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/BusDriver" style="font-weight:600; color: floralwhite">Bus Driver</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/ParlayAssistant" style="font-weight:600; color: floralwhite">Parlay Assistant</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Playoffs" style="font-weight:600; color: floralwhite">Playoffs</a></li>
                     </ul>
                 </div>
             </div>
