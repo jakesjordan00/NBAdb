@@ -1044,7 +1044,9 @@ namespace NBAdb
                 catch
                 {
                     lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
-                    ddTeams_SelectedIndexChanged(sender, e);
+                    //ddTeams_SelectedIndexChanged(sender, e);
+                    a1StatsSection.Visible = false;
+                    PopulateOneRoster(ddlRoster);
                 }
             }
             if (!p2.IsNullOrWhiteSpace())
@@ -1057,7 +1059,9 @@ namespace NBAdb
                 catch
                 {
                     lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
-                    ddTeams_SelectedIndexChanged(sender, e);
+                    //ddTeams_SelectedIndexChanged(sender, e);
+                    a2StatsSection.Visible = false;
+                    PopulateOneRoster(ddlRoster2);
                 }
             }
             if (!p3.IsNullOrWhiteSpace())
@@ -1070,7 +1074,9 @@ namespace NBAdb
                 catch
                 {
                     lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
-                    ddTeams_SelectedIndexChanged(sender, e);
+                    //ddTeams_SelectedIndexChanged(sender, e);
+                    a3StatsSection.Visible = false;
+                    PopulateOneRoster(ddlRoster3);
                 }
             }
             if (!i.IsNullOrWhiteSpace())
@@ -1083,7 +1089,40 @@ namespace NBAdb
                 catch
                 {
                     lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
-                    ddTeams_SelectedIndexChanged(sender, e);
+                    //ddTeams_SelectedIndexChanged(sender, e);
+                    PopulateOneRoster(ddlInjured);
+                }
+            }
+        }
+
+        protected void PopulateOneRoster(DropDownList roster)
+        {
+            string team = ddTeams.SelectedValue;
+            roster.Items.Clear();
+            SqlConnection sqlConnect = new SqlConnection("Server=localhost;Database=nbaDB;User Id=test;Password=test123;");
+            using (sqlConnect)
+            {
+                using (SqlCommand querySearch = new SqlCommand("ParlayRoster"))
+                {
+                    querySearch.Connection = sqlConnect;
+
+                    querySearch.CommandType = CommandType.StoredProcedure;
+                    querySearch.Parameters.AddWithValue("@team", team);
+                    querySearch.Parameters.AddWithValue("@season", ddSeason.SelectedValue);
+                    sqlConnect.Open();
+                    using (SqlDataReader sdr = querySearch.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            ListItem item = new ListItem();
+                            item.Text = sdr["Player"].ToString();
+                            roster.Items.Add(item);
+
+                        }
+                    }
+                    ListItem emptyItem = new ListItem("Player", "");
+                    roster.Items.Insert(0, emptyItem);
+                    sqlConnect.Close();
                 }
             }
         }
