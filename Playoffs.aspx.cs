@@ -52,6 +52,9 @@ namespace NBAdb
                 WebResponse ResponseSeasonPlayoffSeries = RequestSeasonPlayoffSeries.GetResponse();
                 string json = client.DownloadString(seasonEndpoint);
                 PlayoffBracketResponse playoffData = JsonConvert.DeserializeObject<PlayoffBracketResponse>(json);
+
+                //PlayoffBracketSeries SeasonSeries = JsonConvert.DeserializeObject<PlayoffBracketSeries>(json);
+
                 string breakp = "";
             }
             catch
