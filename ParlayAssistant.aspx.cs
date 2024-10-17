@@ -1085,11 +1085,8 @@ namespace NBAdb
                     lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
                     ddTeams_SelectedIndexChanged(sender, e);
                 }
-                //}
             }
-
-
-
+        }
     }
 }
  
