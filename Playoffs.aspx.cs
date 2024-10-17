@@ -53,9 +53,12 @@ namespace NBAdb
                 string json = client.DownloadString(seasonEndpoint);
                 PlayoffBracketResponse playoffData = JsonConvert.DeserializeObject<PlayoffBracketResponse>(json);
 
-                //PlayoffBracketSeries SeasonSeries = JsonConvert.DeserializeObject<PlayoffBracketSeries>(json);
+                for(int i = 0; i < playoffData.bracket.playoffBracketSeries.Count; i++)
+                {
+                    int games = playoffData.bracket.playoffBracketSeries[i].highSeedSeriesWins + playoffData.bracket.playoffBracketSeries[i].lowSeedSeriesWins;
+                }
 
-                string breakp = "";
+                //PlayoffBracketSeries SeasonSeries = JsonConvert.DeserializeObject<PlayoffBracketSeries>(json);
             }
             catch
             {
