@@ -46,7 +46,7 @@ namespace NBAdb
         {
             var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
             string playoffEndpoint = "https://stats.nba.com/stats/playoffbracket?LeagueID=00&SeasonYear=20" + season + "&State=2";
-            string playinEndpoint = "https://stats.nba.com/stats/playoffbracket?LeagueID=00&SeasonYear=20" + season + "&State=2";
+            string playinEndpoint = "https://stats.nba.com/stats/playoffbracket?LeagueID=00&SeasonYear=20" + season + "&State=1";
             try
             {
                 
