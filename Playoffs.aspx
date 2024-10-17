@@ -16,7 +16,7 @@
             <asp:ListItem Enabled="true" Value="0022300001-0022301230-2023" Text="2023-2024"></asp:ListItem>
             <asp:ListItem Enabled="true" Value="0022400001-0022401230-2024" Text="2024-2025"></asp:ListItem>
         </asp:CheckBoxList>
-        <asp:Button ID="btnLoad" runat="server" Text="Load Playoff Data" height="75px" Width="250px" Font-Size="XX-Large" OnClick="btnLoad_Click" 
+        <asp:Button ID="btnLoad" runat="server" Text="Load Playoff Data" height="75px" Width="280px" Font-Size="XX-Large" OnClick="btnLoad_Click" 
         style="color:cornflowerblue; background-color:black; border-color:black; text-decoration:none;  text-align:center;border-radius: 15px; border: 3px solid grey;"/>
         
         <br />
