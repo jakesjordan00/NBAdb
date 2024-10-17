@@ -17,6 +17,4 @@ Round(FG3M - (select FG3M from WLplayerBoxAverage l where l.season_id = pba.seas
 Round(FG3A - (select FG3A from WLplayerBoxAverage l where l.season_id = pba.season_id and l.player_id = pba.player_id and l.team_id = pba.team_id and l.Win = 0), 2) FG3ADelta,
 Round([FG3%] - (select [FG3%] from WLplayerBoxAverage l where l.season_id = pba.season_id and l.player_id = pba.player_id and l.team_id = pba.team_id and l.Win = 0), 2) [FG3%Delta]
 from WLplayerBoxAverage pba
-where season_id = (select max(season_id) from team) 
---and Name = 'LeBron James' and Team = 'Los Angeles Lakers'
-and pba.Win = 1
+where pba.Win = 1

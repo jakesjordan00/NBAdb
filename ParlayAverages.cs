@@ -18,9 +18,9 @@ namespace NBAdb
         public static BusDriver busDriver = new BusDriver();
         public static int win = 3;
 
-        public void GetAverages(bool Wins, bool Loss, string player, string team, Label Name, Label Team, Label Points, Label Assists, Label Rebounds, Label Threes, Label Blocks, Label Steals, Label Minutes, HtmlGenericControl pd, HtmlGenericControl ad, HtmlGenericControl rd, HtmlGenericControl fg3md, HtmlGenericControl bd, HtmlGenericControl sd)
+        public void GetAverages(bool Wins, bool Loss, string player, string team, Label Name, Label Team, Label Points, Label Assists, Label Rebounds, Label Threes, Label Blocks, Label Steals, Label Minutes, HtmlGenericControl pd, HtmlGenericControl ad, HtmlGenericControl rd, HtmlGenericControl fg3md, HtmlGenericControl bd, HtmlGenericControl sd, int season)
         {
-            int    season   = 0;
+            //int    season   = 0;
             int    games    = 0;
             int    minutes  = 0;
             double points   = 0;
@@ -40,6 +40,7 @@ namespace NBAdb
                 PlayerSearch.CommandType = CommandType.StoredProcedure;
                 PlayerSearch.Parameters.AddWithValue("@Player", player);
                 PlayerSearch.Parameters.AddWithValue("@Team", team);
+                PlayerSearch.Parameters.AddWithValue("@Season", season);
                 using (SqlDataAdapter sPlayerSearch = new SqlDataAdapter())
                 {
                     PlayerSearch.Connection = busDriver.SQLdb;
@@ -115,7 +116,7 @@ namespace NBAdb
                     busDriver.SQLdb.Close();
                 }
             }
-            GetDeltas(player, team, win, pd, ad, rd, fg3md, bd, sd, points, assists, rebounds, fg3m, blocks, steals);
+            GetDeltas(player, team, win, pd, ad, rd, fg3md, bd, sd, points, assists, rebounds, fg3m, blocks, steals, season);
             //parlayAssistant.AddPlayerLabel(season, team, player, games, minutes, points, assists, rebounds, blocks, steals);
             Name.Text = player;
             Team.Text = season + " " + team;
@@ -127,7 +128,7 @@ namespace NBAdb
             Steals.Text = steals.ToString();
         }
 
-        public void GetDeltas(string player, string team, int win, HtmlGenericControl pd, HtmlGenericControl ad, HtmlGenericControl rd, HtmlGenericControl fg3md, HtmlGenericControl bd, HtmlGenericControl sd, double p, double a, double r, double three, double b, double s)
+        public void GetDeltas(string player, string team, int win, HtmlGenericControl pd, HtmlGenericControl ad, HtmlGenericControl rd, HtmlGenericControl fg3md, HtmlGenericControl bd, HtmlGenericControl sd, double p, double a, double r, double three, double b, double s, int season)
         {
             double pts = 0;
             double ast = 0;
@@ -140,6 +141,7 @@ namespace NBAdb
                 ParlayAverageFinder.CommandType = CommandType.StoredProcedure;
                 ParlayAverageFinder.Parameters.AddWithValue("@Player", player);
                 ParlayAverageFinder.Parameters.AddWithValue("@Team", team);
+                ParlayAverageFinder.Parameters.AddWithValue("@Season", season);
                 using (SqlDataAdapter sParlayAverageFinder = new SqlDataAdapter())
                 {
                     ParlayAverageFinder.Connection = busDriver.SQLdb;

@@ -1,6 +1,17 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="ParlayAssistant.aspx.cs" Inherits="NBAdb.ParlayAssistant" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-    <h1>Parlay Assistant</h1>
+    <h1>Parlay Assistant        
+    <asp:DropDownList       
+                     ID="ddSeason" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" 
+                     runat="server" DataKeyNames="Season" AutoPostBack="true" OnSelectedIndexChanged="ddSeason_SelectedIndexChanged"
+                     BackColor="White" BorderColor="Black" Font-Size="Medium" ForeColor="Black">
+        <%--<asp:ListItem Text="2024" Value="2024" />--%>
+        <asp:ListItem Text="2023" Value="2023" />
+        <asp:ListItem Text="2022" Value="2022" />
+        <asp:ListItem Text="2021" Value="2021" />
+        <asp:ListItem Text="2020" Value="2020" />
+    </asp:DropDownList>
+    </h1>
     <%-- This section hold the Team dropdown. Once a team is selected, the dropdowns will populate with the selected Team's roster. --%>
     <abbr title="Select a team. Once a team has been selected, the four player dropdowns will populate." style="font-size:Large; text-decoration-color:grey">Select Team:</abbr>
     <asp:DropDownList       
@@ -392,7 +403,7 @@
 
         <%-- Dynamic columns --%>
         <hr />
-        <div class="row" style="width: auto" id="dyStatsSection" runat="server" visible="false">            
+        <div class="row" style="width: auto;" id="dyStatsSection" runat="server" visible="false">            
             <%-- Player 1 Averages --%>
             <div class="col-md-3" style="width: auto" id="dy1StatsSection" runat="server" visible="false"> 
                 <div class="tight-spacing" style="width: auto"> 
