@@ -1049,6 +1049,12 @@ namespace NBAdb
                     PopulateOneRoster(ddlRoster);
                 }
             }
+            else
+            {
+                a1StatsSection.Visible = false;
+                PopulateOneRoster(ddlRoster);
+            }
+
             if (!p2.IsNullOrWhiteSpace())
             {
                 try
@@ -1064,6 +1070,12 @@ namespace NBAdb
                     PopulateOneRoster(ddlRoster2);
                 }
             }
+            else
+            {
+                a1StatsSection.Visible = false;
+                PopulateOneRoster(ddlRoster2);
+            }
+
             if (!p3.IsNullOrWhiteSpace())
             {
                 try
@@ -1079,6 +1091,12 @@ namespace NBAdb
                     PopulateOneRoster(ddlRoster3);
                 }
             }
+            else
+            {
+                a1StatsSection.Visible = false;
+                PopulateOneRoster(ddlRoster3);
+            }
+
             if (!i.IsNullOrWhiteSpace())
             {
                 try
@@ -1093,6 +1111,11 @@ namespace NBAdb
                     PopulateOneRoster(ddlInjured);
                 }
             }
+            else
+            {
+                PopulateOneRoster(ddlInjured);
+            }
+
         }
 
         protected void PopulateOneRoster(DropDownList roster)
