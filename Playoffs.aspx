@@ -3,7 +3,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <main aria-labelledby="title">
         <h2 id="title"><%: Title %></h2>
-        <h3>Due to the way Playoff game_ids are formatted, they must be loaded seperately</h3>
+        <h5>Due to the way Playoff game_ids are formatted, they must be loaded seperately</h5>
     </main>
     <h3>Load Settings</h3>
     <div class="col-lg-4">     
