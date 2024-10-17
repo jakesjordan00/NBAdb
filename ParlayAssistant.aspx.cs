@@ -1047,19 +1047,19 @@ namespace NBAdb
                     ddTeams_SelectedIndexChanged(sender, e);
                 }
             }
-            //if (!p2.IsNullOrWhiteSpace())
-            //{
-            //    try
-            //    {
-            //        ddlRoster2.SelectedValue = p2;
-            //        ddlRoster2_SelectedIndexChanged(sender, e);
-            //    }
-            //    catch
-            //    {
-            //        lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
-            //        ddTeams_SelectedIndexChanged(sender, e);
-            //    }
-            //}
+            if (!p2.IsNullOrWhiteSpace())
+            {
+                try
+                {
+                    ddlRoster2.SelectedValue = p2;
+                    ddlRoster2_SelectedIndexChanged(sender, e);
+                }
+                catch
+                {
+                    lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
+                    ddTeams_SelectedIndexChanged(sender, e);
+                }
+            }
             //if (!p3.IsNullOrWhiteSpace())
             //{
             //    try
