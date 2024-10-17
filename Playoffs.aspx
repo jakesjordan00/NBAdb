@@ -5,6 +5,7 @@
         <h2 id="title"><%: Title %></h2>
         <h5>Due to the way Playoff game_ids are formatted, they must be loaded seperately</h5>
     </main>
+    <hr />
     <h3>Load Settings</h3>
     <div class="col-lg-4">     
         <h4>Select seasons for first time load</h4>
