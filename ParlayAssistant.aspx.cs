@@ -1060,33 +1060,33 @@ namespace NBAdb
                     ddTeams_SelectedIndexChanged(sender, e);
                 }
             }
-            //if (!p3.IsNullOrWhiteSpace())
-            //{
-            //    try
-            //    {
-            //        ddlRoster3.SelectedValue = p3;
-            //        ddlRoster3_SelectedIndexChanged(sender, e);
-            //    }
-            //    catch
-            //    {
-            //        lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
-            //        ddTeams_SelectedIndexChanged(sender, e);
-            //    }
-            //}
-            //if (!p3.IsNullOrWhiteSpace())
-            //{
-            //    try
-            //    {
-            //        ddlRoster3.SelectedValue = p3;
-            //        ddlRoster3_SelectedIndexChanged(sender, e);
-            //    }
-            //    catch
-            //    {
-            //        lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
-            //        ddTeams_SelectedIndexChanged(sender, e);
-            //    }
-            //}
-        }
+            if (!p3.IsNullOrWhiteSpace())
+            {
+                try
+                {
+                    ddlRoster3.SelectedValue = p3;
+                    ddlRoster3_SelectedIndexChanged(sender, e);
+                }
+                catch
+                {
+                    lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
+                    ddTeams_SelectedIndexChanged(sender, e);
+                }
+            }
+            if (!i.IsNullOrWhiteSpace())
+            {
+                try
+                {
+                    ddlInjured.SelectedValue = i;
+                    ddlInjured_SelectedIndexChanged(sender, e);
+                }
+                catch
+                {
+                    lblError.Text = "One of the players selected switched teams between the selected season and season selected prior.";
+                    ddTeams_SelectedIndexChanged(sender, e);
+                }
+                //}
+            }
 
 
 
