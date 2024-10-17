@@ -55,7 +55,6 @@ namespace NBAdb
 
                 for(int i = 0; i < playoffData.bracket.playoffBracketSeries.Count; i++)
                 {
-                    PlayoffBracketSeries SeasonSeries = JsonConvert.DeserializeObject<PlayoffBracketSeries>(json);
                     int games = playoffData.bracket.playoffBracketSeries[i].highSeedSeriesWins + playoffData.bracket.playoffBracketSeries[i].lowSeedSeriesWins;
                 }
 
