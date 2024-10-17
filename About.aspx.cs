@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace NBAdb
 {
-    public partial class About : Page
+    public partial class Playoffs : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
