@@ -8,7 +8,7 @@
     <hr />
     <h3>Load Settings</h3>
     <div class="col-lg-4">     
-        <h4>Select seasons for first time load</h4>
+        <h4>Select seasons to load Playoff data</h4>
         <asp:CheckBoxList ID="chkSeasons" runat="server" RepeatColumns="2" CellPadding="5">
             <asp:ListItem Enabled="true" Value="0022000001-0022001080-2020" Text="2020-2021"></asp:ListItem>
             <asp:ListItem Enabled="true" Value="0022100001-0022101230-2021" Text="2021-2022"></asp:ListItem>
