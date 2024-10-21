@@ -215,6 +215,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="BoxScorePlayoff.cs" />
     <Compile Include="Playoffs.aspx.cs">
       <DependentUpon>Playoffs.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

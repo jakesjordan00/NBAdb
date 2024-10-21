@@ -14,6 +14,8 @@ namespace NBAdb
         public static string ConnectionString = "Server=localhost;Database=NBAdb;User Id=test;Password=test123;";
         public SqlConnection SQLdb = new SqlConnection(BusDriver.ConnectionString);
         public static int tableCount = 0;
+        public static int RegSeasonGameCount2020 = 1080;
+        public static int RegSeasonGameCountElse = 1230;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -37,7 +39,8 @@ namespace NBAdb
             }
             else
             {
-                FirstTimeLoad.Init(selectedSeasons, tableCount, lblSeasonResult, lblTimeElapsed);
+                FirstTimeLoad firstTimeLoad = new FirstTimeLoad();
+                firstTimeLoad.Init(selectedSeasons, tableCount, lblSeasonResult, lblTimeElapsed);
             }            
         }
 
@@ -117,6 +120,34 @@ namespace NBAdb
                         SQLdb.Close();
                     }
                 }
+                using (SqlCommand TableNames = new SqlCommand("GameCount"))
+                {
+                    TableNames.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataAdapter sTableNames = new SqlDataAdapter())
+                    {
+                        TableNames.Connection = SQLdb;
+                        sTableNames.SelectCommand = TableNames;
+                        SQLdb.Open();
+                        SqlDataReader reader = TableNames.ExecuteReader();
+                        int i = 0;
+                        int j = 1;
+                        while (reader.Read())
+                        {
+                            if (reader[0].ToString() == "2020" && reader[1].ToString() == "1080")
+                            {
+                                chkSeasons.Items[0].Enabled = false;
+                            }
+                            else if (reader[0].ToString() != "2020" && reader[1].ToString() == "1230")
+                            {
+                                chkSeasons.Items[1].Enabled = false;
+                                chkSeasons.Items[2].Enabled = false;
+                                chkSeasons.Items[3].Enabled = false;
+                            }
+                        }
+                        SQLdb.Close();
+                    }
+                }
+                chkSeasons.Items[4].Enabled = true;
             }
         }
 

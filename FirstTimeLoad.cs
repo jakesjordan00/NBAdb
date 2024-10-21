@@ -19,7 +19,7 @@ using System.Numerics;
 using static NBAdb.FirstTimeLoad;
 using System.Media;
 using System.Data.SqlTypes;
-using static NBAdb.PlayByPlay;
+using static NBAdb.BoxScorePlayoff;
 
 namespace NBAdb
 {
@@ -28,10 +28,11 @@ namespace NBAdb
         public static BusDriver busDriver = new BusDriver();
         public static int arenas = 0;
         public static int teams = 0;
-        public static void Init(List<string> seasons, int tableCount, Label lblSeasonResult, Label lblTimeElapsed)
+        public void Init(List<string> seasons, int tableCount, Label lblSeasonResult, Label lblTimeElapsed)
         {
             lblTimeElapsed.Text  = "";
             lblSeasonResult.Text = "";
+            int buildID = 0;
             if (tableCount == 0)
             {
                 using (busDriver.SQLdb)
@@ -46,25 +47,62 @@ namespace NBAdb
                     }
                 }
             }
+            using (SqlCommand PlayerSearch = new SqlCommand("BuildLogCheck"))
+            {
+
+                PlayerSearch.CommandType = CommandType.StoredProcedure;
+                using (SqlDataAdapter sPlayerSearch = new SqlDataAdapter())
+                {
+
+                    PlayerSearch.Connection = busDriver.SQLdb;
+                    sPlayerSearch.SelectCommand = PlayerSearch;
+                    busDriver.SQLdb.Open();
+                    SqlDataReader reader = PlayerSearch.ExecuteReader();
+                    while(reader.Read())
+                    {
+                        buildID = reader.GetInt32(0);
+                    }
+                    busDriver.SQLdb.Close();
+                }
+            }            
             for (int i = 0; i < seasons.Count; i++)
             {
                 Stopwatch stopwatch = new Stopwatch(); // Create a new stopwatch for each iteration
                 stopwatch.Start(); // Start timing
+                DateTime start = DateTime.Now;
                 SeasonValues(seasons[i]);
                 arenas = 0;
                 teams = 0;
                 lblSeasonResult.Text += seasons[i].Split('-')[2] + " season was successful.";
                 lblSeasonResult.ForeColor = System.Drawing.Color.LawnGreen;
                 stopwatch.Stop();
+                DateTime end = DateTime.Now;
                 TimeSpan timeElapsed = stopwatch.Elapsed;
+                string elapsedString = timeElapsed.Hours + ":" + timeElapsed.Minutes + ":" + timeElapsed.Seconds + "." + timeElapsed.Milliseconds;
                                                  //For example:  2022 season: 00:04:12.123. 2023 season: 00:03:54.636. 
                 lblTimeElapsed.Text += seasons[i].Split('-')[2] + " season: " + timeElapsed.Hours + ":" + timeElapsed.Minutes + ":" + 
                 timeElapsed.Seconds + "." + timeElapsed.Milliseconds + ". ";
+
+                using (SqlCommand InsertDataAway = new SqlCommand("BuildLogInsert"))
+                {
+                    InsertDataAway.Connection = busDriver.SQLdb;
+                    InsertDataAway.CommandType = CommandType.StoredProcedure;
+                    InsertDataAway.Parameters.AddWithValue("@BuildID", buildID);
+                    InsertDataAway.Parameters.AddWithValue("@Season", seasons[i].Split('-')[2]);
+                    InsertDataAway.Parameters.AddWithValue("@TimeElapsed", elapsedString);
+                    InsertDataAway.Parameters.AddWithValue("@DatetimeStarted", start);
+                    InsertDataAway.Parameters.AddWithValue("@DatetimeComplete", end);
+                    busDriver.SQLdb.Open();
+                    InsertDataAway.ExecuteScalar();
+                    busDriver.SQLdb.Close();
+                }
+
+
                 PlayerTeams(Int32.Parse(seasons[i].Split('-')[2]));
             }
         }
 
-        public static void SeasonValues(string season)
+        public void SeasonValues(string season)
         {
             int start = Int32.Parse(season.Split('-')[0]);
             int end   = Int32.Parse(season.Split('-')[1]);
@@ -76,7 +114,7 @@ namespace NBAdb
 
         }
 
-        public static void FirstLoad(int start, int end, int id)
+        public void FirstLoad(int start, int end, int id)
         {
             var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
             string boxLink = "";
@@ -114,8 +152,8 @@ namespace NBAdb
                         OfficialCheck(JSON, official_id, id, j);                  //send off to OfficialCheck
                     }
                     //Send gameID, method or 'sender', and seasonID
-                    
-                    PlayByPlay.Init(i, "FirstTimeLoad", id); 
+                    PlayByPlay playByPlay = new PlayByPlay();
+                    playByPlay.Init(i, "FirstTimeLoad", id, ""); 
                     
                     //Home Players
                     for (int j = 0; j < JSON.game.homeTeam.players.Count(); j++)

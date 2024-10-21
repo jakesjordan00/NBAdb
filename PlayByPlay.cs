@@ -23,7 +23,8 @@ namespace NBAdb
         FirstTimeLoad first = new FirstTimeLoad();
         public static BusDriver busDriver = new BusDriver();
         public static string pbpLink = "";
-        public static void Init(int game_id, string sender, int id)
+        BoxScorePlayoff boxScorePlayoff = new BoxScorePlayoff();
+        public void Init(int game_id, string sender, int id, string dynamicVariable)
         {
             //When I get more added, like updates and such, more ifs/else ifs will be added.
             //Depending on the sender value, these would send to another method to probably check to see if the game has been posted or not and whether to update/create
@@ -39,7 +40,11 @@ namespace NBAdb
                 int oldActions = 0;
                 if (sender == "FirstTimeLoad")
                 {
-                    PlayByPlayPost(JSON, game_id, id, oldActions, actions);
+                    PlayByPlayPost(JSON, game_id, id, oldActions, actions, "playByPlayInsert", dynamicVariable);
+                }
+                if(sender == "Playoffs")
+                {
+                    PlayByPlayPost(JSON, game_id, id, oldActions, actions, "playByPlayPlayoffsInsert", dynamicVariable);
                 }
                 if(sender == "Placeholder")
                 {
@@ -52,7 +57,7 @@ namespace NBAdb
             }
         }
 
-        public static void PlayByPlayPost(Root JSON, int game_id, int id, int oldActions, int actions)
+        public static void PlayByPlayPost(Root JSON, int game_id, int id, int oldActions, int actions, string procedure, string dynamicVariable)
         {
             for (int i = oldActions; i < actions; i++)
             {
@@ -107,12 +112,22 @@ namespace NBAdb
                 int? player_idJumpL = JSON.game.actions[i].jumpBallLostPersonId;
                 int? official_id = JSON.game.actions[i].officialId;
 
-                using (SqlCommand querySearch = new SqlCommand("playByPlayInsert"))
+                using (SqlCommand querySearch = new SqlCommand(procedure))
                 {
                     querySearch.Connection = busDriver.SQLdb;
                     querySearch.CommandType = CommandType.StoredProcedure;
-                    querySearch.Parameters.AddWithValue("@id", id);
-                    querySearch.Parameters.AddWithValue("@game_id", game_id);
+                    if(procedure == "playByPlayPlayoffsInsert")
+                    {
+                        querySearch.Parameters.AddWithValue("@season_id", id);
+                        querySearch.Parameters.AddWithValue("@series_id", dynamicVariable);
+                        querySearch.Parameters.AddWithValue("@game_id", game_id);
+                        querySearch.Parameters.AddWithValue("@game", Int32.Parse(game_id.ToString().Substring(7)));
+                    }
+                    else if(procedure == "playByPlayInsert")
+                    {
+                        querySearch.Parameters.AddWithValue("@id", id);
+                        querySearch.Parameters.AddWithValue("@game_id", game_id);
+                    }
                     querySearch.Parameters.AddWithValue("@actionNumber", actionNumber);
                     querySearch.Parameters.AddWithValue("@clock", clock);
                     querySearch.Parameters.AddWithValue("@timeActual", timeActual);
