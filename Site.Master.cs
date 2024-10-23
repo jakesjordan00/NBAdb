@@ -20,6 +20,7 @@ namespace NBAdb
                     ScoresRow.Controls.Remove(control);
                 }
             }
+            ScoresRow.Controls.Clear();
             var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
             string endpoint = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json";
             try
@@ -112,7 +113,7 @@ namespace NBAdb
                     teamIcon2.Width = Unit.Pixel(20); // Adjust size to your preference
                     teamIcon2.Height = Unit.Pixel(20);
                     Label label5 = new Label();
-                    label5.ID = "sbTeam" + i;
+                    label5.ID = "sbTeamA" + i;
                     label5.Text = JSON.Scoreboard.Games[i].AwayTeam.TeamTricode;
 
                     colDiv3_1.Controls.Add(teamIcon2);
@@ -122,7 +123,7 @@ namespace NBAdb
                     colDiv3_2.Attributes.Add("style", "width:75px; text-align:right");
 
                     Label label6 = new Label();
-                    label6.ID = "sbTeamPts" + i;
+                    label6.ID = "sbTeamPtsA" + i;
                     label6.Text = JSON.Scoreboard.Games[i].AwayTeam.Score.ToString();
 
                     colDiv3_2.Controls.Add(label6);
