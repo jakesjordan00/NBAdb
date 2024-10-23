@@ -13,14 +13,6 @@ namespace NBAdb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (this.IsPostBack)
-            {
-                foreach(Control control in ScoresRow.Controls)
-                {
-                    ScoresRow.Controls.Remove(control);
-                }
-            }
-            ScoresRow.Controls.Clear();
             var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
             string endpoint = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json";
             try
