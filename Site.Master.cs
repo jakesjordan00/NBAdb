@@ -131,9 +131,9 @@ namespace NBAdb
 
                     // Finally, add the column div to the ScoresContainer
                     ScoresRow.Controls.Add(colDiv); // ScoresContainer is the container div with runat="server"
-                    ScoresRow.Attributes.Add("style", "overflow-x: auto; overflow-y:auto; white-space: nowrap;" +
-                        " max-width:1320px; width:1320px;" +
-                        " max-height:87.5px; width:100%; display:flex;");
+                    ScoresRow.Attributes.Add("style", "overflow-x: auto; overflow-y:auto; white-space: nowrap; max-width:1320px; width:1320px; min-width: 1320px; max-height:87.5px; width:100%; display:flex;");
+
+
 
                 }
             }
