@@ -73,7 +73,7 @@ namespace NBAdb
                     teamIcon.Height = Unit.Pixel(20);
 
                     Label label3 = new Label();
-                    label3.ID = "Team" + i;
+                    label3.ID = "sbTeam" + i;
                     label3.Text = JSON.Scoreboard.Games[i].HomeTeam.TeamTricode;
 
                     colDiv2_1.Controls.Add(teamIcon);
@@ -83,7 +83,7 @@ namespace NBAdb
                     colDiv2_2.Attributes.Add("style", "width:75px; text-align:right");
 
                     Label label4 = new Label();
-                    label4.ID = "TeamPts" + i;
+                    label4.ID = "sbTeamPts" + i;
                     label4.Text = JSON.Scoreboard.Games[i].HomeTeam.Score.ToString();
 
                     colDiv2_2.Controls.Add(label4);
@@ -106,7 +106,7 @@ namespace NBAdb
                     teamIcon2.Width = Unit.Pixel(20); // Adjust size to your preference
                     teamIcon2.Height = Unit.Pixel(20);
                     Label label5 = new Label();
-                    label5.ID = "Team" + i;
+                    label5.ID = "sbTeam" + i;
                     label5.Text = JSON.Scoreboard.Games[i].AwayTeam.TeamTricode;
 
                     colDiv3_1.Controls.Add(teamIcon2);
@@ -116,7 +116,7 @@ namespace NBAdb
                     colDiv3_2.Attributes.Add("style", "width:75px; text-align:right");
 
                     Label label6 = new Label();
-                    label6.ID = "TeamPts" + i;
+                    label6.ID = "sbTeamPts" + i;
                     label6.Text = JSON.Scoreboard.Games[i].AwayTeam.Score.ToString();
 
                     colDiv3_2.Controls.Add(label6);
