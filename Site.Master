@@ -75,6 +75,30 @@
                 </div>
             </div>
         </nav>
+        <div class="container Scores" runat="server" id="ScoresContainer">
+            <div class="row" runat="server" id="ScoresRow">
+
+            </div>
+           <%-- <div class="col-md-4">
+                <div class="row" style="width:250px">
+                    <div class="col-md-2" style="width:90px; text-align:left">
+                        <label id="test" runat="server"></label>
+                    </div>
+                    <div class="col-md-2"  style="width:100px; text-align:right">  
+                        <label id="test2" runat="server"></label>  
+                            
+                    </div>
+                </div>
+                <div class="row" style="width:250px">
+                    <div class="col-md-2" style="width:90px; text-align:left">   
+                        <label id="test3" runat="server"></label>                     
+                    </div>
+                    <div class="col-md-2"  style="width:100px; text-align:right">          
+                        <label id="test4" runat="server"></label>              
+                    </div>
+                </div>
+            </div>--%>
+        </div>
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
