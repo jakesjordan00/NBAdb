@@ -13,6 +13,7 @@ namespace NBAdb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            ScoresRow.Controls.Clear();
             var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
             string endpoint = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json";
             try
