@@ -108,6 +108,8 @@ namespace NBAdb
             int end   = Int32.Parse(season.Split('-')[1]);
             int id = Int32.Parse(season.Split('-')[2]);
             FirstLoad(start, end, id);
+            Playoffs playoffs = new Playoffs();
+            playoffs.FirstTimeLoadHandler(id);
         }
         public static void PlayerTeams(int id)
         {

@@ -45,15 +45,7 @@ namespace NBAdb
                 {
                     PlayerSearch.Connection = busDriver.SQLdb;
                     sPlayerSearch.SelectCommand = PlayerSearch;
-                    try
-                    {
-                        busDriver.SQLdb.Open();
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        busDriver.SQLdb.Close();
-                        busDriver.SQLdb.Open();
-                    }
+                    busDriver.SQLdb.Open();
                     SqlDataReader reader = PlayerSearch.ExecuteReader();
                     while (reader.Read())
                     {

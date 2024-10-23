@@ -75,14 +75,18 @@ order by BuildID, RunID
 
 
 
---delete from [arena]
---delete from [game]
---delete from [official]
---delete from [playByPlay]
---delete from [player]
---delete from [playerBox]
---delete from PlayerTeam
---delete from [PlayoffBracket]
---delete from [PlayoffPicture]
---delete from team
---delete from teamBox
+delete from [arena]			    where season_id = 2023
+delete from [game]				where season_id = 2023
+delete from [official]			where season_id = 2023
+delete from [playByPlay]		where season_id = 2023
+delete from playByPlayPlayoffs	where season_id = 2023
+delete from [player]			where season_id = 2023
+delete from [playerBox]			where season_id = 2023
+delete from playerBoxPlayoffs	where season_id = 2023
+delete from PlayerTeam			where season_id = 2023
+delete from [PlayoffBracket]	where season_id = 2023
+delete from [PlayoffPicture]	where season_id = 2023
+delete from PlayoffSeries		where season_id = 2023
+delete from team				where season_id = 2023
+delete from teamBox				where season_id = 2023
+delete from teamBoxPlayoffs		where season_id = 2023

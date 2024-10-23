@@ -46,6 +46,11 @@ namespace NBAdb
             }
         }
 
+        public void FirstTimeLoadHandler(int season)
+        {
+            PlayoffSeries(season);
+        }
+
         protected void PlayoffSeries(int season)
         {
             var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
