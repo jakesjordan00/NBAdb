@@ -11,7 +11,7 @@ using Microsoft.Ajax.Utilities;
 
 namespace NBAdb
 {
-    public partial class ParlayAssistant : System.Web.UI.Page
+    public partial class ParlayAssistantDev : System.Web.UI.Page
     {
         public static int p1Changes = 0;
         public static int pIChanges = 0;
@@ -110,7 +110,7 @@ namespace NBAdb
             SqlConnection sqlConnect = new SqlConnection("Server=localhost;Database=nbaDB;User Id=test;Password=test123;");
             using (sqlConnect)
             {
-                using (SqlCommand querySearch = new SqlCommand("ParlayRosterA"))
+                using (SqlCommand querySearch = new SqlCommand("ParlayRoster"))
                 {
                     querySearch.Connection = sqlConnect;
 
@@ -132,7 +132,7 @@ namespace NBAdb
                     ddlRoster.Items.Insert(0, emptyItem);
                     sqlConnect.Close();
                 }
-                using (SqlCommand querySearch = new SqlCommand("ParlayRosterA"))
+                using (SqlCommand querySearch = new SqlCommand("ParlayRoster"))
                 {
                     querySearch.Connection = sqlConnect;
 
@@ -153,7 +153,7 @@ namespace NBAdb
                     ddlRoster2.Items.Insert(0, emptyItem);
                     sqlConnect.Close();
                 }
-                using (SqlCommand querySearch = new SqlCommand("ParlayRosterA"))
+                using (SqlCommand querySearch = new SqlCommand("ParlayRoster"))
                 {
                     querySearch.Connection = sqlConnect;
 
@@ -174,7 +174,7 @@ namespace NBAdb
                     ddlInjured.Items.Insert(0, emptyItem);
                     sqlConnect.Close();
                 }
-                using (SqlCommand querySearch = new SqlCommand("ParlayRosterA"))
+                using (SqlCommand querySearch = new SqlCommand("ParlayRoster"))
                 {
                     querySearch.Connection = sqlConnect;
 
@@ -1159,7 +1159,7 @@ namespace NBAdb
             SqlConnection sqlConnect = new SqlConnection("Server=localhost;Database=nbaDB;User Id=test;Password=test123;");
             using (sqlConnect)
             {
-                using (SqlCommand querySearch = new SqlCommand("ParlayRosterA"))
+                using (SqlCommand querySearch = new SqlCommand("ParlayRoster"))
                 {
                     querySearch.Connection = sqlConnect;
 

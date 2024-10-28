@@ -70,34 +70,17 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/BusDriver" style="font-weight:600; color: floralwhite">Bus Driver</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/ParlayAssistant" style="font-weight:600; color: floralwhite">Parlay Assistant</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/ParlayToolbox" style="font-weight:600; color: floralwhite">Parlay Toolbox</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Playoffs" style="font-weight:600; color: floralwhite">Playoffs</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
-        <div class="container Scores" runat="server" id="ScoresContainer">
+        <div class="container Scores" runat="server" id="ScoresContainer" style="overflow-x: auto; overflow-y: hidden">
             <div class="row" runat="server" id="ScoresRow">
 
             </div>
-           <%-- <div class="col-md-4">
-                <div class="row" style="width:250px">
-                    <div class="col-md-2" style="width:90px; text-align:left">
-                        <label id="test" runat="server"></label>
-                    </div>
-                    <div class="col-md-2"  style="width:100px; text-align:right">  
-                        <label id="test2" runat="server"></label>  
-                            
-                    </div>
-                </div>
-                <div class="row" style="width:250px">
-                    <div class="col-md-2" style="width:90px; text-align:left">   
-                        <label id="test3" runat="server"></label>                     
-                    </div>
-                    <div class="col-md-2"  style="width:100px; text-align:right">          
-                        <label id="test4" runat="server"></label>              
-                    </div>
-                </div>
-            </div>--%>
+
         </div>
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">

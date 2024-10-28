@@ -13,14 +13,14 @@ namespace NBAdb
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
-            string endpoint = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json";
+            var sbClient = new WebClient { Encoding = System.Text.Encoding.UTF8 };
+            string sbEndpoint = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json";
             try
             {
-                WebRequest BoxScoreReq = WebRequest.Create(endpoint);
-                WebResponse BoxScoreResp = BoxScoreReq.GetResponse();
-                string json = client.DownloadString(endpoint);
-                Root JSON = JsonConvert.DeserializeObject<Root>(json);
+                WebRequest sbReq = WebRequest.Create(sbEndpoint);
+                WebResponse sbResp = sbReq.GetResponse();
+                string sbJson = sbClient.DownloadString(sbEndpoint);
+                Root JSON = JsonConvert.DeserializeObject<Root>(sbJson);
                 for (int i = 0; i < JSON.Scoreboard.Games.Count; i++)
                 {
                     // Create a container div with class 'col-md-4'
@@ -36,11 +36,30 @@ namespace NBAdb
                     Panel colDiv1_1 = new Panel();
                     colDiv1_1.Attributes.Add("style", "width:75px; text-align:left; font-size: small");
 
-                    Label label1 = new Label();
-                    label1.ID = "GameClock" + i; 
-                    label1.Text = JSON.Scoreboard.Games[i].GameClock; 
+                    HyperLink label1 = new HyperLink();
+                    label1.ID = "GameClock" + i;
+
+                    Broadcasts broadcasts = new Broadcasts();
+                    broadcasts.GetBroadcast(label1, JSON.Scoreboard.Games[i].GameId, JSON.Scoreboard.Games[i].GameStatus);
+
+                    if (JSON.Scoreboard.Games[i].GameStatus == 2)
+                    {
+                        label1.Text = JSON.Scoreboard.Games[i].GameStatusText;
+                    }
+                    else if (JSON.Scoreboard.Games[i].GameStatus == 3)
+                    {
+                        label1.Text = "Final";
+                    }
+                    else
+                    {
+
+                    }
+                    label1.Attributes.Add("style", "text-decoration: none; color: inherit;");
 
                     colDiv1_1.Controls.Add(label1);
+
+
+
 
 
 
@@ -131,10 +150,21 @@ namespace NBAdb
 
                     // Finally, add the column div to the ScoresContainer
                     ScoresRow.Controls.Add(colDiv); // ScoresContainer is the container div with runat="server"
-                    ScoresRow.Attributes.Add("style", "overflow-x: auto; overflow-y:auto; white-space: nowrap; max-width:1320px; width:1320px; min-width: 1320px; max-height:87.5px; width:100%; display:flex;");
+
+                    
 
 
 
+                }
+
+                ScoresRow.Attributes.Add("style", "overflow-x: auto; overflow-y:auto; white-space: nowrap; max-width:1510px; width:1510px; min-width: 1510px; max-height:87.5px; display:flex;");
+                if (JSON.Scoreboard.Games.Count > 8)
+                {
+                    ScoresContainer.Attributes.Add("style", "overflow-x: auto; overflow-y: hidden");
+                }
+                else
+                {
+                    ScoresContainer.Attributes.Add("style", "overflow-x: hidden; overflow-y: hidden");
                 }
             }
             catch
@@ -168,7 +198,7 @@ namespace NBAdb
             public int Losses { get; set; }
             public int Score { get; set; }
             public int? Seed { get; set; }
-            public bool? InBonus { get; set; }
+            public string? InBonus { get; set; }
             public int TimeoutsRemaining { get; set; }
             public List<Period> Periods { get; set; }
         }

@@ -1,21 +1,20 @@
 
 
-create procedure ParlayTeams @Season int
+create procedure ParlayTeams @season int
 AS 
-select concat('(',t.tricode, ') ',t.city, ' ', t.name) Team 
+select concat('(',t.tricode, ') ',t.city, ' ', t.name) Team, team_id TeamID
 from Team t
-where t.season_id = @Season
+where t.season_id = @season
 order by Team 
 go
 
 
-create procedure ParlayRoster @team varchar(255), @season int
+create procedure ParlayRoster @team int, @season int
 as
-select p.Name Player
+select p.Name Player, p.player_id PlayerID
 from player p inner join
-		PlayerTeam pt on p.player_id = pt.player_id and p.season_id = pt.season_id inner join
-		team t on pt.team_id = t.team_id and p.season_id = t.season_id
-WHERE		CONCAT('(', t.tricode, ') ', t.city, ' ', t.name) = @team and p.season_id = @season
+		PlayerTeam pt on p.player_id = pt.player_id and p.season_id = pt.season_id 
+WHERE	pt.team_id = @team and p.season_id = @season
 and (LastGameDate is null or LastGameDate < cast(getdate() as date))
 order by Player 
 go

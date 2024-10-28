@@ -128,6 +128,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ParlayAssistantDev.aspx" />
+    <Content Include="ParlayToolbox.aspx" />
     <Content Include="Playoffs.aspx" />
     <Content Include="BusDriver.aspx" />
     <Content Include="Contact.aspx" />
@@ -215,7 +217,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="Broadcasts.cs" />
     <Compile Include="BoxScorePlayoff.cs" />
+    <Compile Include="ParlayAssistantDev.aspx.cs">
+      <DependentUpon>ParlayAssistantDev.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ParlayAssistantDev.aspx.designer.cs">
+      <DependentUpon>ParlayAssistantDev.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ParlayToolbox.aspx.cs">
+      <DependentUpon>ParlayToolbox.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ParlayToolbox.aspx.designer.cs">
+      <DependentUpon>ParlayToolbox.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Playoffs.aspx.cs">
       <DependentUpon>Playoffs.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

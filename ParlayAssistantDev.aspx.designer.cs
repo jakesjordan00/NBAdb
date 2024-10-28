@@ -11,7 +11,7 @@ namespace NBAdb
 {
 
 
-    public partial class ParlayAssistant
+    public partial class ParlayAssistantDev
     {
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.DropDownList ddTeams;
+        protected global::System.Web.UI.WebControls.DropDownList ddTeams;
 
         /// <summary>
         /// tPts1 control.
@@ -165,7 +165,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.DropDownList ddlRoster;
+        protected global::System.Web.UI.WebControls.DropDownList ddlRoster;
 
         /// <summary>
         /// ddlInjured control.
@@ -174,7 +174,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.DropDownList ddlInjured;
+        protected global::System.Web.UI.WebControls.DropDownList ddlInjured;
 
         /// <summary>
         /// chkP control.
@@ -183,7 +183,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.CheckBox chkP;
+        protected global::System.Web.UI.WebControls.CheckBox chkP;
 
         /// <summary>
         /// chkA control.
@@ -192,7 +192,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.CheckBox chkA;
+        protected global::System.Web.UI.WebControls.CheckBox chkA;
 
         /// <summary>
         /// chkR control.
@@ -201,7 +201,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.CheckBox chkR;
+        protected global::System.Web.UI.WebControls.CheckBox chkR;
 
         /// <summary>
         /// chk3 control.
@@ -210,7 +210,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.CheckBox chk3;
+        protected global::System.Web.UI.WebControls.CheckBox chk3;
 
         /// <summary>
         /// chkB control.
@@ -219,7 +219,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.CheckBox chkB;
+        protected global::System.Web.UI.WebControls.CheckBox chkB;
 
         /// <summary>
         /// chkS control.
@@ -228,7 +228,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.CheckBox chkS;
+        protected global::System.Web.UI.WebControls.CheckBox chkS;
 
         /// <summary>
         /// txt1P control.
@@ -237,7 +237,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt1P;
+        protected global::System.Web.UI.WebControls.TextBox txt1P;
 
         /// <summary>
         /// txt1A control.
@@ -246,7 +246,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt1A;
+        protected global::System.Web.UI.WebControls.TextBox txt1A;
 
         /// <summary>
         /// txt1R control.
@@ -255,7 +255,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt1R;
+        protected global::System.Web.UI.WebControls.TextBox txt1R;
 
         /// <summary>
         /// txt13 control.
@@ -264,7 +264,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt13;
+        protected global::System.Web.UI.WebControls.TextBox txt13;
 
         /// <summary>
         /// txt1B control.
@@ -273,7 +273,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt1B;
+        protected global::System.Web.UI.WebControls.TextBox txt1B;
 
         /// <summary>
         /// txt1S control.
@@ -282,7 +282,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt1S;
+        protected global::System.Web.UI.WebControls.TextBox txt1S;
 
         /// <summary>
         /// ddlRoster2 control.
@@ -291,7 +291,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.DropDownList ddlRoster2;
+        protected global::System.Web.UI.WebControls.DropDownList ddlRoster2;
 
         /// <summary>
         /// Label1 control.
@@ -300,7 +300,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.Label Label1;
 
         /// <summary>
         /// txt2P control.
@@ -309,7 +309,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt2P;
+        protected global::System.Web.UI.WebControls.TextBox txt2P;
 
         /// <summary>
         /// txt2A control.
@@ -318,7 +318,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt2A;
+        protected global::System.Web.UI.WebControls.TextBox txt2A;
 
         /// <summary>
         /// txt2R control.
@@ -327,7 +327,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt2R;
+        protected global::System.Web.UI.WebControls.TextBox txt2R;
 
         /// <summary>
         /// txt23 control.
@@ -336,7 +336,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt23;
+        protected global::System.Web.UI.WebControls.TextBox txt23;
 
         /// <summary>
         /// txt2B control.
@@ -345,7 +345,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt2B;
+        protected global::System.Web.UI.WebControls.TextBox txt2B;
 
         /// <summary>
         /// txt2S control.
@@ -354,7 +354,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt2S;
+        protected global::System.Web.UI.WebControls.TextBox txt2S;
 
         /// <summary>
         /// ddlRoster3 control.
@@ -363,7 +363,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.DropDownList ddlRoster3;
+        protected global::System.Web.UI.WebControls.DropDownList ddlRoster3;
 
         /// <summary>
         /// Label2 control.
@@ -372,7 +372,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.Label Label2;
+        protected global::System.Web.UI.WebControls.Label Label2;
 
         /// <summary>
         /// txt3P control.
@@ -381,7 +381,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt3P;
+        protected global::System.Web.UI.WebControls.TextBox txt3P;
 
         /// <summary>
         /// txt3A control.
@@ -390,7 +390,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt3A;
+        protected global::System.Web.UI.WebControls.TextBox txt3A;
 
         /// <summary>
         /// txt3R control.
@@ -399,7 +399,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt3R;
+        protected global::System.Web.UI.WebControls.TextBox txt3R;
 
         /// <summary>
         /// txt33 control.
@@ -408,7 +408,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt33;
+        protected global::System.Web.UI.WebControls.TextBox txt33;
 
         /// <summary>
         /// txt3B control.
@@ -417,7 +417,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt3B;
+        protected global::System.Web.UI.WebControls.TextBox txt3B;
 
         /// <summary>
         /// txt3S control.
@@ -426,7 +426,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.TextBox txt3S;
+        protected global::System.Web.UI.WebControls.TextBox txt3S;
 
         /// <summary>
         /// btnRetrieve control.
@@ -435,7 +435,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.Button btnRetrieve;
+        protected global::System.Web.UI.WebControls.Button btnRetrieve;
 
         /// <summary>
         /// lblError control.
@@ -444,7 +444,7 @@ namespace NBAdb
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        public global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.WebControls.Label lblError;
 
         /// <summary>
         /// a1StatsSection control.
