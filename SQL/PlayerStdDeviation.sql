@@ -13,7 +13,11 @@ Round(SQRT(sum(SQUARE(b.points - a.Points))/count(b.game_id)), 3) PtsDeviation,
 	   Round(SQRT(sum(SQUARE(b.fieldGoalsAttempted - a.FGA))/count(b.game_id)), 3) FGADeviation,
 	   Round(SQRT(sum(SQUARE(b.threePointersMade - a.FG3M))/count(b.game_id)), 3) FG3MDeviation,
 	   Round(SQRT(sum(SQUARE(b.threePointersAttempted - a.FG3A))/count(b.game_id)), 3) FG3ADeviation,
-	   Round(SQRT(sum(SQUARE(cast(SUBSTRING(b.minutesCalculated, 3, 2) as int) - a.Minutes))/count(b.game_id)), 3) MinDeviation
+	   Round(SQRT(sum(SQUARE(cast(SUBSTRING(b.minutesCalculated, 3, 2) as int) - a.Minutes))/count(b.game_id)), 3) MinDeviation,
+	   Round(SQRT(sum(SQUARE(b.twoPointersMade - a.FG3M))/count(b.game_id)), 3) FG2MDeviation,
+	   Round(SQRT(sum(SQUARE(b.twoPointersAttempted - a.FG3A))/count(b.game_id)), 3) FG2ADeviation,
+	   Round(SQRT(sum(SQUARE(b.freeThrowsMade - a.FG3M))/count(b.game_id)), 3) FTMDeviation,
+	   Round(SQRT(sum(SQUARE(b.freeThrowsAttempted - a.FG3A))/count(b.game_id)), 3) FTADeviation
 from playerBox b inner join
 		player p on b.player_id = p.player_id and b.season_id = p.season_id inner join
 		team t on b.team_id = t.team_id and b.season_id = t.season_id inner join

@@ -30,6 +30,10 @@
         </asp:CheckBoxList>
         <asp:Button ID="btnFirstTimeLoad" runat="server" Text ="Load" height="75px" Width="250px" Font-Size="XX-Large" OnClick="btnFirstTimeLoad_Click" 
         style="color:cornflowerblue; background-color:black; border-color:black; text-decoration:none;  text-align:center;border-radius: 15px; border: 3px solid grey;"/>
+
+
+        <asp:Button ID="btnUpdate" runat="server" Text ="Reload" height="75px" Width="250px" Font-Size="XX-Large" OnClick="btnUpdate_Click" 
+        style="color:cornflowerblue; background-color:black; border-color:black; text-decoration:none;  text-align:center;border-radius: 15px; border: 3px solid grey;"/>
         <br />
         <asp:Label ID="lblSeasonResult" runat="server" Text="" Font-Bold="true"></asp:Label>
         <br />        

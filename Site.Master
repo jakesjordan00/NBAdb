@@ -27,6 +27,7 @@
 
         .container {
             overflow: hidden; /* Ensures the container adjusts its height based on floated elements */
+            min-width: 1500px
         }
     </style>
 </head>

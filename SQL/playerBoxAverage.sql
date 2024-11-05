@@ -17,7 +17,13 @@ SELECT pb.season_id,
 	   ROUND(AVG(CAST(pb.threePointersMade AS float)), 2) AS FG3M, 
 	   ROUND(AVG(CAST(pb.threePointersAttempted AS float)), 2) AS FG3A, 
 	   ROUND(AVG(pb.threePointersPercentage) * 100, 2) AS [FG3%],
-	   AVG(cast(SUBSTRING(pb.minutesCalculated, 3, 2) as int)) Minutes
+	   AVG(cast(SUBSTRING(pb.minutesCalculated, 3, 2) as int)) Minutes,
+	   ROUND(AVG(CAST(pb.twoPointersMade AS float)), 2) AS FG2M, 
+	   ROUND(AVG(CAST(pb.twoPointersAttempted AS float)), 2) AS FG2A, 
+	   ROUND(AVG(pb.twoPointersPercentage) * 100, 2) AS [FG2%],
+	   ROUND(AVG(CAST(pb.freeThrowsMade AS float)), 2) AS FTM, 
+	   ROUND(AVG(CAST(pb.freeThrowsAttempted AS float)), 2) AS FTA, 
+	   ROUND(AVG(pb.freeThrowsPercentage) * 100, 2) AS [FT%]
 FROM playerBox AS pb INNER JOIN
 		player AS p ON pb.player_id = p.player_id AND pb.season_id = p.season_id INNER JOIN
 		team AS t ON pb.team_id = t.team_id AND pb.season_id = t.season_id INNER JOIN
