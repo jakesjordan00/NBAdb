@@ -73,7 +73,7 @@
                 <div class="col-md-1" style="width:125px; padding-right:0px">
                     <asp:Label ID="a" runat="server" Text="Points: " Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
                 </div>
-                <div class="col-sm-1" style="width: 55px">
+                <div class="col-sm-1" style="width: 95px">
                     <asp:Label ID="t1Score" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
                 </div>
                 <div class="col-md-1" style="width:auto">
@@ -120,7 +120,7 @@
                 <div class="col-md-1" style="width:125px; padding-right:0px">
                     <asp:Label ID="Label1" runat="server" Text="Points Against:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
                 </div>
-                <div class="col-sm-1" style="width: 55px">
+                <div class="col-sm-1" style="width: 95px">
                     <asp:Label ID="t1ScoreAgainst" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
                 </div>
                 <div class="col-md-1" style="width:auto">
@@ -250,15 +250,15 @@
             <asp:TextBox ID="txtP5Stl" runat="server" Width="40px" Enabled="false" BackColor="#3c3c3c" BorderColor="White" ForeColor="White"></asp:TextBox>
         </div>
         <div class="col" style="margin-top:-140px">
-            <div class="row" style="margin-top:0px;">
+            <div class="row" style="margin-top:0px">
                 <div class="col-md-1" style="width:125px; padding-right:0px">
-                    <asp:Label ID="Label2" runat="server" Text="Assists:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                    <asp:Label ID="Label21" runat="server" Text="FTM/FTA:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
                 </div>
-                <div class="col-sm-1" style="width: 55px">
-                    <asp:Label ID="t1Ast" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t1FT" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
                 </div>
                 <div class="col-md-1" style="width:auto">
-                    <asp:Label ID="t1AstR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                    <asp:Label ID="t1FTR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
                 </div>
             </div>
         </div>
@@ -270,19 +270,20 @@
         <div class="col" style="margin-top:-170px">
             <div class="row" style="margin-top:0px">
                 <div class="col-md-1" style="width:125px; padding-right:0px">
-                    <asp:Label ID="Label5" runat="server" Text="Rebounds:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                    <asp:Label ID="Label22" runat="server" Text="Bench Pts:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
                 </div>
-                <div class="col-sm-1" style="width: 55px">
-                    <asp:Label ID="t1Reb" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t1Bench" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
                 </div>
                 <div class="col-md-1" style="width:auto">
-                    <asp:Label ID="t1RebR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                    <asp:Label ID="t1BenchR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
                 </div>
             </div>
         </div>
     </div>
     <div class="row" style="height:auto; padding-top: 10px">
         <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
         </div>
         <div class="col" style="margin-top:-189px">
             <div class="row" style="margin-top:0px">
@@ -300,6 +301,7 @@
     </div>
     <div class="row" style="height:auto; padding-top: 10px">
         <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
         </div>
         <div class="col" style="margin-top:-208px">
             <div class="row" style="margin-top:0px">
@@ -349,7 +351,76 @@
             </div>
         </div>
     </div>
-    <div class="row" style="height:auto; margin-top: -150px; width:fit-content">
+    <div class="row" style="height:auto; padding-top: 10px">
+        <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="col" style="margin-top:-265px">
+            <div class="row" style="margin-top:0px;">
+                <div class="col-md-1" style="width:125px; padding-right:0px">
+                    <asp:Label ID="Label2" runat="server" Text="Assists:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                </div>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t1Ast" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                </div>
+                <div class="col-md-1" style="width:auto">
+                    <asp:Label ID="t1AstR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height:auto; padding-top: 10px">
+        <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="col" style="margin-top:-284px">
+            <div class="row" style="margin-top:0px">
+                <div class="col-md-1" style="width:125px; padding-right:0px">
+                    <asp:Label ID="Label5" runat="server" Text="Rebounds:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                </div>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t1Reb" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                </div>
+                <div class="col-md-1" style="width:auto">
+                    <asp:Label ID="t1RebR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height:auto; padding-top: 10px">
+        <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+        <div class="col" style="margin-top:-303px">
+            <div class="row" style="margin-top:0px">
+                <div class="col-md-1" style="width:125px; padding-right:0px">
+                    <asp:Label ID="Label20" runat="server" Text="Blocks/Blocked:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                </div>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t1Blks" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                </div>
+                <div class="col-md-1" style="width:auto">
+                    <asp:Label ID="t1BlksR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height:auto; padding-top: 10px">
+        <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        </div>
+        <div class="col" style="margin-top:-322px">
+            <div class="row" style="margin-top:0px">
+                <div class="col-md-1" style="width:125px; padding-right:0px">
+                    <asp:Label ID="Label27" runat="server" Text="Steals/TOs:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                </div>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t1Stl" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                </div>
+                <div class="col-md-1" style="width:auto">
+                    <asp:Label ID="t1StlR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height:auto; margin-top: -270px; width:fit-content">
         <div class="col-md-3" style="width:fit-content">
             <asp:CheckBox ID="chkT1Wins" runat="server" Text="Show only Wins" OnCheckedChanged="chkT1Wins_CheckedChanged" AutoPostBack="true"/><br />
             <asp:CheckBox ID="chkT1Losses" runat="server" Text="Show only Losses" OnCheckedChanged="chkT1Losses_CheckedChanged" AutoPostBack="true"/><br />
@@ -959,7 +1030,7 @@
                 <div class="col-md-1" style="width:125px; padding-right:0px">
                     <asp:Label ID="Label10" runat="server" Text="Points: " Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
                 </div>
-                <div class="col-sm-1" style="width: 55px">
+                <div class="col-sm-1" style="width: 95px">
                     <asp:Label ID="t2Score" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
                 </div>
                 <div class="col-md-1" style="width:auto">
@@ -1007,7 +1078,7 @@
                 <div class="col-md-1" style="width:125px; padding-right:0px">
                     <asp:Label ID="Label11" runat="server" Text="Points Against:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
                 </div>
-                <div class="col-sm-1" style="width: 55px">
+                <div class="col-sm-1" style="width: 95px">
                     <asp:Label ID="t2ScoreAgainst" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
                 </div>
                 <div class="col-md-1" style="width:auto">
@@ -1135,20 +1206,20 @@
           <asp:CheckBox ID="chkT2P5Stl" runat="server" Enabled="false" CssClass="checkBox" AutoPostBack="true" Text="Stl"/>
           <asp:TextBox ID="txtT2P5Stl" runat="server" Width="40px" Enabled="false" BackColor="#3c3c3c" BorderColor="White" ForeColor="White"></asp:TextBox>
       </div>
-      <div class="col" style="margin-top:-140px">
-          <div class="row" style="margin-top:0px;">
-              <div class="col-md-1" style="width:125px; padding-right:0px">
-                  <asp:Label ID="Label14" runat="server" Text="Assists:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
-              </div>
-              <div class="col-sm-1" style="width: 55px">
-                  <asp:Label ID="t2Ast" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
-              </div>
-              <div class="col-md-1" style="width:auto">
-                  <asp:Label ID="t2AstR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
-              </div>
-          </div>
-      </div>
-  </div>
+        <div class="col" style="margin-top:-140px">
+            <div class="row" style="margin-top:0px">
+                <div class="col-md-1" style="width:125px; padding-right:0px">
+                    <asp:Label ID="Label14" runat="server" Text="FTM/FTA:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                </div>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t2FT" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                </div>
+                <div class="col-md-1" style="width:auto">
+                    <asp:Label ID="t2FTR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row" style="height:auto; padding-top: 10px">
         <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -1156,13 +1227,13 @@
         <div class="col" style="margin-top:-170px">
             <div class="row" style="margin-top:0px">
                 <div class="col-md-1" style="width:125px; padding-right:0px">
-                    <asp:Label ID="Label15" runat="server" Text="Rebounds:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                    <asp:Label ID="Label23" runat="server" Text="Bench Pts:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
                 </div>
-                <div class="col-sm-1" style="width: 55px">
-                    <asp:Label ID="t2Reb" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t2Bench" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
                 </div>
                 <div class="col-md-1" style="width:auto">
-                    <asp:Label ID="t2RebR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                    <asp:Label ID="t2BenchR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
                 </div>
             </div>
         </div>
@@ -1235,7 +1306,78 @@
             </div>
         </div>
     </div>
-    <div class="row" style="height:auto; margin-top: -150px; width:fit-content">
+    <div class="row" style="height:auto; padding-top: 10px">
+        <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </div>
+      <div class="col" style="margin-top:-265px">
+          <div class="row" style="margin-top:0px;">
+              <div class="col-md-1" style="width:125px; padding-right:0px">
+                  <asp:Label ID="Label15" runat="server" Text="Assists:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+              </div>
+              <div class="col-sm-1" style="width: 95px">
+                  <asp:Label ID="t2Ast" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+              </div>
+              <div class="col-md-1" style="width:auto">
+                  <asp:Label ID="t2AstR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+              </div>
+          </div>
+      </div>
+    </div>
+    <div class="row" style="height:auto; padding-top: 10px">
+        <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        </div>
+        <div class="col" style="margin-top:-284px">
+            <div class="row" style="margin-top:0px">
+                <div class="col-md-1" style="width:125px; padding-right:0px">
+                    <asp:Label ID="Label24" runat="server" Text="Rebounds:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                </div>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t2Reb" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                </div>
+                <div class="col-md-1" style="width:auto">
+                    <asp:Label ID="t2RebR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height:auto; padding-top: 10px">
+        <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        </div>
+        <div class="col" style="margin-top:-303px">
+            <div class="row" style="margin-top:0px">
+                <div class="col-md-1" style="width:125px; padding-right:0px">
+                    <asp:Label ID="Label25" runat="server" Text="Blocks/Blocked:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                </div>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t2Blk" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                </div>
+                <div class="col-md-1" style="width:auto">
+                    <asp:Label ID="t2BlkR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height:auto; padding-top: 10px">
+        <div class="col-md-9">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        </div>
+        <div class="col" style="margin-top:-322px">
+            <div class="row" style="margin-top:0px">
+                <div class="col-md-1" style="width:125px; padding-right:0px">
+                    <asp:Label ID="Label26" runat="server" Text="Steals/TOs:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
+                </div>
+                <div class="col-sm-1" style="width: 95px">
+                    <asp:Label ID="t2Stl" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
+                </div>
+                <div class="col-md-1" style="width:auto">
+                    <asp:Label ID="t2StlR" runat="server" Text="" Font-Size="small" Font-Bold="false"></asp:Label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" style="height:auto; margin-top: -270px; width:fit-content">
         <div class="col-md-3" style="width:fit-content">
             <asp:CheckBox ID="chkT2Wins" runat="server" Text="Show only Wins" OnCheckedChanged="chkT2Wins_CheckedChanged" AutoPostBack="true"/><br />
             <asp:CheckBox ID="chkT2Losses" runat="server" Text="Show only Losses" OnCheckedChanged="chkT2Losses_CheckedChanged" AutoPostBack="true"/><br />
@@ -1484,7 +1626,7 @@
             <asp:Label ID="t2p3Name" runat="server" Font-Bold="true" Font-Size="Large"></asp:Label>
         </div>
         <div class="row">
-            <div class="col-sm-1" style="width:fit-content; margin-top:-10px; padding">
+            <div class="col-sm-1" style="width:fit-content; margin-top:-10px;">
                 <asp:Label ID="t2p3Games" runat="server" Font-Size="Small"></asp:Label>
                     <asp:Label ID="t2p3GamesExt" runat="server" Font-Size="Small"></asp:Label>
             </div>

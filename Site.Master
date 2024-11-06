@@ -32,14 +32,6 @@
     </style>
 </head>
 <body>
-    <style>
-        
-        body { /*Main CSS for Page design*/
-            background-color: #3c3c3c;
-            color: floralwhite;
-
-        }
-    </style>
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>
@@ -79,21 +71,40 @@
         </nav>
         <div class="container Scores" runat="server" id="ScoresContainer" style="overflow-x: auto; overflow-y: hidden">
             <div class="row" runat="server" id="ScoresRow">
-
             </div>
+        </div>        
+        
+        <%--<div class="sidebar">
+            <h2>Teams Overview</h2>
 
-        </div>
+        </div>--%>
+
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
+
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
                 <p>&copy; <%: DateTime.Now.Year %> - NBAdb</p>
             </footer>
         </div>
+        
     </form>
+    
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/Scripts/bootstrap.js") %>
     </asp:PlaceHolder>
+    <style>
+        .sidebar{
+            width:500px;
+            float:right;
+        }
+        body { /*Main CSS for Page design*/
+            background-color: #3c3c3c;
+            color: floralwhite;
+
+        }
+    </style>
 </body>
+ 
 </html>

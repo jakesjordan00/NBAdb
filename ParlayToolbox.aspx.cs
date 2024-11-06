@@ -266,6 +266,10 @@ namespace NBAdb
             Label7.Visible = true;
             Label8.Visible = true;
             Label9.Visible = true;
+            Label20.Visible = true;
+            Label21.Visible = true;
+            Label22.Visible = true;
+            Label27.Visible = true;
             foreach (TextBox textbox in allT1PlayerProps)
             {
                 textbox.Text = "";
@@ -325,7 +329,7 @@ namespace NBAdb
             }            
             PopulateUI(t1Rosters, statSections);
             SeasonChange = 0;
-            if (!ddTeams.SelectedItem.Text.IsNullOrWhiteSpace())
+            if (!ddTeams.SelectedItem.Text.IsNullOrWhiteSpace() && ddTeams.SelectedItem.Text != "Team")
             {
                 t1Name.Text = ddTeams.SelectedItem.Text;
                 TeamAverages(Int32.Parse(ddTeams.SelectedItem.Value), Int32.Parse(ddSeason.SelectedItem.Value));
@@ -367,6 +371,8 @@ namespace NBAdb
                         t1AstR.Text = "(" + sdr["assistsRank"].ToString() + ")";
                         t1Reb.Text = sdr["reboundsPersonal"].ToString();
                         t1RebR.Text = "(" + sdr["reboundsPersonalRank"].ToString() + ")";
+                        t1Bench.Text = sdr["benchPoints"].ToString();
+                        t1BenchR.Text = "(" + sdr["benchPointsRank"].ToString() + ")";
                         t1Q1.Text = sdr["q1Points"].ToString() + "/" + sdr["q1PointsAgainst"].ToString();
                         t1Q1R.Text = "(" + sdr["q1PointsRank"].ToString() + ")/(" + sdr["q1PointsAgainstRank"].ToString() + ")";
                         t1Q2.Text = sdr["q2Points"].ToString() + "/" + sdr["q2PointsAgainst"].ToString();
@@ -375,6 +381,12 @@ namespace NBAdb
                         t1Q3R.Text = "(" + sdr["q3PointsRank"].ToString() + ")/(" + sdr["q3PointsAgainstRank"].ToString() + ")";
                         t1Q4.Text = sdr["q4Points"].ToString() + "/" + sdr["q4PointsAgainst"].ToString();
                         t1Q4R.Text = "(" + sdr["q4PointsRank"].ToString() + ")/(" + sdr["q4PointsAgainstRank"].ToString() + ")";
+                        t1Blks.Text = sdr["blocks"].ToString() + "/" + sdr["blocksReceived"].ToString();
+                        t1BlksR.Text = "(" + sdr["blocksRank"].ToString() + ")/(" + sdr["blocksReceivedRank"].ToString() + ")";
+                        t1FT.Text = sdr["freeThrowsMade"].ToString() + "/" + sdr["freeThrowsAttempted"].ToString();
+                        t1FTR.Text = "(" + sdr["freeThrowsMadeRank"].ToString() + ")/(" + sdr["freeThrowsAttemptedRank"].ToString() + ")";
+                        t1Stl.Text = sdr["steals"].ToString() + "/" + sdr["turnovers"].ToString();
+                        t1StlR.Text = "(" + sdr["stealsRank"].ToString() + ")/(" + sdr["turnoversRank"].ToString() + ")";
 
 
                         string cRank = "";
@@ -1680,6 +1692,10 @@ namespace NBAdb
             Label17.Visible = true;
             Label18.Visible = true;
             Label19.Visible = true;
+            Label23.Visible = true;
+            Label24.Visible = true;
+            Label25.Visible = true;
+            Label26.Visible = true;
             foreach (TextBox textbox in allT2PlayerProps)
             {
                 textbox.Text = "";
@@ -1739,7 +1755,7 @@ namespace NBAdb
             }
             PopulateUI(t2Rosters, t2StatSections);
             SeasonChange = 0;
-            if (!ddTeams2.SelectedItem.Text.IsNullOrWhiteSpace())
+            if (!ddTeams2.SelectedItem.Text.IsNullOrWhiteSpace() && ddTeams2.SelectedItem.Text != "Team")
             {
                 t2Name.Text = ddTeams2.SelectedItem.Text;
                 Team2Averages(Int32.Parse(ddTeams2.SelectedItem.Value), Int32.Parse(ddSeason.SelectedItem.Value));
@@ -2061,6 +2077,14 @@ namespace NBAdb
                         t2Q3R.Text = "(" + sdr["q3PointsRank"].ToString() + ")/(" + sdr["q3PointsAgainstRank"].ToString() + ")";
                         t2Q4.Text = sdr["q4Points"].ToString() + "/" + sdr["q4PointsAgainst"].ToString();
                         t2Q4R.Text = "(" + sdr["q4PointsRank"].ToString() + ")/(" + sdr["q4PointsAgainstRank"].ToString() + ")";
+                        t2Blk.Text = sdr["blocks"].ToString() + "/" + sdr["blocksReceived"].ToString();
+                        t2BlkR.Text = "(" + sdr["blocksRank"].ToString() + ")/(" + sdr["blocksReceivedRank"].ToString() + ")";
+                        t2FT.Text = sdr["freeThrowsMade"].ToString() + "/" + sdr["freeThrowsAttempted"].ToString();
+                        t2FTR.Text = "(" + sdr["freeThrowsMadeRank"].ToString() + ")/(" + sdr["freeThrowsAttemptedRank"].ToString() + ")";
+                        t2Bench.Text = sdr["benchPoints"].ToString();
+                        t2BenchR.Text = "(" + sdr["benchPointsRank"].ToString() + ")";
+                        t2Stl.Text = sdr["steals"].ToString() + "/" + sdr["turnovers"].ToString();
+                        t2StlR.Text = "(" + sdr["stealsRank"].ToString() + ")/(" + sdr["turnoversRank"].ToString() + ")";
                         string cRank = "";
                         string lRank = "";
                         if (sdr["ConferenceRank"].ToString() == "1")
@@ -2817,19 +2841,32 @@ namespace NBAdb
                 SaveParlay.Connection = busDriver.SQLdb; //17
                 SaveParlay.CommandType = CommandType.StoredProcedure;
                 SaveParlay.Parameters.AddWithValue("@team_id", Int32.Parse(ddTeams.SelectedItem.Value));
-                SaveParlay.Parameters.AddWithValue("@p1", ddlRoster.SelectedItem.Text);
-                SaveParlay.Parameters.AddWithValue("@p2", ddlRoster2.SelectedItem.Text);
-                SaveParlay.Parameters.AddWithValue("@p3", ddlRoster3.SelectedItem.Text);
-                SaveParlay.Parameters.AddWithValue("@p4", ddlRoster4.SelectedItem.Text);
-                SaveParlay.Parameters.AddWithValue("@p5", ddlRoster5.SelectedItem.Text);
+                for(int i = 0; i < t1Rosters.Count; i++)
+                {
+                    if (t1Rosters[i].SelectedItem.Text.Contains("Player"))
+                    {
+                        SaveParlay.Parameters.AddWithValue("@p" + (i + 1), SqlString.Null);
+                    }
+                    else
+                    {
+                        SaveParlay.Parameters.AddWithValue("@p" + (i + 1), t1Rosters[i].SelectedItem.Text);
+                    }
+                }
+                for (int i = 0; i < t1DNPRosters.Count; i++)
+                {
+                    if (t1DNPRosters[i].SelectedItem.Text.Contains("Player"))
+                    {
+                        SaveParlay.Parameters.AddWithValue("@dnp" + (i + 1), SqlString.Null);
+                    }
+                    else
+                    {
+                        SaveParlay.Parameters.AddWithValue("@dnp" + (i + 1), t1DNPRosters[i].SelectedItem.Text);
+                    }
+                }
                 SaveParlay.Parameters.AddWithValue("@GamesPlayed", gamesPlayed);
                 SaveParlay.Parameters.AddWithValue("@GamesAbove", gamesAbove);
                 SaveParlay.Parameters.AddWithValue("@Odds", SaveOdds);
                 SaveParlay.Parameters.AddWithValue("@Probability", SaveProbability);
-
-
-
-
                 int parsedValue = 0;
                 if (Int32.TryParse(ddlRoster.SelectedItem.Value, out parsedValue))
                 {
