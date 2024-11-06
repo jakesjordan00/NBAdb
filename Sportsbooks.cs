@@ -22,7 +22,59 @@ namespace NBAdb
 
     public partial class SportsBooks
     {
-        public void GetLines( string game, int home, int away, Label labelOddsH, Label labelOddsA)
+
+
+        public static int games = 0;
+        public static List<string> gameID = new List<string>();
+        public static List<float> oddsH = new List<float>();
+        public static List<float> oddsA = new List<float>();
+        public static int count = 0;
+
+        public void SpotUp(int postback, string game, int home, int away, Label labelOddsH, Label labelOddsA)
+        {
+            if (postback == 1)
+            {
+                count = 0;
+                GetQuickLines(games, game, home, away, labelOddsH, labelOddsA);
+            }
+            else
+            {
+                if (count == 0)
+                {
+                    GetLines();
+                }
+                GetQuickLines(games, game, home, away, labelOddsH, labelOddsA);
+            }
+        }
+
+
+        public void GetQuickLines(int games, string game, int home, int away, Label labelOddsH, Label labelOddsA)
+        {
+            for (int i = 0; i < games; i++)
+            {
+                if (gameID[i] == game)
+                {
+                    if (oddsH[i] >= 2)
+                    {
+                        labelOddsH.Text = "+" + Math.Round(((oddsH[i] - 1) * 100), 0).ToString();
+                    }
+                    else
+                    {
+                        labelOddsH.Text = Math.Round((-100 / (oddsH[i] - 1)), 0).ToString();
+                    }
+
+                    if (oddsA[i] >= 2)
+                    {
+                        labelOddsA.Text = "+" + Math.Round(((oddsA[i] - 1) * 100), 0).ToString();
+                    }
+                    else
+                    {
+                        labelOddsA.Text = Math.Round((-100 / (oddsA[i] - 1)), 0).ToString();
+                    }
+                }
+            }
+        }
+        public void GetLines()
         {
             var sbClient = new WebClient { Encoding = System.Text.Encoding.UTF8 };
             string sbEndpoint = "https://cdn.nba.com/static/json/liveData/odds/odds_todaysGames.json";
@@ -33,35 +85,40 @@ namespace NBAdb
                 WebResponse sbResp = sbReq.GetResponse();
                 string sbJson = sbClient.DownloadString(sbEndpoint);
                 Root sbJSON = JsonConvert.DeserializeObject<Root>(sbJson);
-                for(int i = 0; i < sbJSON.Games.Count; i++)
+                games = sbJSON.Games.Count;
+                for (int i = 0; i < sbJSON.Games.Count; i++)
                 {
-                    if (sbJSON.Games[i].GameId == game)
+                    try
                     {
-                        if (float.Parse(sbJSON.Games[i].Markets[0].Books[2].Outcomes[0].Odds) >= 2)
-                        {
-                            labelOddsH.Text = "+" + Math.Round(((float.Parse(sbJSON.Games[i].Markets[0].Books[2].Outcomes[0].Odds) - 1) * 100), 0).ToString();                          
-                        }
-                        else
-                        {
-                            labelOddsH.Text = Math.Round((-100 / (float.Parse(sbJSON.Games[i].Markets[0].Books[2].Outcomes[0].Odds) - 1)), 0).ToString();                            
-                        }
-
-                        if (float.Parse(sbJSON.Games[i].Markets[0].Books[2].Outcomes[1].Odds) >= 2)
-                        {
-                            labelOddsA.Text = "+" + Math.Round(((float.Parse(sbJSON.Games[i].Markets[0].Books[2].Outcomes[1].Odds) - 1) * 100), 0).ToString();
-                        }
-                        else
-                        {
-                            labelOddsA.Text = Math.Round((-100 / (float.Parse(sbJSON.Games[i].Markets[0].Books[2].Outcomes[1].Odds) - 1)), 0).ToString();
-                        }
+                        gameID.Add(sbJSON.Games[i].GameId);
                     }
-
+                    catch
+                    {
+                        gameID.Add("0");
+                    }
+                    try
+                    {
+                        oddsH.Add(float.Parse(sbJSON.Games[i].Markets[0].Books[2].Outcomes[0].Odds));
+                    }
+                    catch
+                    {
+                        oddsH.Add(0);
+                    }
+                    try
+                    {
+                        oddsA.Add(float.Parse(sbJSON.Games[i].Markets[0].Books[2].Outcomes[1].Odds));
+                    }
+                    catch
+                    {
+                        oddsA.Add(0);
+                    }
                 }
             }
             catch
             {
 
             }
+            count++;
         }
         public class Game
         {

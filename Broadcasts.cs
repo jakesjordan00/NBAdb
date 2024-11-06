@@ -20,53 +20,94 @@ using System.Reflection.Emit;
 
 namespace NBAdb
 {
-
     public partial class Broadcasts
     {
-        public void GetBroadcast(HyperLink link, string game, int status)
+        public static int games = 0;
+        public static List<string> gameID = new List<string>();
+        public static List<string> broadcast = new List<string>();
+        public static int count = 0;
+
+
+        public void SpotUp(HyperLink link, string game, int status, int postback)
         {
+            if(postback == 1)
+            {
+                count = 0;
+                GetQuickBroadcast(games, game, status, link);
+            }
+            else
+            {
+                if(count == 0)
+                {
+                    GetBroadcast();
+                }
+                GetQuickBroadcast(games, game, status, link);
+            }
+        }
+        public void GetQuickBroadcast(int games, string game, int status, HyperLink link)
+        {
+            for(int i = 0; i < games; i++)
+            {
+                if (gameID[i] == game)
+                {
+                    if (broadcast[i].Contains("TNT"))
+                    {
+                        link.NavigateUrl = "https://play.max.com/sports"; // Replace with your dynamic link
+                        link.Target = "_blank"; // This makes the link open in a new tab
+                        broadcast[i] = "TNT";
+                    }
+                    else
+                    {
+                        link.NavigateUrl = "https://www.nba.com/game/abc-vs-def-" + game + "?watch";// Replace with your dynamic link
+                        link.Target = "_blank"; // This makes the link open in a new tab
+                        broadcast[i] = "LP";
+                    }
+                    if (status == 1)
+                    {
+                        link.Text = broadcast[i];
+                    }
+                }
+            }
+        }
+        public void GetBroadcast()
+        {
+            games = 0;
+            gameID.Clear();
+            broadcast.Clear();
             var tvClient = new WebClient { Encoding = System.Text.Encoding.UTF8 };
             string tvEndpoint = "https://cdn.nba.com/static/json/liveData/channels/v2/channels_00.json";
             try
             {
-
                 WebRequest tvReq = WebRequest.Create(tvEndpoint);
                 WebResponse tvResp = tvReq.GetResponse();
                 string tvJson = tvClient.DownloadString(tvEndpoint);
                 Root tvJSON = JsonConvert.DeserializeObject<Root>(tvJson);
-                string broadcast = "";
-                for(int i = 0; i < tvJSON.Channels.Games.Count; i++)
+                games = tvJSON.Channels.Games.Count;
+                for (int i = 0; i < tvJSON.Channels.Games.Count; i++)
                 {
-                    if (tvJSON.Channels.Games[i].GameId == game)
+                    try
                     {
-                        if (tvJSON.Channels.Games[i].Streams[0].UniqueName.Contains("TNT"))
-                        {
-                            link.NavigateUrl = "https://play.max.com/sports"; // Replace with your dynamic link
-                            link.Target = "_blank"; // This makes the link open in a new tab
-                            broadcast = "TNT";
-                        }
-                        else
-                        {
-                            link.NavigateUrl = "https://www.nba.com/game/abc-vs-def-" + game + "?watch";// Replace with your dynamic link
-                            link.Target = "_blank"; // This makes the link open in a new tab
-                            broadcast = "LP";
-                        }
-
-
-
-
-                        if (status == 1)
-                        {
-                            link.Text = broadcast;
-                        }                        
+                        gameID.Add(tvJSON.Channels.Games[i].GameId);
                     }
-
+                    catch
+                    {
+                        gameID.Add("0");
+                    }
+                    try
+                    {
+                        broadcast.Add(tvJSON.Channels.Games[i].Streams[0].UniqueName);
+                    }                    
+                    catch
+                    {
+                        broadcast.Add("NA");
+                    }
                 }
             }
             catch
             {
 
             }
+            count++;
         }
 
         public class LogoMap
