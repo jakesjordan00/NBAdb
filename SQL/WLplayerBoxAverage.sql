@@ -7,7 +7,7 @@ SELECT pb.season_id,
 	   p.name, 
 	   CASE WHEN tb.points > tb.pointsAgainst 
 	   THEN 1 ELSE 0 END AS Win, 
-	   COUNT(pb.game_id) AS Games, 
+	   COUNT(pb.player_id) AS Games, 
 	   ROUND(AVG(CAST(pb.points AS float)), 2) AS Points, 
 	   ROUND(AVG(CAST(pb.assists AS float)), 2) AS Assists, 
 	   ROUND(AVG(CAST(pb.reboundsTotal AS float)), 2) AS Rebounds, 

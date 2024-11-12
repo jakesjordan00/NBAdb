@@ -13,7 +13,7 @@ from teamBox t
 
 
 select * from teamBoxAverageRanks
-where season_id = 2024 and team_id = 1610612756
+where season_id = 2024 and team_id = 1610612740
 
 select * from teamBox 
 where season_id = 2024 and team_id = 1610612756

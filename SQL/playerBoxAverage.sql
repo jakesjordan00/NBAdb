@@ -5,7 +5,7 @@ SELECT pb.season_id,
 	   CONCAT(t.city, ' ', t.name) AS Team, 
 	   p.player_id,
 	   p.name, 
-	   COUNT(pb.game_id) AS Games, 
+	   COUNT(pb.player_id) AS Games, 
 	   ROUND(AVG(CAST(pb.points AS float)), 2) AS Points, 
 	   ROUND(AVG(CAST(pb.assists AS float)), 2) AS Assists, 
 	   ROUND(AVG(CAST(pb.reboundsTotal AS float)), 2) AS Rebounds, 
@@ -23,7 +23,8 @@ SELECT pb.season_id,
 	   ROUND(AVG(pb.twoPointersPercentage) * 100, 2) AS [FG2%],
 	   ROUND(AVG(CAST(pb.freeThrowsMade AS float)), 2) AS FTM, 
 	   ROUND(AVG(CAST(pb.freeThrowsAttempted AS float)), 2) AS FTA, 
-	   ROUND(AVG(pb.freeThrowsPercentage) * 100, 2) AS [FT%]
+	   ROUND(AVG(pb.freeThrowsPercentage) * 100, 2) AS [FT%],
+	   ROUND(AVG(CAST(pb.blocksReceived AS float)), 2) AS Blocked
 FROM playerBox AS pb INNER JOIN
 		player AS p ON pb.player_id = p.player_id AND pb.season_id = p.season_id INNER JOIN
 		team AS t ON pb.team_id = t.team_id AND pb.season_id = t.season_id INNER JOIN

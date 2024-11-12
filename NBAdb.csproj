@@ -129,6 +129,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ParlayAssistantDev.aspx" />
+    <Content Include="ParlayToolboxDev.aspx" />
     <Content Include="ParlayToolbox.aspx" />
     <Content Include="Playoffs.aspx" />
     <Content Include="BusDriver.aspx" />
@@ -217,6 +218,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="ParlayToolboxDev.aspx.cs">
+      <DependentUpon>ParlayToolboxDev.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ParlayToolboxDev.aspx.designer.cs">
+      <DependentUpon>ParlayToolboxDev.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Sportsbooks.cs" />
     <Compile Include="Broadcasts.cs" />
     <Compile Include="BoxScorePlayoff.cs" />

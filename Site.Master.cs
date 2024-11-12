@@ -64,6 +64,7 @@ namespace NBAdb
                     {
                         gameID.Add(JSON.Scoreboard.Games[i].GameId);
                         gameStatus.Add(JSON.Scoreboard.Games[i].GameStatus);
+
                         gameStatusText.Add(JSON.Scoreboard.Games[i].GameStatusText);
                         gameStart.Add(JSON.Scoreboard.Games[i].GameEt.ToShortTimeString());
                         homeID.Add(JSON.Scoreboard.Games[i].HomeTeam.TeamId);

@@ -106,6 +106,10 @@ namespace NBAdb
         {
             int start = Int32.Parse(season.Split('-')[0]);
             int end   = Int32.Parse(season.Split('-')[1]);
+            if(season.Split('-')[2] == "2024")
+            {
+                end = 22400231;
+            }
             int id = Int32.Parse(season.Split('-')[2]);
             FirstLoad(start, end, id);
             Playoffs playoffs = new Playoffs();
