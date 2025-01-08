@@ -46,7 +46,11 @@ namespace NBAdb
                 {
                     PlayByPlayPost(JSON, game_id, id, oldActions, actions, "playByPlayPlayoffsInsert", dynamicVariable);
                 }
-                if(sender == "Placeholder")
+                if (sender == "Admin")
+                {
+                    PlayByPlayPost(JSON, game_id, id, Int32.Parse(dynamicVariable), actions, "playByPlayInsert", dynamicVariable);
+                }
+                if (sender == "Placeholder")
                 {
                     //Throw to another methods with actions variable that compares actions vs the rows we have in the db for that game
                 }

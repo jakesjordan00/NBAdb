@@ -1,6 +1,5 @@
 
 --Standard Deviation of player average points
-
 create view PlayerStdDeviation
 as
 select b.season_id, p.player_id, p.name, t.team_id, concat('(', t.tricode, ') ', t.city, ' ', t.name) Team,
@@ -21,9 +20,9 @@ Round(SQRT(sum(SQUARE(b.points - a.Points))/count(b.game_id)), 3) PtsDeviation,
 from playerBox b inner join
 		player p on b.player_id = p.player_id and b.season_id = p.season_id inner join
 		team t on b.team_id = t.team_id and b.season_id = t.season_id inner join
-		playerBoxAverage a on p.name = a.Name and concat(t.city, ' ', t.name) = a.Team and b.season_id = a.season_id inner join
+		playerBoxAverage a on p.player_id = a.player_id and t.team_id= a.team_id and b.season_id = a.season_id inner join
 		teamBox tb on b.game_id = tb.game_id and t.team_id = tb.team_id and b.season_id = tb.season_id
-where b.status = 'ACTIVE' and b.minutesCalculated != 'PT00M'
---and tb.points - tb.pointsAgainst > 0
+where b.status = 'ACTIVE' and b.season_id = 2024
+and replace(replace(b.minutesCalculated, 'PT', ''), 'M', '') > (select cast(Minutes as decimal(18, 2))/2 from playerBoxAverage a where a.season_id = b.season_id and a.team_id = b.team_id and a.player_id = b.player_id)
 group by b.season_id, p.player_id, p.name, t.team_id, concat('(', t.tricode, ') ', t.city, ' ', t.name)
 

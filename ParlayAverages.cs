@@ -12,9 +12,9 @@ using System.Web.UI.WebControls;
 using System.Web.UI.HtmlControls;
 namespace NBAdb
 {
-    public class ParlayAverages
+    public class PropAverages
     {
-        public  ParlayAssistant parlayAssistant = new ParlayAssistant();
+        public  PropAssistant propAssistant = new PropAssistant();
         public static BusDriver busDriver = new BusDriver();
         public static int win = 3;
 
@@ -126,7 +126,7 @@ namespace NBAdb
                 }
             }
             GetDeltas(player, team, win, pd, ad, rd, fg3md, bd, sd, points, assists, rebounds, fg3m, blocks, steals, season);
-            //parlayAssistant.AddPlayerLabel(season, team, player, games, minutes, points, assists, rebounds, blocks, steals);
+            //propAssistant.AddPlayerLabel(season, team, player, games, minutes, points, assists, rebounds, blocks, steals);
             Name.Text = player;
             Team.Text = season + " " + team;
             Points.Text = points.ToString();
@@ -145,18 +145,18 @@ namespace NBAdb
             double fg3 = 0;
             double blk = 0;
             double stl = 0;
-            using (SqlCommand ParlayAverageFinder = new SqlCommand("ParlayAverageFinder"))
+            using (SqlCommand PropAverageFinder = new SqlCommand("ParlayAverageFinder"))
             {
-                ParlayAverageFinder.CommandType = CommandType.StoredProcedure;
-                ParlayAverageFinder.Parameters.AddWithValue("@Player", player);
-                ParlayAverageFinder.Parameters.AddWithValue("@Team", team);
-                ParlayAverageFinder.Parameters.AddWithValue("@Season", season);
-                using (SqlDataAdapter sParlayAverageFinder = new SqlDataAdapter())
+                PropAverageFinder.CommandType = CommandType.StoredProcedure;
+                PropAverageFinder.Parameters.AddWithValue("@Player", player);
+                PropAverageFinder.Parameters.AddWithValue("@Team", team);
+                PropAverageFinder.Parameters.AddWithValue("@Season", season);
+                using (SqlDataAdapter sPropAverageFinder = new SqlDataAdapter())
                 {
-                    ParlayAverageFinder.Connection = busDriver.SQLdb;
-                    sParlayAverageFinder.SelectCommand = ParlayAverageFinder;
+                    PropAverageFinder.Connection = busDriver.SQLdb;
+                    sPropAverageFinder.SelectCommand = PropAverageFinder;
                     busDriver.SQLdb.Open();
-                    SqlDataReader reader1 = ParlayAverageFinder.ExecuteReader();
+                    SqlDataReader reader1 = PropAverageFinder.ExecuteReader();
                     while (reader1.Read())
                     {
                         if(win == 1)

@@ -49,7 +49,6 @@ namespace NBAdb
             }
             using (SqlCommand PlayerSearch = new SqlCommand("BuildLogCheck"))
             {
-
                 PlayerSearch.CommandType = CommandType.StoredProcedure;
                 using (SqlDataAdapter sPlayerSearch = new SqlDataAdapter())
                 {
@@ -92,13 +91,14 @@ namespace NBAdb
                     InsertDataAway.Parameters.AddWithValue("@TimeElapsed", elapsedString);
                     InsertDataAway.Parameters.AddWithValue("@DatetimeStarted", start);
                     InsertDataAway.Parameters.AddWithValue("@DatetimeComplete", end);
+                    InsertDataAway.Parameters.AddWithValue("@Description", "First Time Load");
                     busDriver.SQLdb.Open();
                     InsertDataAway.ExecuteScalar();
                     busDriver.SQLdb.Close();
                 }
 
 
-                PlayerTeams(Int32.Parse(seasons[i].Split('-')[2]));
+                //PlayerTeams(Int32.Parse(seasons[i].Split('-')[2]));
             }
         }
 
@@ -106,18 +106,104 @@ namespace NBAdb
         {
             int start = Int32.Parse(season.Split('-')[0]);
             int end   = Int32.Parse(season.Split('-')[1]);
-            if(season.Split('-')[2] == "2024")
-            {
-                end = 22400231;
-            }
             int id = Int32.Parse(season.Split('-')[2]);
-            FirstLoad(start, end, id);
+            List<int> gameList = new List<int>();
+            if(id == 2024)
+            {
+                using (SqlCommand GameCheck = new SqlCommand("select distinct game_id from GameSchedule g where g.season_id = 2024 and g.date <= getdate()+1 and gameLabel != 'preseason'"))
+                {
+                    GameCheck.Connection = busDriver.SQLdb;
+                    GameCheck.CommandType = CommandType.Text;
+                    busDriver.SQLdb.Open();
+                    using (SqlDataReader sdr = GameCheck.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            gameList.Add(sdr.GetInt32(0));
+                            end = Int32.Parse(sdr["game_id"].ToString());
+                        }
+                    }
+                    busDriver.SQLdb.Close();
+                }
+            }
+            if (id == 2024)
+            {
+                FirstLoad24(gameList, id);
+            }
+            else
+            {
+                FirstLoad(start, end, id);
+            }
             Playoffs playoffs = new Playoffs();
             playoffs.FirstTimeLoadHandler(id);
         }
-        public static void PlayerTeams(int id)
+        public static void GameSchedule(int id)
         {
 
+        }
+        public void FirstLoad24(List<int> gameList, int id)
+        {
+            var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
+            string boxLink = "";
+            foreach(int game in gameList)
+            {
+                boxLink = "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_00" + game.ToString() + ".json";
+                try
+                {
+                    WebRequest BoxScoreReq = WebRequest.Create(boxLink);
+                    WebResponse BoxScoreResp = BoxScoreReq.GetResponse();
+                    string json = client.DownloadString(boxLink);
+                    Root JSON = JsonConvert.DeserializeObject<Root>(json);
+                    Official REF = JsonConvert.DeserializeObject<Official>(json);
+                    Player PLAYER = JsonConvert.DeserializeObject<Player>(json);
+                    SqlDateTime gameDate = JSON.game.gameEt.Date;
+                    GameCheck(JSON, game, JSON.game.homeTeam.score, JSON.game.awayTeam.score, id);
+                    BoxScore.GetJSON(game, "FirstTimeLoad", id);
+                    int game_id = Int32.Parse(JSON.game.gameId);
+                    //Send Variables to respecting Check methods
+                    if (arenas < 29 || JSON.game.arena.arenaId == 465)
+                    {
+                        ArenaCheck(JSON, JSON.game.arena.arenaId, id); //Sends arena_id from JSON to check if we have this Arena for this season already
+                    }
+                    if (teams < 30)
+                    {
+                        int team_id = JSON.game.homeTeam.teamId;    //Set team_id equal to the teamId of the Home team from JSON
+                        TeamCheck(JSON, team_id, id);                       //Send to TeamCheck, then TeamPost if not duplicate
+                        int away_id = JSON.game.awayTeam.teamId;    //Set team_id equal to the teamId of the Away team from JSON                  
+                        TeamCheck(JSON, away_id, id);                       //Send to TeamCheck, then TeamPost if not duplicate
+                    }
+                    //Officials
+                    for (int j = 0; j < JSON.game.officials.Count(); j++)
+                    {
+                        int official_id = JSON.game.officials[j].personId;          //Set official_id equal to the official_id of the j official 
+                        OfficialCheck(JSON, official_id, id, j);                  //send off to OfficialCheck
+                    }
+                    //Send gameID, method or 'sender', and seasonID
+                    PlayByPlay playByPlay = new PlayByPlay();
+                    playByPlay.Init(game, "FirstTimeLoad", id, "");
+
+                    //Home Players
+                    for (int j = 0; j < JSON.game.homeTeam.players.Count(); j++)
+                    {
+                        int player_id = JSON.game.homeTeam.players[j].personId;            //Set player_id equal to the player_id of the j home team's player 
+                        HomePlayerCheck(JSON, player_id, j, id);                           //send off to PlayerCheck
+                        int team_id = JSON.game.homeTeam.teamId;    //Set team_id equal to the teamId of the Home team from JSON
+                        PlayerTeamCheck(game_id, player_id, team_id, gameDate, id);
+                    }
+                    //Away Players
+                    for (int j = 0; j < JSON.game.awayTeam.players.Count(); j++)
+                    {
+                        int player_id = JSON.game.awayTeam.players[j].personId;            //Set player_id equal to the player_id of the j away team's player 
+                        AwayPlayerCheck(JSON, player_id, j, id);                        //send off to PlayerCheck again
+                        int team_id = JSON.game.awayTeam.teamId;    //Set team_id equal to the teamId of the Home team from JSON
+                        PlayerTeamCheck(game_id, player_id, team_id, gameDate, id);
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+            }           
         }
 
         public void FirstLoad(int start, int end, int id)
@@ -137,7 +223,7 @@ namespace NBAdb
                     Player PLAYER = JsonConvert.DeserializeObject<Player>(json);
                     SqlDateTime gameDate = JSON.game.gameEt.Date;
                     GameCheck(JSON, i, JSON.game.homeTeam.score, JSON.game.awayTeam.score, id);
-                    BoxScore.Init(JSON, "FirstTimeLoad", id);
+                    BoxScore.GetJSON(i, "FirstTimeLoad", id);
                     int game_id = Int32.Parse(JSON.game.gameId);
                     //Send Variables to respecting Check methods
                     if (arenas < 29 || JSON.game.arena.arenaId == 465)

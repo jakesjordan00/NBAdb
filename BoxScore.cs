@@ -21,21 +21,26 @@ using static NBAdb.FirstTimeLoad;
 namespace NBAdb
 {
 
-    public partial class BoxScore
+    public class BoxScore
     {
-        FirstTimeLoad first = new FirstTimeLoad();
-        public static BusDriver busDriver = new BusDriver();
-        public static void Init(FirstTimeLoad.Root JSON, string sender, int id)
-        {        
-            if(sender == "FirstTimeLoad")
+        FirstTimeLoad first = new FirstTimeLoad();public static BusDriver busDriver = new BusDriver();
+        public static void GetJSON(int id, string sender, int season)
+        {
+            var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
+            string boxLink = "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_00" + id + ".json";
+            WebRequest BoxScoreReq = WebRequest.Create(boxLink);
+            WebResponse BoxScoreResp = BoxScoreReq.GetResponse();
+            string json = client.DownloadString(boxLink);
+            Root JSON = JsonConvert.DeserializeObject<Root>(json);
+            BoxPost(JSON, season);
+            if(sender == "Refresh")
             {
-                BoxPost(JSON, id);
+                GameCheck(JSON, id, JSON.game.homeTeam.score, JSON.game.awayTeam.score, 2024);
             }
         }
 
 
-
-        public static void BoxPost(FirstTimeLoad.Root JSON, int id)
+        public static void BoxPost(Root JSON, int id)
         {
             using (SqlCommand InsertData = new SqlCommand("teamBoxInsert"))
             {
@@ -296,7 +301,7 @@ namespace NBAdb
                 PlayerBoxInsertAway(JSON, 0, id);
             }
         }
-        public static void PlayerBoxInsertAway(FirstTimeLoad.Root JSON, int updateCheck, int id)
+        public static void PlayerBoxInsertAway(Root JSON, int updateCheck, int id)
         {
             int players = JSON.game.awayTeam.players.Count;
             for (int i = 0; i < players; i++)
@@ -454,5 +459,282 @@ namespace NBAdb
             }
         }
 
+        public static void GameCheck(Root JSON, int game_id, int hScore, int aScore, int id)
+        {
+            using (SqlCommand GameSearch = new SqlCommand("gameCheck"))
+            {
+                GameSearch.CommandType = CommandType.StoredProcedure;
+                GameSearch.Parameters.AddWithValue("@game_id", game_id);
+                GameSearch.Parameters.AddWithValue("@id", id);
+                using (SqlDataAdapter sGameSearch = new SqlDataAdapter())
+                {
+                    GameSearch.Connection = busDriver.SQLdb;
+                    sGameSearch.SelectCommand = GameSearch;
+                    busDriver.SQLdb.Open();
+                    SqlDataReader reader = GameSearch.ExecuteReader();
+                    reader.Read();
+                    if (!reader.HasRows)
+                    {
+                        busDriver.SQLdb.Close();
+                        GamePost(JSON, game_id, hScore, aScore, id);
+                    }
+                    else
+                    {
+                        if (reader.GetInt32(7) != hScore && reader.GetInt32(7) != aScore)
+                        {
+                            busDriver.SQLdb.Close();
+                            GameUpdate(JSON, game_id, hScore, aScore, id);
+                        }
+                        else
+                        {
+                            busDriver.SQLdb.Close();
+                        }
+                    }
+                }
+            }
+        }
+        public static void GamePost(Root JSON, int game_id, int hScore, int aScore, int id)
+        {
+            using (SqlCommand InsertData = new SqlCommand("gameInsert"))
+            {
+                InsertData.Connection = busDriver.SQLdb;
+                InsertData.CommandType = CommandType.StoredProcedure;
+                InsertData.Parameters.AddWithValue("@game_id", game_id);
+                InsertData.Parameters.AddWithValue("@id", id);
+                InsertData.Parameters.AddWithValue("@date", JSON.game.gameTimeLocal.Date);
+                InsertData.Parameters.AddWithValue("@team_idH", JSON.game.homeTeam.teamId);
+                InsertData.Parameters.AddWithValue("@team_idA", JSON.game.awayTeam.teamId);
+                if (JSON.game.homeTeam.score >= JSON.game.awayTeam.score)
+                {
+                    InsertData.Parameters.AddWithValue("@team_idW", JSON.game.homeTeam.teamId);
+                    InsertData.Parameters.AddWithValue("@wScore", JSON.game.homeTeam.score);
+                    InsertData.Parameters.AddWithValue("@team_idL", JSON.game.awayTeam.teamId);
+                    InsertData.Parameters.AddWithValue("@lScore", JSON.game.awayTeam.score);
+                }
+                else
+                {
+                    InsertData.Parameters.AddWithValue("@team_idW", JSON.game.awayTeam.teamId);
+                    InsertData.Parameters.AddWithValue("@wScore", JSON.game.awayTeam.score);
+                    InsertData.Parameters.AddWithValue("@team_idL", JSON.game.homeTeam.teamId);
+                    InsertData.Parameters.AddWithValue("@lScore", JSON.game.homeTeam.score);
+                }
+                InsertData.Parameters.AddWithValue("@arena_id", JSON.game.arena.arenaId);
+                InsertData.Parameters.AddWithValue("@sellout", JSON.game.sellout);
+                busDriver.SQLdb.Open();
+                InsertData.ExecuteScalar();
+                busDriver.SQLdb.Close();
+            }
+        }
+        public static void GameUpdate(Root JSON, int game_id, int hScore, int aScore, int id)
+        {
+            using (SqlCommand Update = new SqlCommand("gameUpdate"))
+            {
+                Update.Connection = busDriver.SQLdb;
+                Update.CommandType = CommandType.StoredProcedure;
+                Update.Parameters.AddWithValue("@game_id", game_id);
+                Update.Parameters.AddWithValue("@id", id);
+                if (JSON.game.homeTeam.score >= JSON.game.awayTeam.score)
+                {
+                    Update.Parameters.AddWithValue("@team_idW", JSON.game.homeTeam.teamId);
+                    Update.Parameters.AddWithValue("@wScore", JSON.game.homeTeam.score);
+                    Update.Parameters.AddWithValue("@team_idL", JSON.game.awayTeam.teamId);
+                    Update.Parameters.AddWithValue("@lScore", JSON.game.awayTeam.score);
+                }
+                else
+                {
+                    Update.Parameters.AddWithValue("@team_idW", JSON.game.awayTeam.teamId);
+                    Update.Parameters.AddWithValue("@wScore", JSON.game.awayTeam.score);
+                    Update.Parameters.AddWithValue("@team_idL", JSON.game.homeTeam.teamId);
+                    Update.Parameters.AddWithValue("@lScore", JSON.game.homeTeam.score);
+                }
+                busDriver.SQLdb.Open();
+                Update.ExecuteScalar();
+                busDriver.SQLdb.Close();
+            }
+        }
+
+
+
+
+
+        public class Arena
+        {
+            public int arenaId { get; set; }
+            public string arenaName { get; set; }
+            public string arenaCity { get; set; }
+            public string arenaState { get; set; }
+            public string arenaCountry { get; set; }
+            public string arenaTimezone { get; set; }
+        }
+
+        public class AwayTeam
+        {
+            public int teamId { get; set; }
+            public string teamName { get; set; }
+            public string teamCity { get; set; }
+            public string teamTricode { get; set; }
+            public int score { get; set; }
+            public string inBonus { get; set; }
+            public int timeoutsRemaining { get; set; }
+            public List<Period> periods { get; set; }
+            public List<Player> players { get; set; }
+            public Statistics statistics { get; set; }
+        }
+
+        public class Game
+        {
+            public string gameId { get; set; }
+            public DateTime gameTimeLocal { get; set; }
+            public DateTime gameTimeUTC { get; set; }
+            public DateTime gameTimeHome { get; set; }
+            public DateTime gameTimeAway { get; set; }
+            public DateTime gameEt { get; set; }
+            public int duration { get; set; }
+            public string gameCode { get; set; }
+            public string gameStatusText { get; set; }
+            public int gameStatus { get; set; }
+            public int regulationPeriods { get; set; }
+            public int period { get; set; }
+            public string gameClock { get; set; }
+            public int attendance { get; set; }
+            public string sellout { get; set; }
+            public Arena arena { get; set; }
+            public List<Official> officials { get; set; }
+            public HomeTeam homeTeam { get; set; }
+            public AwayTeam awayTeam { get; set; }
+        }
+
+        public class HomeTeam
+        {
+            public int teamId { get; set; }
+            public string teamName { get; set; }
+            public string teamCity { get; set; }
+            public string teamTricode { get; set; }
+            public int score { get; set; }
+            public string inBonus { get; set; }
+            public int timeoutsRemaining { get; set; }
+            public List<Period> periods { get; set; }
+            public List<Player> players { get; set; }
+            public Statistics statistics { get; set; }
+        }
+
+        public class Meta
+        {
+            public int version { get; set; }
+            public int code { get; set; }
+            public string request { get; set; }
+            public string time { get; set; }
+        }
+
+        public class Official
+        {
+            public int personId { get; set; }
+            public string name { get; set; }
+            public string nameI { get; set; }
+            public string firstName { get; set; }
+            public string familyName { get; set; }
+            public string jerseyNum { get; set; }
+            public string assignment { get; set; }
+        }
+
+        public class Period
+        {
+            public int period { get; set; }
+            public string periodType { get; set; }
+            public int score { get; set; }
+        }
+
+        public class Player
+        {
+            public string status { get; set; }
+            public int order { get; set; }
+            public int personId { get; set; }
+            public string jerseyNum { get; set; }
+            public string position { get; set; }
+            public string starter { get; set; }
+            public string oncourt { get; set; }
+            public string played { get; set; }
+            public Statistics statistics { get; set; }
+            public string name { get; set; }
+            public string nameI { get; set; }
+            public string firstName { get; set; }
+            public string familyName { get; set; }
+            public string notPlayingReason { get; set; }
+            public string notPlayingDescription { get; set; }
+        }
+
+        public class Root
+        {
+            public Meta meta { get; set; }
+            public Game game { get; set; }
+        }
+
+        public class Statistics
+        {
+            public int assists { get; set; }
+            public int blocks { get; set; }
+            public int blocksReceived { get; set; }
+            public int fieldGoalsAttempted { get; set; }
+            public int fieldGoalsMade { get; set; }
+            public double fieldGoalsPercentage { get; set; }
+            public int foulsOffensive { get; set; }
+            public int foulsDrawn { get; set; }
+            public int foulsPersonal { get; set; }
+            public int foulsTechnical { get; set; }
+            public int freeThrowsAttempted { get; set; }
+            public int freeThrowsMade { get; set; }
+            public double freeThrowsPercentage { get; set; }
+            public double minus { get; set; }
+            public string minutes { get; set; }
+            public string minutesCalculated { get; set; }
+            public double plus { get; set; }
+            public double plusMinusPoints { get; set; }
+            public int points { get; set; }
+            public int pointsFastBreak { get; set; }
+            public int pointsInThePaint { get; set; }
+            public int pointsSecondChance { get; set; }
+            public int reboundsDefensive { get; set; }
+            public int reboundsOffensive { get; set; }
+            public int reboundsTotal { get; set; }
+            public int steals { get; set; }
+            public int threePointersAttempted { get; set; }
+            public int threePointersMade { get; set; }
+            public double threePointersPercentage { get; set; }
+            public int turnovers { get; set; }
+            public int twoPointersAttempted { get; set; }
+            public int twoPointersMade { get; set; }
+            public double twoPointersPercentage { get; set; }
+            public double assistsTurnoverRatio { get; set; }
+            public int benchPoints { get; set; }
+            public int biggestLead { get; set; }
+            public string biggestLeadScore { get; set; }
+            public int biggestScoringRun { get; set; }
+            public string biggestScoringRunScore { get; set; }
+            public int fastBreakPointsAttempted { get; set; }
+            public int fastBreakPointsMade { get; set; }
+            public double fastBreakPointsPercentage { get; set; }
+            public double fieldGoalsEffectiveAdjusted { get; set; }
+            public int foulsTeam { get; set; }
+            public int foulsTeamTechnical { get; set; }
+            public int leadChanges { get; set; }
+            public int pointsAgainst { get; set; }
+            public int pointsFromTurnovers { get; set; }
+            public int pointsInThePaintAttempted { get; set; }
+            public int pointsInThePaintMade { get; set; }
+            public double pointsInThePaintPercentage { get; set; }
+            public int reboundsPersonal { get; set; }
+            public int reboundsTeam { get; set; }
+            public int reboundsTeamDefensive { get; set; }
+            public int reboundsTeamOffensive { get; set; }
+            public int secondChancePointsAttempted { get; set; }
+            public int secondChancePointsMade { get; set; }
+            public double secondChancePointsPercentage { get; set; }
+            public string timeLeading { get; set; }
+            public int timesTied { get; set; }
+            public double trueShootingAttempts { get; set; }
+            public double trueShootingPercentage { get; set; }
+            public int turnoversTeam { get; set; }
+            public int turnoversTotal { get; set; }
+        }
     }
 }

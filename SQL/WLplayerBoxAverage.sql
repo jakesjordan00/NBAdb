@@ -25,7 +25,8 @@ SELECT pb.season_id,
 	   ROUND(AVG(pb.twoPointersPercentage) * 100, 2) AS [FG2%],
 	   ROUND(AVG(CAST(pb.freeThrowsMade AS float)), 2) AS FTM, 
 	   ROUND(AVG(CAST(pb.freeThrowsAttempted AS float)), 2) AS FTA, 
-	   ROUND(AVG(pb.freeThrowsPercentage) * 100, 2) AS [FT%]
+	   ROUND(AVG(pb.freeThrowsPercentage) * 100, 2) AS [FT%],
+	   ROUND(AVG(CAST(pb.blocksReceived AS float)), 2) AS Blocked
 FROM playerBox AS pb INNER JOIN
 		player AS p ON pb.player_id = p.player_id AND pb.season_id = p.season_id INNER JOIN
 		team AS t ON pb.team_id = t.team_id AND pb.season_id = t.season_id INNER JOIN

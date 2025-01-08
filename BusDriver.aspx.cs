@@ -6,6 +6,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using static UglyToad.PdfPig.PdfFonts.FontDescriptor;
+using System.Data.SqlTypes;
 
 namespace NBAdb
 {
@@ -157,9 +159,59 @@ namespace NBAdb
             }
         }
 
-        protected void btnUpdate_Click(object sender, EventArgs e)
-        {
 
+        protected void btnDelete_Click(object sender, EventArgs e)
+        {
+            string ConnectionString1 = "Server=localhost;Database=NBAdb;User Id=test;Password=test123;";
+            SqlConnection SQLdb1 = new SqlConnection(ConnectionString1);
+            DateTime start = DateTime.Now;
+            using (SqlCommand Delete2024 = new SqlCommand("Delete2024"))
+            {
+                Delete2024.CommandType = CommandType.StoredProcedure;
+                using (SqlDataAdapter sDelete2024 = new SqlDataAdapter())
+                {
+                    Delete2024.Connection = SQLdb1; 
+                    sDelete2024.SelectCommand = Delete2024;
+                    SQLdb1.Open();
+                    Delete2024.ExecuteNonQuery();
+                    SQLdb1.Close();
+                }
+            }
+            
+            int buildID = 0;
+            using (SqlCommand PlayerSearch = new SqlCommand("BuildLogCheck"))
+            {
+                PlayerSearch.CommandType = CommandType.StoredProcedure;
+                using (SqlDataAdapter sPlayerSearch = new SqlDataAdapter())
+                {
+                    PlayerSearch.Connection = SQLdb1;
+                    sPlayerSearch.SelectCommand = PlayerSearch;
+                    SQLdb1.Open();
+                    SqlDataReader reader = PlayerSearch.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        buildID = reader.GetInt32(0);
+                    }
+                    SQLdb1.Close();
+                }
+            }
+            using (SqlCommand InsertDataAway = new SqlCommand("BuildLogInsert"))
+            {
+                InsertDataAway.Connection = SQLdb1;
+                DateTime end = DateTime.Now;
+                InsertDataAway.CommandType = CommandType.StoredProcedure;
+                InsertDataAway.Parameters.AddWithValue("@BuildID", buildID);
+                InsertDataAway.Parameters.AddWithValue("@Season", 2024);
+                InsertDataAway.Parameters.AddWithValue("@TimeElapsed", SqlString.Null);
+                InsertDataAway.Parameters.AddWithValue("@DatetimeStarted", start);
+                InsertDataAway.Parameters.AddWithValue("@DatetimeComplete", end);
+                InsertDataAway.Parameters.AddWithValue("@Description", "Delete");
+                SQLdb1.Open();
+                InsertDataAway.ExecuteScalar();
+                SQLdb1.Close();
+            }
+            lblSeasonResult.Text = "2024 season deleted succsessfully";
+            lblSeasonResult.ForeColor = System.Drawing.Color.Green;
         }
     }
 }

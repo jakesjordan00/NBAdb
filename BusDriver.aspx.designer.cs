@@ -78,13 +78,13 @@ namespace NBAdb
         protected global::System.Web.UI.WebControls.Button btnFirstTimeLoad;
 
         /// <summary>
-        /// btnUpdate control.
+        /// btnDelete control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnUpdate;
+        protected global::System.Web.UI.WebControls.Button btnDelete;
 
         /// <summary>
         /// lblSeasonResult control.

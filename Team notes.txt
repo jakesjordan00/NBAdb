@@ -1,0 +1,151 @@
+https://cdn.nba.com/static/json/staticData/scheduleLeagueV2_1.json
+
+Atlanta Hawks
+	For:
+			
+	Against:
+			
+Boston Celtics
+	For:
+			
+	Against:
+			
+Brooklyn Nets
+	For:
+			
+	Against:
+			
+Charlotte Hornets
+	For:
+			3pt overs
+	Against:
+			
+Chicago Bulls
+	For:
+			
+	Against:
+			
+Cleveland Cavaliers
+	For:
+			
+	Against:
+			
+Dallas Mavericks
+	For:
+			
+	Against:
+			
+Denver Nuggets
+	For:
+			
+	Against:
+			
+Detroit Pistons
+	For:
+			Rebound overs?
+	Against:
+			Pts unders for bench players of opposing team
+			Pts overs for starters of opposing team
+			Pts Over for opposing center?
+			
+Golden State Warriors
+	For:
+			
+	Against:
+			
+Houston Rockets
+	For:
+			
+	Against:
+			
+Indiana Pacers
+	For:
+			
+	Against:
+			
+LA Clippers
+	For:
+			
+	Against:
+			
+Los Angeles Lakers
+	For:
+			
+	Against:
+			
+Memphis Grizzlies
+	For:
+			
+	Against:
+			
+Miami Heat
+	For:
+			
+	Against:
+			
+Milwaukee Bucks
+	For:
+			
+	Against:
+			
+Minnesota Timberwolves
+	For:
+			
+	Against:
+			
+New Orleans Pelicans
+	For:
+			
+	Against:
+			
+New York Knicks
+	For:
+			
+	Against:
+			
+Oklahoma City Thunder
+	For:
+			
+	Against:
+			
+Orlando Magic
+	For:
+			
+	Against:
+			
+Philadelphia 76ers
+	For:
+			
+	Against:
+			
+Phoenix Suns
+	For:
+			
+	Against:
+			
+Portland Trail Blazers
+	For:
+			
+	Against:
+			
+Sacramento Kings
+	For:
+			
+	Against:
+			
+San Antonio Spurs
+	For:
+			
+	Against:
+			
+Toronto Raptors
+	For:
+			
+	Against:
+			
+Utah Jazz
+	For:
+			
+	Against:
+			
+Washington Wizards

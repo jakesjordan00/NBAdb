@@ -13,9 +13,9 @@ using System.Web.UI.HtmlControls;
 
 namespace NBAdb
 {
-    public class ParlayAveragesExtended
+    public class PropAveragesExtended
     {
-        public ParlayAssistant parlayAssistant = new ParlayAssistant();
+        public PropAssistant propAssistant = new PropAssistant();
         public static BusDriver busDriver = new BusDriver();
         public static int win = 3;
         public static int season = 2023;
@@ -68,23 +68,23 @@ namespace NBAdb
             int WinLossTotal = 2;
             if (!string.IsNullOrEmpty(p) && !string.IsNullOrEmpty(i) && string.IsNullOrEmpty(p2) && string.IsNullOrEmpty(p3))
             {
-                procedure = "ParlayAveragesInjured";
+                procedure = "PropAveragesInjured";
             }
             else if (!string.IsNullOrEmpty(p) && !string.IsNullOrEmpty(p2) && string.IsNullOrEmpty(p3) && string.IsNullOrEmpty(i))
             {
-                procedure = "ParlayAveragesTwo";
+                procedure = "PropAveragesTwo";
             }
             else if (!string.IsNullOrEmpty(p) && !string.IsNullOrEmpty(p2) && !string.IsNullOrEmpty(i) && string.IsNullOrEmpty(p3))
             {
-                procedure = "ParlayAveragesTwoInjured";
+                procedure = "PropAveragesTwoInjured";
             }
             else if (!string.IsNullOrEmpty(p) && !string.IsNullOrEmpty(p2) && !string.IsNullOrEmpty(p3) && string.IsNullOrEmpty(i))
             {
-                procedure = "ParlayAveragesThree";
+                procedure = "PropAveragesThree";
             }
             else if (!string.IsNullOrEmpty(p) && !string.IsNullOrEmpty(p2) && !string.IsNullOrEmpty(i) && !string.IsNullOrEmpty(p3))
             {
-                procedure = "ParlayAveragesThreeInjured";
+                procedure = "PropAveragesThreeInjured";
             }
 
 
@@ -119,21 +119,21 @@ namespace NBAdb
             p1fg3m = 0;         p2fg3m = 0;         p3fg3m = 0;
             p1fg3a = 0;         p2fg3a = 0;         p3fg3a = 0;
             p1fg3p = 0;         p2fg3p = 0;         p3fg3p = 0;     games = 0;
-            using (SqlCommand ParlayAverageFinder = new SqlCommand(procedure))
+            using (SqlCommand PropAverageFinder = new SqlCommand(procedure))
             {
-                ParlayAverageFinder.CommandType = CommandType.StoredProcedure;
-                ParlayAverageFinder.Parameters.AddWithValue("@Player", p);
-                ParlayAverageFinder.Parameters.AddWithValue("@Player2", p2);
-                ParlayAverageFinder.Parameters.AddWithValue("@Player3", p3);
-                ParlayAverageFinder.Parameters.AddWithValue("@Injured", i);
-                ParlayAverageFinder.Parameters.AddWithValue("@Team", team);
-                ParlayAverageFinder.Parameters.AddWithValue("@season", season);
-                using (SqlDataAdapter sParlayAverageFinder = new SqlDataAdapter())
+                PropAverageFinder.CommandType = CommandType.StoredProcedure;
+                PropAverageFinder.Parameters.AddWithValue("@Player", p);
+                PropAverageFinder.Parameters.AddWithValue("@Player2", p2);
+                PropAverageFinder.Parameters.AddWithValue("@Player3", p3);
+                PropAverageFinder.Parameters.AddWithValue("@Injured", i);
+                PropAverageFinder.Parameters.AddWithValue("@Team", team);
+                PropAverageFinder.Parameters.AddWithValue("@season", season);
+                using (SqlDataAdapter sPropAverageFinder = new SqlDataAdapter())
                 {
-                    ParlayAverageFinder.Connection = busDriver.SQLdb;
-                    sParlayAverageFinder.SelectCommand = ParlayAverageFinder;
+                    PropAverageFinder.Connection = busDriver.SQLdb;
+                    sPropAverageFinder.SelectCommand = PropAverageFinder;
                     busDriver.SQLdb.Open();
-                    SqlDataReader reader = ParlayAverageFinder.ExecuteReader();
+                    SqlDataReader reader = PropAverageFinder.ExecuteReader();
                     while (reader.Read())
                     {
                         games = (int)reader[5];

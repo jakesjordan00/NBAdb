@@ -2,6 +2,8 @@
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -9,6 +11,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using static System.Net.WebRequestMethods;
+using static NBAdb.Admin;
 
 namespace NBAdb
 {
@@ -16,6 +19,7 @@ namespace NBAdb
     {
         public static int postback = 0;
         public static int games = 0;
+        int tomorrowGames = 0;
         public static List<string> gameID = new List<string>();
         public static List<int> gameStatus = new List<int>();
         public static List<string> gameStatusText = new List<string>();
@@ -30,6 +34,10 @@ namespace NBAdb
         public static List<string> awayCity = new List<string>();
         public static List<string> awayName = new List<string>();
         public static List<int> awayScore = new List<int>();
+        public static List<DateTime> gameDate = new List<DateTime>();
+
+
+        public static List<string> broadcasts = new List<string>();
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!this.IsPostBack)
@@ -50,6 +58,8 @@ namespace NBAdb
                 awayCity.Clear();
                 awayName.Clear();
                 awayScore.Clear();
+                broadcasts.Clear();
+                gameDate.Clear();
 
                 var sbClient = new WebClient { Encoding = System.Text.Encoding.UTF8 };
                 string sbEndpoint = "https://cdn.nba.com/static/json/liveData/scoreboard/todaysScoreboard_00.json";
@@ -64,7 +74,6 @@ namespace NBAdb
                     {
                         gameID.Add(JSON.Scoreboard.Games[i].GameId);
                         gameStatus.Add(JSON.Scoreboard.Games[i].GameStatus);
-
                         gameStatusText.Add(JSON.Scoreboard.Games[i].GameStatusText);
                         gameStart.Add(JSON.Scoreboard.Games[i].GameEt.ToShortTimeString());
                         homeID.Add(JSON.Scoreboard.Games[i].HomeTeam.TeamId);
@@ -77,49 +86,110 @@ namespace NBAdb
                         awayCity.Add(JSON.Scoreboard.Games[i].AwayTeam.TeamCity);
                         awayName.Add(JSON.Scoreboard.Games[i].AwayTeam.TeamName);
                         awayScore.Add(JSON.Scoreboard.Games[i].AwayTeam.Score);
-
-
-
-
+                        broadcasts.Add(string.Empty);
+                        gameDate.Add(DateTime.MinValue);
                     }
-
                 }
                 catch
                 {
 
                 }
+
             }
             else
             {
                 postback = 1;
             }
+
+            int day = 0;
+            if (DateTime.Now.Hour < 12)
+            {
+                day = 0;
+            }
+            else
+            {
+                day = 1;
+            }
+            tomorrowGames = games;
+            SqlConnection sqlConnect = new SqlConnection("Server=localhost;Database=NBAdb;User Id=test;Password=test123;");
+            using (sqlConnect)
+            {
+                using (SqlCommand TomorrowGames = new SqlCommand("TomorrowGames"))
+                {
+                    TomorrowGames.Connection = sqlConnect;
+                    TomorrowGames.CommandType = CommandType.StoredProcedure;
+                    TomorrowGames.Parameters.AddWithValue("@day", day);
+                    sqlConnect.Open();
+                    using (SqlDataReader sdr = TomorrowGames.ExecuteReader())
+                    {
+                        while (sdr.Read())
+                        {
+                            gameID.Add("00" + sdr["game_id"].ToString());
+                            gameStatus.Add(Int32.Parse(sdr["gameStatus"].ToString()));
+                            gameStatusText.Add(sdr["gameStatusText"].ToString());
+                            gameStart.Add(sdr["dateTime"].ToString());
+                            homeID.Add(Int32.Parse(sdr["home_id"].ToString()));
+                            homeTri.Add(sdr["homeTri"].ToString());
+                            homeCity.Add(sdr["homeCity"].ToString());
+                            homeName.Add(sdr["homeName"].ToString());
+                            homeScore.Add(Int32.Parse(sdr["homeScore"].ToString()));
+                            awayID.Add(Int32.Parse(sdr["away_id"].ToString()));
+                            awayTri.Add(sdr["awayTri"].ToString());
+                            awayCity.Add(sdr["awayCity"].ToString());
+                            awayName.Add(sdr["awayName"].ToString());
+                            awayScore.Add(Int32.Parse(sdr["awayScore"].ToString()));
+                            broadcasts.Add(sdr["broadcast"].ToString());
+                            gameDate.Add(DateTime.Parse(sdr["date"].ToString()));
+                            tomorrowGames++;
+                        }
+                    }
+                    sqlConnect.Close();
+                }
+            }
             List<Tuple<int, string>> containerWidth = new List<Tuple<int, string>>();
             containerWidth.Add(new Tuple<int, string>(0, "0px"));
-            containerWidth.Add(new Tuple<int, string>(1, "150px"));
-            containerWidth.Add(new Tuple<int, string>(2, "300px"));
-            containerWidth.Add(new Tuple<int, string>(3, "450px"));
-            containerWidth.Add(new Tuple<int, string>(4, "600px"));
-            containerWidth.Add(new Tuple<int, string>(5, "750px"));
-            containerWidth.Add(new Tuple<int, string>(6, "900px"));
-            containerWidth.Add(new Tuple<int, string>(7, "1050px"));
-            containerWidth.Add(new Tuple<int, string>(8, "1200px"));
-            containerWidth.Add(new Tuple<int, string>(9, "1350px"));
-            containerWidth.Add(new Tuple<int, string>(10, "1500px"));
-            containerWidth.Add(new Tuple<int, string>(11, "1650px"));
-            containerWidth.Add(new Tuple<int, string>(12, "1800px"));
-            containerWidth.Add(new Tuple<int, string>(13, "1950px"));
-            containerWidth.Add(new Tuple<int, string>(14, "2100px"));
-            containerWidth.Add(new Tuple<int, string>(15, "2250px"));
+            containerWidth.Add(new Tuple<int, string>(1, "300px"));
+            containerWidth.Add(new Tuple<int, string>(2, "450px"));
+            containerWidth.Add(new Tuple<int, string>(3, "600px"));
+            containerWidth.Add(new Tuple<int, string>(4, "750px"));
+            containerWidth.Add(new Tuple<int, string>(5, "900px"));
+            containerWidth.Add(new Tuple<int, string>(6, "1050px"));
+            containerWidth.Add(new Tuple<int, string>(7, "1200px"));
+            containerWidth.Add(new Tuple<int, string>(8, "1350px"));
+            containerWidth.Add(new Tuple<int, string>(9, "1500px"));
+            containerWidth.Add(new Tuple<int, string>(10, "1650px"));
+            containerWidth.Add(new Tuple<int, string>(11, "1800px"));
+            containerWidth.Add(new Tuple<int, string>(12, "1950px"));
+            containerWidth.Add(new Tuple<int, string>(13, "2100px"));
+            containerWidth.Add(new Tuple<int, string>(14, "2400px"));
+            containerWidth.Add(new Tuple<int, string>(15, "2550px"));
+            containerWidth.Add(new Tuple<int, string>(16, "2700px"));
+            containerWidth.Add(new Tuple<int, string>(17, "2850px"));
+            containerWidth.Add(new Tuple<int, string>(18, "3000px"));
+            containerWidth.Add(new Tuple<int, string>(19, "3150px"));
+            containerWidth.Add(new Tuple<int, string>(20, "3300px"));
 
 
-            ScoresRow.Attributes.Add("style", "overflow-x: auto; overflow-y:hidden; white-space: nowrap; max-width:" + containerWidth[games].Item2 + "; width:" + containerWidth[games].Item2 +
-                "; min-width: " + containerWidth[games].Item2 + "; max-height:87.5px; display:flex;");
+            ScoresRow.Attributes.Add("style", "overflow-x: auto; overflow-y:hidden; white-space: nowrap; max-width:" + containerWidth[tomorrowGames].Item2 + "; width:" + containerWidth[tomorrowGames].Item2 +
+                "; min-width: " + containerWidth[tomorrowGames].Item2 + "; max-height:87.5px; display:flex;");
 
-            for (int i = 0; i < games; i++)
+            for (int i = 0; i < tomorrowGames; i++)
             {
-                LoadScoreboard(games, gameID[i], gameStatus[i], gameStatusText[i], gameStart[i], homeID[i], homeTri[i], homeCity[i], homeName[i], homeScore[i], awayID[i], awayTri[i], awayCity[i], awayName[i], awayScore[i], i, postback);
+                if(i == games)
+                {
+                    Panel colDivDB = new Panel();
+                    colDivDB.CssClass = "col-sm-1";
+                    colDivDB.Attributes.Add("style", "width:30px; background-color:azure");
+                    ScoresRow.Controls.Add(colDivDB);
+                }
+                LoadScoreboard(tomorrowGames, gameID[i], gameStatus[i], gameStatusText[i], gameStart[i], homeID[i], homeTri[i], homeCity[i], homeName[i], homeScore[i], awayID[i], awayTri[i], awayCity[i], awayName[i], awayScore[i], i, postback, gameDate[i], broadcasts[i]);
             }
 
+
+            //for (int i = games; i < tomorrowGames; i++)
+            //{
+            //    LoadScoreboard(tomorrowGames, gameID[i], gameStatus[i], gameStatusText[i], gameStart[i], homeID[i], homeTri[i], homeCity[i], homeName[i], homeScore[i], awayID[i], awayTri[i], awayCity[i], awayName[i], awayScore[i], i, postback);
+            //}
 
 
         }
@@ -127,7 +197,7 @@ namespace NBAdb
 
 
         public void LoadScoreboard(int gameCount, string game_id, int status, string statusText, string start, int hID, string hTri, string hCity, string hName, int hScore,
-        int aID, string aTri, string aCity, string aName, int aScore, int counter, int postback)
+        int aID, string aTri, string aCity, string aName, int aScore, int counter, int postback, DateTime date, string broadcaster)
         {
             // Create a container div with class 'col-md-4'
             Panel colDiv = new Panel();
@@ -143,10 +213,10 @@ namespace NBAdb
             colDiv1_1.Attributes.Add("style", "width:75px; text-align:left; font-size: small");
 
             HyperLink label1 = new HyperLink();
-            label1.ID = "GameClock" + counter;
-
+            label1.ID = "GameClock" + counter;                            
             Broadcasts broadcasts = new Broadcasts();
             broadcasts.SpotUp(label1, game_id, status, postback);
+            
 
 
             if (status == 2)
@@ -157,9 +227,27 @@ namespace NBAdb
             {
                 label1.Text = "Final";
             }
-            else
+            else if(status != 1 || date == DateTime.Today.AddDays(1))
             {
-
+                if(broadcaster == "League Pass" || broadcaster == "NBA TV")
+                {
+                    broadcaster = "LP";
+                    label1.NavigateUrl = "https://www.nba.com/game/abc-vs-def-" + game_id + "?watch";// Replace with your dynamic link
+                    label1.Target = "_blank"; // This makes the link open in a new tab
+                }
+                else if (broadcaster.Contains("TNT"))
+                {
+                    label1.NavigateUrl = "https://play.max.com/sports"; // Replace with your dynamic link
+                    label1.Target = "_blank"; // This makes the link open in a new tab
+                    broadcaster = "TNT";
+                }
+                else if (broadcaster.Contains("ESPN"))
+                {
+                    label1.NavigateUrl = "https://www.espn.com/espnplus/catalog/7b3729c9-7f69-308a-bf8a-ee15a6aba154/nba#bucketId=29446&sourceCollection=Featured_Sports_"; 
+                    label1.Target = "_blank"; // This makes the link open in a new tab
+                    broadcaster = "ESPN";
+                }
+                label1.Text = "Tmrw - " + broadcaster;
             }
             label1.Attributes.Add("style", "text-decoration: none; color: inherit;");
 

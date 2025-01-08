@@ -8,9 +8,9 @@ using static NBAdb.FirstTimeLoad;
 
 namespace NBAdb
 {
-    public class ParlayBuilder
+    public class PropBuilder
     {
-        public static ParlayAssistant parlayAssistant = new ParlayAssistant();
+        public static PropAssistant propAssistant = new PropAssistant();
         public static BusDriver busDriver = new BusDriver();
         public static int playerID = 0;
         public static int gamesPlayed = 0;

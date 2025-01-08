@@ -27,7 +27,7 @@
 
         .container {
             overflow: hidden; /* Ensures the container adjusts its height based on floated elements */
-            min-width: 1900px
+            min-width: 2200px
         }
     </style>
 </head>
@@ -62,9 +62,10 @@
                 <div class="collapse navbar-collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/BusDriver" style="font-weight:600; color: floralwhite">Bus Driver</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/ParlayAssistant" style="font-weight:600; color: floralwhite">Parlay Assistant</a></li>
-                        <li class="nav-item"><a class="nav-link" runat="server" href="~/ParlayToolbox" style="font-weight:600; color: floralwhite">Parlay Toolbox</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Playoffs" style="font-weight:600; color: floralwhite">Playoffs</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/PropToolbox" style="font-weight:600; color: floralwhite">Prop Toolbox</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/FirstBaskets" style="font-weight:600; color: floralwhite">First Baskets</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/Admin" style="font-weight:600; color: floralwhite">Admin</a></li>
                     </ul>
                 </div>
             </div>
