@@ -55,7 +55,7 @@ namespace NBAdb
                                 }
                                 string link1 = "https://www.nba.com/gamenotes/" + team + ".pdf";
                                 links.Add(link1);
-                                //client.DownloadFile("https://www.nba.com/gamenotes/" + team + ".pdf", savepath + team + " - " + DateTime.Today.Month + "." + DateTime.Today.Day + "." + DateTime.Today.Year + ".pdf");
+                                client.DownloadFile("https://www.nba.com/gamenotes/" + team + ".pdf", savepath + team + " - " + DateTime.Today.Month + "." + DateTime.Today.Day + "." + DateTime.Today.Year + ".pdf");
                             }
                         }
                     }
