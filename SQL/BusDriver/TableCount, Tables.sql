@@ -22,3 +22,13 @@ from sys.tables t inner join
 		sys.partitions p on t.object_id = p.object_id
 WHERE type_desc = 'USER_TABLE'
 order by Rows desc
+go
+
+
+create procedure Views
+as
+SELECT v.Name
+from sys.views v 
+order by create_date desc
+
+

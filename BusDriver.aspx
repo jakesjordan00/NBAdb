@@ -17,6 +17,20 @@
             <asp:PlaceHolder ID="placeholder" runat="server"></asp:PlaceHolder>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-3">
+            <asp:Label ID="lblViewCount" runat="server" Text="View Count:" Font-Bold="true"></asp:Label>
+            <asp:Label ID="lblViews" runat="server" Text=""></asp:Label>
+        </div>
+    </div>
+    <div class="row" runat="server" id="rowViews" visible="false">  
+        <div class="col-sm-1">
+            <asp:Label ID="lblViews1" runat="server" Text=""></asp:Label>
+        </div>
+        <div class="container">
+            <asp:PlaceHolder ID="placeholderViews" runat="server"></asp:PlaceHolder>
+        </div>
+    </div>
     <hr />
     <h3>Load Settings</h3>
     <div class="col-lg-4">     
