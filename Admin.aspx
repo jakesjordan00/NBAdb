@@ -31,15 +31,15 @@
         <asp:Button ID="btnStarters" runat="server" Text="Get Starters" class="btn btn-primary active" BackColor="SkyBlue" ForeColor="White" BorderColor="White" OnClick="btnStarters_Click" />
         
         
-        <hr />
+<%--        <hr />
         <h4>Posessions</h4>
-        <h6>WIP Gets Play By Play data with posessions for 2024 season</h6>
-        <asp:Button ID="btnPosessions" runat="server" Text="Get Posession Data" class="btn btn-primary active" BackColor="SkyBlue" ForeColor="White" BorderColor="White" OnClick="btnPosessions_Click" />
+        <h6>WIP Gets Play By Play data with posessions for 2024 season</h6>--%>
+        <asp:Button ID="btnPosessions" runat="server" Text="Get Posession Data" class="btn btn-primary active" BackColor="SkyBlue" ForeColor="White" BorderColor="White" OnClick="btnPosessions_Click" Visible="false" />
 
-        <hr />
+<%--        <hr />
         <h4>Lineup details</h4>
         <h6>Gets Lineup details</h6>
-        <h10>WIP. Will ideally track who is on the court at a given time in each game for each team</h10><br />
-        <asp:Button ID="btnLineups" runat="server" Text="Get Lineup Details" class="btn btn-primary active" BackColor="SkyBlue" ForeColor="White" BorderColor="White" OnClick="btnLineups_Click" />
+        <h10>WIP. Will ideally track who is on the court at a given time in each game for each team</h10><br />--%>
+        <asp:Button ID="btnLineups" runat="server" Text="Get Lineup Details" class="btn btn-primary active" BackColor="SkyBlue" ForeColor="White" BorderColor="White" OnClick="btnLineups_Click" Visible="false" />
     </main>
 </asp:Content>

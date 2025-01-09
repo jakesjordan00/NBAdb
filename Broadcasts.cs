@@ -58,7 +58,7 @@ namespace NBAdb
                     }
                     else if (broadcast[i].Contains("ESPN"))
                     {
-                        link.NavigateUrl = "hhttps://www.espn.com/watch/"; // Replace with your dynamic link
+                        link.NavigateUrl = "https://www.espn.com/watch/"; // Replace with your dynamic link
                         link.Target = "_blank"; // This makes the link open in a new tab
                         broadcast[i] = "ESPN";
                     }

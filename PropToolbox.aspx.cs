@@ -258,7 +258,7 @@ namespace NBAdb
                         }
 
                         ddlLoad.Items.Clear();
-                        ListItem emptyItem = new ListItem("Saved Parlay", "");
+                        ListItem emptyItem = new ListItem("Saved Props", "");
                         ddlLoad.Items.Add(emptyItem);
 
                         foreach (DataRow row in dataT.Tables[0].Rows)
