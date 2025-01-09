@@ -1112,15 +1112,15 @@
         </div>
     </div>
     <asp:Button ID="btnRetrieve" runat="server" Text="Get Statistical Odds" class="btn btn-primary active" BackColor="Black" ForeColor="White" BorderColor="#ba9653" OnClick="btnRetrieve_Click"/>
-    <asp:Button ID="btnSave" runat="server" Text="Save Prop" class="btn btn-primary active" BackColor="SkyBlue" ForeColor="White" BorderColor="White" OnClick="btnSave_Click" Enabled="false"/>
-    <asp:Button ID="btnLoad" runat="server" Text="Load Prop" class="btn btn-primary active" BackColor="#d9efd3" ForeColor="Black" BorderColor="Black" OnClick="btnLoad_Click" Enabled="true"/>    
+    <asp:Button ID="btnSave" runat="server" Text="Save Props" class="btn btn-primary active" BackColor="SkyBlue" ForeColor="White" BorderColor="White" OnClick="btnSave_Click" Enabled="false"/>
+    <asp:Button ID="btnLoad" runat="server" Text="Load Props" class="btn btn-primary active" BackColor="#d9efd3" ForeColor="Black" BorderColor="Black" OnClick="btnLoad_Click" Enabled="true"/>    
         <asp:DropDownList 
             ID="ddlLoad" runat="server" aria-haspopup="true" aria-expanded="false"    
             DataKeyNames="Player"  BackColor="White" BorderColor="Black" Font-Size="Medium" ForeColor="Black" 
             AutoPostBack="true"  Width="700px"
             class="btn btn-primary dropdown-toggle"                
             OnSelectedIndexChanged="ddlLoad_SelectedIndexChanged">
-            <asp:ListItem Text="Saved Prop" Value="" />
+            <asp:ListItem Text="Saved Props" Value="" />
         </asp:DropDownList>
     <asp:Button ID="btnFill" runat="server" Text="Fill Minimums" class="btn btn-primary active" BackColor="#d9efd3" ForeColor="Black" BorderColor="Black" OnClick="btnFill_Click" Enabled="true"/>  
     <asp:Button ID="btnFillMax" runat="server" Text="Fill Maximums" class="btn btn-primary active" BackColor="#d9efd3" ForeColor="Black" BorderColor="Black" OnClick="btnFillMax_Click" Enabled="true"/>  
