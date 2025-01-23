@@ -145,43 +145,11 @@ namespace NBAdb
             Stopwatch stopwatch = new Stopwatch(); // Create a new stopwatch for each iteration
             stopwatch.Start(); // Start timing
             DateTime start = DateTime.Now;
-            string date = "";
             List<int> games = new List<int>();
-            using (SqlCommand GameCheck = new SqlCommand("select max(date) date from game"))
+            using (SqlCommand GameCheck = new SqlCommand("GamesToUpdate"))
             {
                 GameCheck.Connection = busDriver.SQLdb;
-                GameCheck.CommandType = CommandType.Text;
-                busDriver.SQLdb.Open();
-                using (SqlDataReader sdr = GameCheck.ExecuteReader())
-                {
-                    while (sdr.Read())
-                    {
-                        DateTime datetime = DateTime.Parse(sdr["date"].ToString());
-                        if(datetime.Day < 10)
-                        {
-                            date = datetime.Year.ToString() + datetime.Month.ToString() + "0" + datetime.Day.ToString();
-                        }
-                        if (datetime.Month < 10)
-                        {
-                            date = datetime.Year.ToString() + "0" + datetime.Month.ToString() + datetime.Day.ToString();
-                        }
-                        if(datetime.Day < 10 && datetime.Month < 10)
-                        {
-                            date = datetime.Year.ToString() + "0" + datetime.Month.ToString() + "0" + datetime.Day.ToString();
-                        }
-                        if (datetime.Day >= 10 && datetime.Month >= 10)
-                        {
-                            date = datetime.Year.ToString() + datetime.Month.ToString() + datetime.Day.ToString();
-                        }
-                            
-                    }
-                }
-                busDriver.SQLdb.Close();            
-            }
-            using (SqlCommand GameCheck = new SqlCommand("select distinct game_id from GameSchedule where date >= '" + date + "' and datetime <= '" + DateTime.Now + "' and gameStatusText != 'PPD'"))
-            {
-                GameCheck.Connection = busDriver.SQLdb;
-                GameCheck.CommandType = CommandType.Text;
+                GameCheck.CommandType = CommandType.StoredProcedure;
                 busDriver.SQLdb.Open();
                 using (SqlDataReader sdr = GameCheck.ExecuteReader())
                 {
