@@ -178,7 +178,7 @@ namespace NBAdb
                 }
                 busDriver.SQLdb.Close();            
             }
-            using (SqlCommand GameCheck = new SqlCommand("select distinct game_id from GameSchedule where date >= '" + date + "' and datetime <= '" + DateTime.Now + "'"))
+            using (SqlCommand GameCheck = new SqlCommand("select distinct game_id from GameSchedule where date >= '" + date + "' and datetime <= '" + DateTime.Now + "' and gameStatusText != 'PPD'"))
             {
                 GameCheck.Connection = busDriver.SQLdb;
                 GameCheck.CommandType = CommandType.Text;
@@ -206,7 +206,7 @@ namespace NBAdb
                 }
                 PlayByPlay playByPlay = new PlayByPlay();
                 playByPlay.Init(game, "Admin", 2024, dynamic);
-                BoxScore.GetJSON(game, "Refresh", 2024);
+                BoxScore.GetJSON(game, "Refresh", 2024);                
             }
 
             stopwatch.Stop();

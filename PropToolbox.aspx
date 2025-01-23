@@ -681,10 +681,10 @@
         </div>
         <div class="col" style="margin-top:-374px">
             <div class="row" style="margin-top:0px">
-                <div class="col-md-1" style="width:100px; padding-right:0px">
+                <div class="col-md-1" style="width:125px; padding-right:0px">
                     <asp:Label ID="opSt" runat="server" Text="Steals/TOs:" Font-Size="Medium" Font-Bold="true" Visible="false"></asp:Label>
                 </div>
-                <div class="col-sm-1" style="width: 70px">
+                <div class="col-sm-1" style="width: 95px">
                     <asp:Label ID="opStl" runat="server" Text="" Font-Size="Medium" Font-Bold="true"></asp:Label>
                 </div>
                 <div class="col-md-1" style="width:auto">

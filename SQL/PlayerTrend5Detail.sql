@@ -6,6 +6,10 @@ WITH PlayerGameRanks AS (
         fieldGoalsAttempted, fieldGoalsMade, fieldGoalsPercentage, foulsOffensive, foulsDrawn, foulsPersonal, 
         foulsTechnical, freeThrowsAttempted, freeThrowsMade, freeThrowsPercentage, minus, minutes, minutesCalculated, 
         plus, plusMinusPoints, pointsFastBreak, pointsInThePaint, pointsSecondChance, reboundsDefensive, 
+                         points + assists [P+A],
+                         points + reboundsTotal [P+R],
+                         reboundsTotal + assists [A+R],
+                         points + assists + reboundsTotal [P+A+R],
         reboundsOffensive, reboundsTotal, steals, threePointersAttempted, threePointersMade, threePointersPercentage, 
         turnovers, twoPointersAttempted, twoPointersMade, twoPointersPercentage, statusReason, statusDescription, g.date,
         ROW_NUMBER() OVER (PARTITION BY player_id ORDER BY date DESC) AS game_rank
@@ -38,7 +42,11 @@ twoPointersAttempted AS FG2A,
 round(twoPointersPercentage * 100, 2) AS [FG2%], 
 freeThrowsMade AS FTM, 
 freeThrowsAttempted AS FTA, 
-round(freeThrowsPercentage * 100, 2) AS [FT%]
+round(freeThrowsPercentage * 100, 2) AS [FT%],
+points + assists [P+A],
+points + reboundsTotal [P+R],
+reboundsTotal + assists [A+R],
+points + assists + reboundsTotal [P+A+R]
      FROM            PlayerGameRanks r INNER JOIN
                               player p ON r.player_id = p.player_id AND p.season_id =
                                   (SELECT        max(season_id)

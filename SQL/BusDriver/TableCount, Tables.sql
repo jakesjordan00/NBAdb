@@ -31,4 +31,6 @@ SELECT v.Name
 from sys.views v 
 order by create_date desc
 
+select * from team where season_id = 2024
 
+select distinct concat(substring(cast(date as varchar(20)), 1, 4), substring(cast(date as varchar(20)), 6, 2), substring(cast(date as varchar(20)), 9, 2)) date from GameSchedule where season_id = 2024 and date <= cast(getdate() as date) and gameLabel != 'Preseason' order by date desc
