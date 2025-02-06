@@ -1268,7 +1268,7 @@ namespace NBAdb
                 "sum(case when Result != 'Make' then 1 else 0 end) Miss, " +
                 "count(Shot) Total, " +
                 "cast(cast(sum(case when Result = 'Make' then 1 else 0 end)as decimal(18, 5))/cast(count(Shot)as decimal(18, 5)) as decimal(18, 5)) Pct " +
-                "from FirstBaskets f inner join StartingLineups s on f.game_id = s.game_id and f.player_id = s.player_id and f.season_id = s.season_id " +
+                "from FirstBaskets f left join StartingLineups s on f.game_id = s.game_id and f.player_id = s.player_id and f.season_id = s.season_id " +
                 "where f.season_id = 2024 and f.opponent_id = " + ddOpponent.SelectedItem.Value + " " + firstShotWhereOp;
             groupBy = " group by f.season_id, f.opponent, s.position";
             using (SqlCommand OpponentTotals = new SqlCommand(selectFromWhere + groupBy))

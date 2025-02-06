@@ -153,7 +153,7 @@ namespace NBAdb
                         {
                             if (reader[0].ToString() == "2020" && reader[1].ToString() == "1080")
                             {
-                                chkSeasons.Items[0].Enabled = false;
+                                //chkSeasons.Items[0].Enabled = false;
                             }
                             else if (reader[0].ToString() == "2021" && reader[1].ToString() == "1230")
                             {
