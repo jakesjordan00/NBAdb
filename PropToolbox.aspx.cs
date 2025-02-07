@@ -1566,21 +1566,21 @@ namespace NBAdb
                 if (i == 0)
                 {
                     dnp1 = Int32.Parse(t1DNPs[0].SelectedItem.Value);
-                    from += " inner join playerBox d on p.game_id = d.game_id and p.team_id = d.team_id and p.season_id = d.season_id";
+                    from += " left join playerbox d on p.game_id = d.game_id and p.team_id = d.team_id and p.season_id = d.season_id";
                     where += " and (d.status != 'ACTIVE' or replace(replace(d.minutesCalculated, 'PT', ''), 'M', '') < (select Minutes from playerBoxAverage a where a.season_id = d.season_id and a.team_id = d.team_id and a.player_id = d.player_id) - ((select Minutes from playerBoxAverage a where a.season_id = d.season_id and a.team_id = d.team_id and a.player_id = d.player_id)/2)) and d.player_id = " + dnp1;
                     DNP1.Text = "DNP: " + t1DNPs[0].SelectedItem.Text;
                 }
                 else if (i == 1)
                 {
                     dnp2 = Int32.Parse(t1DNPs[1].SelectedItem.Value);
-                    from += " inner join playerBox d2 on p.game_id = d2.game_id and p.team_id = d2.team_id and p.season_id = d2.season_id";
+                    from += " left join playerbox d2 on p.game_id = d2.game_id and p.team_id = d2.team_id and p.season_id = d2.season_id";
                     where += " and (d2.status != 'ACTIVE' or replace(replace(d2.minutesCalculated, 'PT', ''), 'M', '') <  (select Minutes from playerBoxAverage a where a.season_id = d2.season_id and a.team_id = d2.team_id and a.player_id = d2.player_id) - ((select Minutes from playerBoxAverage a where a.season_id = d2.season_id and a.team_id = d2.team_id and a.player_id = d2.player_id)/2)) and d2.player_id = " + dnp2;
                     DNP2.Text = "DNP: " + t1DNPs[1].SelectedItem.Text;
                 }
                 else if (i == 2)
                 {
                     dnp3 = Int32.Parse(t1DNPs[2].SelectedItem.Value);
-                    from += " inner join playerBox d3 on p.game_id = d3.game_id and p.team_id = d3.team_id and p.season_id = d3.season_id";
+                    from += " left join playerbox d3 on p.game_id = d3.game_id and p.team_id = d3.team_id and p.season_id = d3.season_id";
                     where += " and (d3.status != 'ACTIVE' or replace(replace(d3.minutesCalculated, 'PT', ''), 'M', '') < (select Minutes from playerBoxAverage a where a.season_id = d3.season_id and a.team_id = d3.team_id and a.player_id = d3.player_id) - ((select Minutes from playerBoxAverage a where a.season_id = d3.season_id and a.team_id = d3.team_id and a.player_id = d3.player_id)/2)) and d3.player_id = " + dnp3;
                     DNP3.Text = "DNP: " + t1DNPs[2].SelectedItem.Text;
                 }
@@ -3751,17 +3751,17 @@ namespace NBAdb
             if(ddlDNP.SelectedItem.Text != "DNP Player")
             {
                 from = " from playerBox p inner join teamBox t on p.game_id = t.game_id and p.team_id = t.team_id and p.season_id = t.season_id ";
-                from += " inner join playerBox d on p.game_id = d.game_id and p.team_id = d.team_id and p.season_id = d.season_id ";
+                from += " left join playerbox d on p.game_id = d.game_id and p.team_id = d.team_id and p.season_id = d.season_id ";
                 where += " and (d.status != 'ACTIVE' or replace(replace(d.minutesCalculated, 'PT', ''), 'M', '') < (select Minutes from playerBoxAverage a where a.season_id = d.season_id and a.team_id = d.team_id and a.player_id = d.player_id) - ((select Minutes from playerBoxAverage a where a.season_id = d.season_id and a.team_id = d.team_id and a.player_id = d.player_id)/2)) and d.player_id = " + ddlDNP.SelectedItem.Value;
             }
             if (ddlDNP2.SelectedItem.Text != "DNP Player")
             {
-                from += " inner join playerBox d2 on p.game_id = d2.game_id and p.team_id = d2.team_id and p.season_id = d2.season_id ";
+                from += " left join playerbox d2 on p.game_id = d2.game_id and p.team_id = d2.team_id and p.season_id = d2.season_id ";
                 where += " and (d2.status != 'ACTIVE' or replace(replace(d2.minutesCalculated, 'PT', ''), 'M', '') <  (select Minutes from playerBoxAverage a where a.season_id = d2.season_id and a.team_id = d2.team_id and a.player_id = d2.player_id) - ((select Minutes from playerBoxAverage a where a.season_id = d2.season_id and a.team_id = d2.team_id and a.player_id = d2.player_id)/2)) and d2.player_id = " + ddlDNP2.SelectedItem.Value;
             }
             if (ddlDNP3.SelectedItem.Text != "DNP Player")
             {
-                from += " inner join playerBox d3 on p.game_id = d3.game_id and p.team_id = d3.team_id and p.season_id = d3.season_id ";
+                from += " left join playerbox d3 on p.game_id = d3.game_id and p.team_id = d3.team_id and p.season_id = d3.season_id ";
                 where += " and (d3.status != 'ACTIVE' or replace(replace(d3.minutesCalculated, 'PT', ''), 'M', '') < (select Minutes from playerBoxAverage a where a.season_id = d3.season_id and a.team_id = d3.team_id and a.player_id = d3.player_id) - ((select Minutes from playerBoxAverage a where a.season_id = d3.season_id and a.team_id = d3.team_id and a.player_id = d3.player_id)/2))  and d3.player_id = " + ddlDNP3.SelectedItem.Value;
             }
 
