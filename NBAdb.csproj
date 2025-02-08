@@ -294,6 +294,7 @@
       <DependentUpon>PropPicker.aspx</DependentUpon>
     </Compile>
     <Compile Include="pbpPosessions.cs" />
+    <Compile Include="StartingLineupsv2.cs" />
     <Compile Include="StartingLineups.cs" />
     <Compile Include="Sportsbooks.cs" />
     <Compile Include="Broadcasts.cs" />

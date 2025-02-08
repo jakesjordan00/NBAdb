@@ -16,6 +16,9 @@ using Microsoft.SqlServer.Server;
 using NBAdb;
 using System.Data.SqlTypes;
 using System.Drawing;
+using static NBAdb.Admin;
+using System.Diagnostics;
+using static UglyToad.PdfPig.PdfFonts.FontDescriptor;
 
 namespace NBAdb
 {
@@ -101,6 +104,11 @@ namespace NBAdb
 
             }
         }
+
+
+
+
+
         public void StarterInsert()
         {
             List<string> dates = new List<string>();
@@ -307,6 +315,168 @@ namespace NBAdb
                 {
 
                 }
+            }
+        }
+
+
+
+        public void StarterFullRefresh()
+        {
+            Stopwatch stopwatch = new Stopwatch(); // Create a new stopwatch for each iteration
+            stopwatch.Start(); // Start timing
+            DateTime start = DateTime.Now;
+            List<string> dates = new List<string>();
+            Dictionary<int, string> updateDate = new Dictionary<int, string>();
+            List<int> update = new List<int>();
+            using (SqlCommand GameCheck = new SqlCommand("select distinct concat(substring(cast(date as varchar(20)), 1, 4), substring(cast(date as varchar(20)), 6, 2), substring(cast(date as varchar(20)), 9, 2)) date from GameSchedule where season_id = 2024 and date <= cast(getdate() as date) and gameLabel != 'Preseason' order by date desc"))
+            {
+                GameCheck.Connection = busDriver.SQLdb;
+                GameCheck.CommandType = CommandType.Text;
+                busDriver.SQLdb.Open();
+                using (SqlDataReader sdr = GameCheck.ExecuteReader())
+                {
+                    while (sdr.Read())
+                    {
+                        dates.Add(sdr.GetString(0));
+                    }
+                }
+                busDriver.SQLdb.Close();
+            }
+            using (SqlCommand ScheduleInsert = new SqlCommand("delete from StartingLineups"))
+            {
+                ScheduleInsert.Connection = busDriver.SQLdb;
+                ScheduleInsert.CommandType = CommandType.Text;
+                busDriver.SQLdb.Open();
+                ScheduleInsert.ExecuteNonQuery();
+                busDriver.SQLdb.Close();
+            }
+            foreach (string date in dates)
+            {
+                try
+                {
+                    var sbClient = new WebClient { Encoding = System.Text.Encoding.UTF8 };
+                    string json = "https://stats.nba.com/js/data/leaders/00_daily_lineups_" + date + ".json";
+                    WebRequest sbReq = WebRequest.Create(json);
+                    WebResponse sbResp = sbReq.GetResponse();
+                    string sbJson = sbClient.DownloadString(json);
+                    GameData gameData = JsonConvert.DeserializeObject<GameData>(sbJson);
+                    //for (int i = 0; i < gameData.Games.Count; i++)
+                    //{
+
+                    //}
+
+                    foreach (Game game in gameData.Games)
+                    {
+                        for (int i = 0; i < game.HomeTeam.Players.Count; i++)
+                        {
+                            using (SqlCommand InsertData = new SqlCommand("StartingLineupInsert"))
+                            {
+                                InsertData.CommandType = CommandType.StoredProcedure;
+                                InsertData.Parameters.AddWithValue("@season_id", 2024);
+                                InsertData.Parameters.AddWithValue("@game_id", game.GameId);
+                                InsertData.Parameters.AddWithValue("@team_id", game.HomeTeam.TeamId);
+                                InsertData.Parameters.AddWithValue("@player_id", game.HomeTeam.Players[i].PersonId);
+                                InsertData.Parameters.AddWithValue("@position", game.HomeTeam.Players[i].Position);
+                                InsertData.Parameters.AddWithValue("@rosterStatus", game.HomeTeam.Players[i].RosterStatus);
+                                InsertData.Parameters.AddWithValue("@lineupStatus", game.HomeTeam.Players[i].LineupStatus);
+                                InsertData.Parameters.AddWithValue("@home", 1);
+                                InsertData.Parameters.AddWithValue("@tricode", game.HomeTeam.TeamAbbreviation);
+                                InsertData.Parameters.AddWithValue("@player", game.HomeTeam.Players[i].PlayerName);
+                                using (SqlDataAdapter sInsertData = new SqlDataAdapter())
+                                {
+                                    InsertData.Connection = busDriver.SQLdb;
+                                    sInsertData.SelectCommand = InsertData;
+                                    try
+                                    {
+                                        busDriver.SQLdb.Open();
+                                    }
+                                    catch
+                                    {
+                                        busDriver.SQLdb.Close();
+                                        busDriver.SQLdb.Open();
+                                    }
+                                    InsertData.ExecuteScalar();
+                                    busDriver.SQLdb.Close();
+                                }
+                            }
+                        }
+                        for (int i = 0; i < game.AwayTeam.Players.Count; i++)
+                        {
+                            using (SqlCommand InsertData = new SqlCommand("StartingLineupInsert"))
+                            {
+                                InsertData.CommandType = CommandType.StoredProcedure;
+                                InsertData.Parameters.AddWithValue("@season_id", 2024);
+                                InsertData.Parameters.AddWithValue("@game_id", game.GameId);
+                                InsertData.Parameters.AddWithValue("@team_id", game.AwayTeam.TeamId);
+                                InsertData.Parameters.AddWithValue("@player_id", game.AwayTeam.Players[i].PersonId);
+                                InsertData.Parameters.AddWithValue("@position", game.AwayTeam.Players[i].Position);
+                                InsertData.Parameters.AddWithValue("@rosterStatus", game.AwayTeam.Players[i].RosterStatus);
+                                InsertData.Parameters.AddWithValue("@lineupStatus", game.AwayTeam.Players[i].LineupStatus);
+                                InsertData.Parameters.AddWithValue("@home", 0);
+                                InsertData.Parameters.AddWithValue("@tricode", game.AwayTeam.TeamAbbreviation);
+                                InsertData.Parameters.AddWithValue("@player", game.AwayTeam.Players[i].PlayerName);
+                                using (SqlDataAdapter sInsertData = new SqlDataAdapter())
+                                {
+                                    InsertData.Connection = busDriver.SQLdb;
+                                    sInsertData.SelectCommand = InsertData;
+                                    try
+                                    {
+                                        busDriver.SQLdb.Open();
+                                    }
+                                    catch
+                                    {
+                                        busDriver.SQLdb.Close();
+                                        busDriver.SQLdb.Open();
+                                    }
+                                    InsertData.ExecuteScalar();
+                                    busDriver.SQLdb.Close();
+                                }
+                            }
+                        }
+
+                    }
+                }
+                catch
+                {
+
+                }
+            }
+
+            int buildID = 0;
+            using (SqlCommand PlayerSearch = new SqlCommand("BuildLogCheck"))
+            {
+                PlayerSearch.CommandType = CommandType.StoredProcedure;
+                using (SqlDataAdapter sPlayerSearch = new SqlDataAdapter())
+                {
+
+                    PlayerSearch.Connection = busDriver.SQLdb;
+                    sPlayerSearch.SelectCommand = PlayerSearch;
+                    busDriver.SQLdb.Open();
+                    SqlDataReader reader = PlayerSearch.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        buildID = reader.GetInt32(0);
+                    }
+                    busDriver.SQLdb.Close();
+                }
+            }
+            stopwatch.Stop();
+            DateTime end = DateTime.Now;
+            TimeSpan timeElapsed = stopwatch.Elapsed;
+            string elapsedString = timeElapsed.Hours + ":" + timeElapsed.Minutes + ":" + timeElapsed.Seconds + "." + timeElapsed.Milliseconds;
+            using (SqlCommand InsertDataAway = new SqlCommand("BuildLogInsert"))
+            {
+                InsertDataAway.Connection = busDriver.SQLdb;
+                InsertDataAway.CommandType = CommandType.StoredProcedure;
+                InsertDataAway.Parameters.AddWithValue("@BuildID", buildID);
+                InsertDataAway.Parameters.AddWithValue("@Season", 2024);
+                InsertDataAway.Parameters.AddWithValue("@TimeElapsed", elapsedString);
+                InsertDataAway.Parameters.AddWithValue("@DatetimeStarted", start);
+                InsertDataAway.Parameters.AddWithValue("@DatetimeComplete", end);
+                InsertDataAway.Parameters.AddWithValue("@Description", "Starter Refresh");
+                busDriver.SQLdb.Open();
+                InsertDataAway.ExecuteScalar();
+                busDriver.SQLdb.Close();
             }
         }
     }

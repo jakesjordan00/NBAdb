@@ -323,7 +323,8 @@ namespace NBAdb
         public void btnStarters_Click(object sender, EventArgs e)
         {
             StartingLineups startingLineups = new StartingLineups();
-            startingLineups.StarterInsert();
+            //startingLineups.StarterInsert();
+            startingLineups.StarterFullRefresh();
         }
 
         protected void btnLineups_Click(object sender, EventArgs e)
