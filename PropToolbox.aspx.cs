@@ -1001,6 +1001,10 @@ namespace NBAdb
                         PlayerSearch.Parameters.AddWithValue("@win", 0);
                     }
                 }
+                else
+                {
+                    PlayerSearch.Parameters.AddWithValue("@season", season);
+                }
                 using (SqlDataAdapter sPlayerSearch = new SqlDataAdapter())
                 {
                     PlayerSearch.Connection = busDriver.SQLdb;

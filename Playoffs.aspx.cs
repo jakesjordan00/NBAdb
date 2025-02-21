@@ -51,6 +51,7 @@ namespace NBAdb
             PlayoffSeries(season);
         }
 
+
         protected void PlayoffSeries(int season)
         {
             var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };

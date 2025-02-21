@@ -37,7 +37,8 @@ namespace NBAdb
                     WebResponse BoxScoreResp = BoxScoreReq.GetResponse();
                     string json = client.DownloadString(boxLink);
                     Root JSON = JsonConvert.DeserializeObject<Root>(json);
-                    BoxPost(JSON, season, seriesID, game);
+                    GamePost(JSON, i, season, seriesID);
+                    //BoxPost(JSON, season, seriesID, game);
                 }
                 catch 
                 {
@@ -45,7 +46,40 @@ namespace NBAdb
                 }
                 game++;
                 PlayByPlay playByPlay = new PlayByPlay();
-                playByPlay.Init(i, "Playoffs", season, seriesID);
+                //playByPlay.Init(i, "Playoffs", season, seriesID);
+            }
+        }
+        public static void GamePost(Root JSON, int game_id, int id, string seriesID)
+        {
+            using (SqlCommand InsertData = new SqlCommand("playoffGameInsert"))
+            {
+                InsertData.Connection = busDriver.SQLdb;
+                InsertData.CommandType = CommandType.StoredProcedure;
+                InsertData.Parameters.AddWithValue("@id", id);
+                InsertData.Parameters.AddWithValue("@series_id", seriesID);
+                InsertData.Parameters.AddWithValue("@game_id", game_id);
+                InsertData.Parameters.AddWithValue("@date", JSON.game.gameTimeLocal.Date);
+                InsertData.Parameters.AddWithValue("@team_idH", JSON.game.homeTeam.teamId);
+                InsertData.Parameters.AddWithValue("@team_idA", JSON.game.awayTeam.teamId);
+                if (JSON.game.homeTeam.score >= JSON.game.awayTeam.score)
+                {
+                    InsertData.Parameters.AddWithValue("@team_idW", JSON.game.homeTeam.teamId);
+                    InsertData.Parameters.AddWithValue("@wScore", JSON.game.homeTeam.score);
+                    InsertData.Parameters.AddWithValue("@team_idL", JSON.game.awayTeam.teamId);
+                    InsertData.Parameters.AddWithValue("@lScore", JSON.game.awayTeam.score);
+                }
+                else
+                {
+                    InsertData.Parameters.AddWithValue("@team_idW", JSON.game.awayTeam.teamId);
+                    InsertData.Parameters.AddWithValue("@wScore", JSON.game.awayTeam.score);
+                    InsertData.Parameters.AddWithValue("@team_idL", JSON.game.homeTeam.teamId);
+                    InsertData.Parameters.AddWithValue("@lScore", JSON.game.homeTeam.score);
+                }
+                InsertData.Parameters.AddWithValue("@arena_id", JSON.game.arena.arenaId);
+                InsertData.Parameters.AddWithValue("@sellout", JSON.game.sellout);
+                busDriver.SQLdb.Open();
+                InsertData.ExecuteScalar();
+                busDriver.SQLdb.Close();
             }
         }
 
