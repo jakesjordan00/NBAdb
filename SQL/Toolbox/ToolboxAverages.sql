@@ -1,6 +1,8 @@
-create procedure ToolboxAverages @season int, @player int, @team int
+
+
+create procedure ToolboxAverages @player int, @team int, @season int
 as
-select 
+select
 pba.season_id Season, 
 pba.player_id, 
 pba.team_id, 
@@ -76,15 +78,7 @@ pt.[FT%]   	- pba.[FT%]    [diffFT%]   ,
 [FTMDeviation]						   ,
 [FTADeviation]
 from playerBoxAverage pba inner join
-		PlayerTrend pt on pba.player_id = pt.player_id inner join
-		PlayerStdDeviation s on pba.player_id = s.player_id and pba.team_id = s.team_id and pba.season_id = s.season_id
-where pba.season_id = @Season
-and pba.player_id = @player and pba.team_id = @team
-go
-
-
-
-
-
---execute ToolboxAverages @season = 2024, @player = 2544, @team = 1610612747
---select * from PlayerTeam where player_id = 2544
+		PlayerTrend5 pt on pba.player_id = pt.player_id and pba.team_id = pt.team_id inner join
+		PlayerTrend5StdDeviation s on pba.player_id = s.player_id and pba.team_id = s.team_id
+where pba.player_id = @player and pba.team_id = @team
+and pba.season_id = 2024
