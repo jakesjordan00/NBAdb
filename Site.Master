@@ -73,6 +73,7 @@
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/PropToolbox" style="font-weight:600; color: floralwhite">Prop Toolbox</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/FirstBaskets" style="font-weight:600; color: floralwhite">First Baskets</a></li>
                         <li class="nav-item"><a class="nav-link" runat="server" href="~/Admin" style="font-weight:600; color: floralwhite">Admin</a></li>
+                        <li class="nav-item"><a class="nav-link" runat="server" href="~/GameSearch" style="font-weight:600; color: floralwhite">Game Search</a></li>
                     </ul>
                 </div>
             </div>

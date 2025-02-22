@@ -189,6 +189,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FirstBaskets.aspx" />
+    <Content Include="GameSearch.aspx" />
     <Content Include="PropPicker.aspx" />
     <Content Include="PropToolbox.aspx" />
     <Content Include="Playoffs.aspx" />
@@ -284,6 +285,13 @@
     </Compile>
     <Compile Include="FirstBaskets.aspx.designer.cs">
       <DependentUpon>FirstBaskets.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GameSearch.aspx.cs">
+      <DependentUpon>GameSearch.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GameSearch.aspx.designer.cs">
+      <DependentUpon>GameSearch.aspx</DependentUpon>
     </Compile>
     <Compile Include="LineupDetails.cs" />
     <Compile Include="PropPicker.aspx.cs">
