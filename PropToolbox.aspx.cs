@@ -2793,12 +2793,10 @@ namespace NBAdb
                     catch (InvalidOperationException)
                     {
                         busDriver.SQLdb.Close();
-                        busDriver.SQLdb.Open();
-                    }
+                        busDriver.SQLdb.Open();                    }
 
                     SqlDataReader reader = gameInfo.ExecuteReader();
                     int gameNumber = 1;
-
                     while (reader.Read())
                     {
                         // Extract data
@@ -2815,27 +2813,17 @@ namespace NBAdb
                             aboveGames.Add(Int32.Parse(gameId));
                             aboveGames2.Add(Int32.Parse(gameId), Int32.Parse(gameId));
                         }
-
-
-
-
                         // Create hyperlink text
                         string linkText = $"Game {gameNumber}: {formattedDate}";
                         string url = $"https://www.nba.com/game/abc-vs-def-00{gameId}/box-score";
-
                         // Add to the list
                         //gameLinks.Add($"<a href='{url}' target='_blank'>{linkText}</a>");
                         gameNumber++;
                     }
-
                     reader.Close();
                     busDriver.SQLdb.Close();
                 }
             }
-
-
-
-
             if (sender == "above")
             {
                 foreach (int game in allGames)
@@ -2851,7 +2839,6 @@ namespace NBAdb
                         gameLinks.Add($"<a href='{url}' target='_blank'>{linkText}</a>");
                     }
                 }
-
                 // Dynamically add hyperlinks to the UI
                 foreach (string link in gameLinks)
                 {
@@ -2860,9 +2847,6 @@ namespace NBAdb
                     placeholder.Controls.Add(linkControl);
                 }
             }
-
-
-
         }
 
 
