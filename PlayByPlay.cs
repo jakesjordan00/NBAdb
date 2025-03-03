@@ -184,9 +184,19 @@ namespace NBAdb
                     {
                         x = 0;
                         y = 0;
+                        querySearch.Parameters.AddWithValue("@xLegacy", 0);
+                        querySearch.Parameters.AddWithValue("@yLegacy", 0);
+                    }
+                    else
+                    {
+                        querySearch.Parameters.AddWithValue("@xLegacy", JSON.game.actions[i].xLegacy);
+                        querySearch.Parameters.AddWithValue("@yLegacy", JSON.game.actions[i].yLegacy);
                     }
                     querySearch.Parameters.AddWithValue("@x", x);
                     querySearch.Parameters.AddWithValue("@y", y);
+
+
+
                     if (area is null)
                     {
                         area = "";

@@ -71,6 +71,16 @@
     <div class="row" style="height:10px"> 
     </div>
         
+    <div class="row" runat="server" id="Div1" visible="true">
+        <div class="col-md-3" style="width:fit-content">
+        Score - 
+            T1:<asp:TextBox ID="txtScore1" runat="server" Width="40px"></asp:TextBox>
+            T2:<asp:TextBox ID="txtScore2" runat="server" Width="40px"></asp:TextBox>
+        </div>
+    </div>
+   
+    <div class="row" style="height:10px"> 
+    </div>
     <div class="row">
         <div class="col-md-3" style="width:fit-content">
             Date: 

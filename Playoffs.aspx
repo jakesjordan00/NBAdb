@@ -10,6 +10,13 @@
     <div class="col-lg-4">     
         <h4>Select seasons to load Playoff data</h4>
         <asp:CheckBoxList ID="chkSeasons" runat="server" RepeatColumns="2" CellPadding="5">
+            <asp:ListItem Enabled="true" Value="13" Text="2013-2014"></asp:ListItem>
+            <asp:ListItem Enabled="true" Value="14" Text="2014-2015"></asp:ListItem>
+            <asp:ListItem Enabled="true" Value="15" Text="2015-2016"></asp:ListItem>
+            <asp:ListItem Enabled="true" Value="16" Text="2016-2017"></asp:ListItem>
+            <asp:ListItem Enabled="true" Value="17" Text="2017-2018"></asp:ListItem>
+            <asp:ListItem Enabled="true" Value="18" Text="2018-2019"></asp:ListItem>
+            <asp:ListItem Enabled="true" Value="19" Text="2019-2020"></asp:ListItem>
             <asp:ListItem Enabled="true" Value="20" Text="2020-2021"></asp:ListItem>
             <asp:ListItem Enabled="true" Value="21" Text="2021-2022"></asp:ListItem>
             <asp:ListItem Enabled="true" Value="22" Text="2022-2023"></asp:ListItem>

@@ -15,6 +15,8 @@ using UglyToad.PdfPig;
 using UglyToad.PdfPig.Content;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
+using NBAdbPre2019;
+using UglyToad.PdfPig.Graphics.Operations.SpecialGraphicsState;
 
 namespace NBAdb
 {
@@ -453,11 +455,76 @@ namespace NBAdb
             public Meta Meta { get; set; }
             public LeagueSchedule LeagueSchedule { get; set; }
         }
+
+        protected void btnOldData_Click(object sender, EventArgs e)
+        {
+
+            //Pulls play by play for all of current api data
+            //PullPBP();
+
+
+            //Pulls data for all pre 2019 data
+            Pre2019.Go();
+
+
+            //Inserts only game record for all current api data and box
+            //GamePost();
+        }
+
+        public static void PullPBP() 
+        {
+            PlayByPlay pbp = new PlayByPlay();
+            using (SqlCommand TableCount = new SqlCommand("select game_id, season_id from game g where season_id > 2018 order by season_id, game_id")) 
+            {
+                TableCount.CommandType = CommandType.Text;
+                using (SqlDataAdapter sTableCount = new SqlDataAdapter())
+                {
+                    TableCount.Connection = busDriver.SQLdb;
+                    sTableCount.SelectCommand = TableCount;
+                    busDriver.SQLdb.Open();
+                    SqlDataReader reader = TableCount.ExecuteReader();
+                    while(reader.Read())
+                    {
+                        int game = Int32.Parse(reader[0].ToString());
+                        int season = Int32.Parse(reader[1].ToString());
+                        //public void Init(int game_id, string sender, int id, string dynamicVariable)
+                        pbp.Init(game, "FirstTimeLoad", season, "");
+                    }
+                    busDriver.SQLdb.Close();
+                }
+            }
+        }
+
+
+        public static void GamePost()
+        {
+            FirstTimeLoad first = new FirstTimeLoad();
+            using (SqlCommand TableCount = new SqlCommand("select distinct p.game_id, p.season_id, g.game_id from playByPlay p left join game g on p.game_id = g.game_id where p.season_id = 2019 and g.game_id is null"))
+            {
+                TableCount.CommandType = CommandType.Text;
+                using (SqlDataAdapter sTableCount = new SqlDataAdapter())
+                {
+                    TableCount.Connection = busDriver.SQLdb;
+                    sTableCount.SelectCommand = TableCount;
+                    busDriver.SQLdb.Open();
+                    SqlDataReader reader = TableCount.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        int game = Int32.Parse(reader[0].ToString());
+                        int season = Int32.Parse(reader[1].ToString());
+                        first.FirstLoadGameOnly(game, season);
+
+                    }
+                    busDriver.SQLdb.Close();
+                }
+            }
+        }
+
+
     }
 }
 
 
-//https://ak-static.cms.nba.com/referee/injury/Injury-Report_2024-11-25_02PM.pdf
 
 
 

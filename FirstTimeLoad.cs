@@ -205,6 +205,29 @@ namespace NBAdb
                 }
             }           
         }
+        public void FirstLoadGameOnly(int game, int id)
+        {
+            var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };
+            string boxLink = "";
+            boxLink = "https://cdn.nba.com/static/json/liveData/boxscore/boxscore_00" + game.ToString() + ".json";
+            try
+            {
+                WebRequest BoxScoreReq = WebRequest.Create(boxLink);
+                WebResponse BoxScoreResp = BoxScoreReq.GetResponse();
+                string json = client.DownloadString(boxLink);
+                Root JSON = JsonConvert.DeserializeObject<Root>(json);
+                Official REF = JsonConvert.DeserializeObject<Official>(json);
+                Player PLAYER = JsonConvert.DeserializeObject<Player>(json);
+                SqlDateTime gameDate = JSON.game.gameEt.Date;
+                GamePost(JSON, game, JSON.game.homeTeam.score, JSON.game.awayTeam.score, id);
+                BoxScore.GetJSON(game, "FirstTimeLoad", id);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
+        }
 
         public void FirstLoad(int start, int end, int id)
         {

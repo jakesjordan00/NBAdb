@@ -23,7 +23,8 @@ namespace NBAdb
 
     public class BoxScore
     {
-        FirstTimeLoad first = new FirstTimeLoad();public static BusDriver busDriver = new BusDriver();
+        FirstTimeLoad first = new FirstTimeLoad();
+        public static BusDriver busDriver = new BusDriver();
         public static void GetJSON(int id, string sender, int season)
         {
             var client = new WebClient { Encoding = System.Text.Encoding.UTF8 };

@@ -41,5 +41,11 @@
         <h6>Gets Lineup details</h6>
         <h10>WIP. Will ideally track who is on the court at a given time in each game for each team</h10><br />--%>
         <asp:Button ID="btnLineups" runat="server" Text="Get Lineup Details" class="btn btn-primary active" BackColor="SkyBlue" ForeColor="White" BorderColor="White" OnClick="btnLineups_Click" Visible="false" />
+
+
+
+        <hr />
+        <h4>Get Pre 2019 data</h4>
+        <asp:Button ID="btnOldData" runat="server" Text="Get Old Data" class="btn btn-primary active" BackColor="SkyBlue" ForeColor="White" BorderColor="White" OnClick="btnOldData_Click" />
     </main>
 </asp:Content>
