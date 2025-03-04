@@ -463,9 +463,11 @@ namespace NBAdb
             //PullPBP();
 
 
-            //Pulls data for all pre 2019 data
-            Pre2019.Go();
+            //Pulls data for all pre 2019 data for Regular Season
+            //Pre2019.Go("Regular Season");
 
+            //Pulls data for all pre 2019 data for Post Season
+            Pre2019.Go("Postseason");
 
             //Inserts only game record for all current api data and box
             //GamePost();
