@@ -556,7 +556,7 @@ namespace NBAdb
                 }
             }
             List<int> games = new List<int>();
-            string selectFrom = "select distinct f.game_id from FirstBaskets f inner join StartingLineups d1 on f.game_id = d1.game_id and f." + TeamOrOpp + " = d1.team_id and f.season_id = d1.season_id ";
+            string selectFrom = "select distinct f.game_id from playerBox f inner join StartingLineups d1 on f.game_id = d1.game_id and f." + TeamOrOpp + " = d1.team_id and f.season_id = d1.season_id ";
             string where = " where ";
             int i = 1;
             foreach (KeyValuePair<int, string> item in Actives)

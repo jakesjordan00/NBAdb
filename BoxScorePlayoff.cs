@@ -38,15 +38,15 @@ namespace NBAdb
                     string json = client.DownloadString(boxLink);
                     Root JSON = JsonConvert.DeserializeObject<Root>(json);
                     GamePost(JSON, i, season, seriesID);
-                    //BoxPost(JSON, season, seriesID, game);
+                    BoxPost(JSON, season, seriesID, game);
                 }
                 catch 
                 {
 
                 }
                 game++;
-                //PlayByPlay playByPlay = new PlayByPlay();
-                //playByPlay.Init(i, "Playoffs", season, seriesID);
+                PlayByPlay playByPlay = new PlayByPlay();
+                playByPlay.Init(i, "Playoffs", season, seriesID);
             }
         }
         public static void GamePost(Root JSON, int game_id, int id, string seriesID)

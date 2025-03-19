@@ -175,7 +175,7 @@ namespace NBAdb
         protected void btnRetrieve_Click(object sender, EventArgs e)
         {
             List<string> gameLinks = new List<string>();
-            string selectFrom = "select date, g.game_id, concat(a.name, ' @ ', h.name) Description, concat(right(g.season_id, 2), '-', right(g.season_id, 2) + 1) season, concat('https://www.nba.com/game/', a.tricode, '-vs-', h.tricode, '-00', g.game_id, '/box-score?watchFullGame=true') Link, case when w.team_id = " + ddTeam.SelectedItem.Value + " then 'W' else 'L' end Win from game g inner join team h on g.team_idH = h.team_id and g.season_id = h.season_id inner join team a on g.team_idA = a.team_id and g.season_id = a.season_id inner join team w on g.team_idW = w.team_id and g.season_id = w.season_id inner join team l on g.team_idL = l.team_id and g.season_id = l.season_id ";
+            string selectFrom = "select date, g.game_id, concat(a.name, ' @ ', h.name) Description, concat(right(g.season_id, 2), '-', right(g.season_id, 2) + 1) season, '' clock, concat('https://www.nba.com/game/', a.tricode, '-vs-', h.tricode, '-00', g.game_id, '/box-score?watchFullGame=true') Link, case when w.team_id = " + ddTeam.SelectedItem.Value + " then 'W' else 'L' end Win from game g inner join team h on g.team_idH = h.team_id and g.season_id = h.season_id inner join team a on g.team_idA = a.team_id and g.season_id = a.season_id inner join team w on g.team_idW = w.team_id and g.season_id = w.season_id inner join team l on g.team_idL = l.team_id and g.season_id = l.season_id ";
             string where = Where(ddTeam, chkTHoA, chkTWoL, ddTeam2, ddSeason);
             string order = " order by g.date desc, g.game_id desc";
             if(txtPlayer.Text != "")
@@ -185,10 +185,12 @@ namespace NBAdb
             }
             if(txtScore1.Text != "" && txtScore2.Text != "")
             {
+                selectFrom = "select date, g.game_id, concat(a.name, ' @ ', h.name) Description, Concat('Q', period, ' - ', replace(replace(replace(pbp.clock, 'PT', ''), 'M', ':'), '0S', '')) Clock, concat(right(g.season_id, 2), '-', right(g.season_id, 2) + 1) season, concat('https://www.nba.com/game/', a.tricode, '-vs-', h.tricode, '-00', g.game_id, '/box-score?watchFullGame=true') Link, case when w.team_id = " + ddTeam.SelectedItem.Value + " then 'W' else 'L' end Win from game g inner join team h on g.team_idH = h.team_id and g.season_id = h.season_id inner join team a on g.team_idA = a.team_id and g.season_id = a.season_id inner join team w on g.team_idW = w.team_id and g.season_id = w.season_id inner join team l on g.team_idL = l.team_id and g.season_id = l.season_id ";
                 selectFrom = selectFrom.Replace("select date", "select distinct date");
                 selectFrom += " inner join playByPlay pbp on g.game_id = pbp.game_id and g.season_id = pbp.season_id and pbp.scoreHome = case when h.team_id = " + ddTeam.SelectedItem.Value +
                 " then " + txtScore1.Text + " when h.team_id = " + ddTeam2.SelectedItem.Value + " then " + txtScore2.Text + " else null end ";
                 selectFrom += "and pbp.scoreAway = case when a.team_id = " + ddTeam.SelectedItem.Value + " then " + txtScore1.Text + " when a.team_id = " + ddTeam2.SelectedItem.Value + " then " + txtScore2.Text + " else null end ";
+                where += " and shotResult = 'Made' ";
             }
 
             string query = selectFrom + where + order;
@@ -216,13 +218,14 @@ namespace NBAdb
                         // Extract data
                         DateTime gameDate = DateTime.Parse(reader["date"].ToString());
                         string desc = reader["Description"].ToString();
+                        string clock = reader["Clock"].ToString();
                         string link = reader["Link"].ToString();
                         string season = reader["season"].ToString();
                         string formattedDate = gameDate.ToString("MM/dd/yyyy");
                         string win = reader["Win"].ToString();
 
                         // Create hyperlink text
-                        string linkText = $"{formattedDate}, {desc}. {season}, {win}";
+                        string linkText = $"{formattedDate}, {desc}. {season}, {win}. {clock}";
                         string url = $"{link}";
                         // Add to the list
                         gameLinks.Add($"<a href='{url}' target='_blank' class='game-link'>{linkText}</a>");

@@ -139,8 +139,8 @@ namespace NBAdb
 
                         }
                         busDriver.SQLdb.Close();
-                        //BoxScorePlayoff boxScorePlayoff = new BoxScorePlayoff();
-                        //boxScorePlayoff.Init(seriesID, firstGame, lastGame, season + 2000, games);
+                        BoxScorePlayoff boxScorePlayoff = new BoxScorePlayoff();
+                        boxScorePlayoff.Init(seriesID, firstGame, lastGame, season + 2000, games);
                     }
                 }
                 for (int i = 0; i < playinData.bracket.playInBracketSeries.Count; i++)
