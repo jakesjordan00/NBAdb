@@ -192,8 +192,10 @@ namespace NBAdb
                 selectFrom += "and pbp.scoreAway = case when a.team_id = " + ddTeam.SelectedItem.Value + " then " + txtScore1.Text + " when a.team_id = " + ddTeam2.SelectedItem.Value + " then " + txtScore2.Text + " else null end ";
                 where += " and shotResult = 'Made' ";
             }
-
-            string query = selectFrom + where + order;
+            string playoffs = selectFrom.Replace("playByPlay", "playByPlayPlayoffs").Replace("game g", "playoffGame g").Replace("g.season_id = h", "2023 = h").Replace("g.season_id = a", "2023 = a").Replace("g.season_id = w", "2023 = w").Replace("g.season_id = l", "2023 = l")
+                + where.Replace("playByPlay", "playByPlayPlayoffs").Replace("game g", "playoffGame g").Replace("and shotResult = 'Made'", "and actionType in('Free Throw', '2PT', '3PT')");
+            string queryTest = selectFrom + where + order;
+            string query = selectFrom + where + " union " + playoffs + order;
 
             using (SqlCommand gameInfo = new SqlCommand(query))
             {
