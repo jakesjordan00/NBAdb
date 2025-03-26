@@ -8,3 +8,9 @@ from game g left join
 where g.season_id = 2019
 and (g.game_id is null or b.game_id is null or t.game_id is null or p.game_id is null)
 order by g.game_id
+
+
+
+select distinct *
+from game g 
+where g.season_id = 2019
