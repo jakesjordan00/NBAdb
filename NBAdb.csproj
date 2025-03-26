@@ -191,6 +191,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AdminBoltOn.aspx" />
     <Content Include="FirstBaskets.aspx" />
     <Content Include="GameSearch.aspx" />
     <Content Include="PropPicker.aspx" />
@@ -281,6 +282,13 @@
     <Content Include="Site.Mobile.Master" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdminBoltOn.aspx.cs">
+      <DependentUpon>AdminBoltOn.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdminBoltOn.aspx.designer.cs">
+      <DependentUpon>AdminBoltOn.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="FirstBaskets.aspx.cs">
       <DependentUpon>FirstBaskets.aspx</DependentUpon>
